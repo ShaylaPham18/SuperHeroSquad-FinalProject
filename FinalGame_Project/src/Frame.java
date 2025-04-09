@@ -1,8 +1,17 @@
 import javax.swing.*;
 import java.awt.*;
-
+/**Justin
+ * Frame
+ * GUI pop ups for if user types in help (NOTHING ELSE)
+ * WORK IN PROGRESS
+ * */
 public class Frame {
-    void helpmenu(){
+    /**Justin
+     * helpMenu
+     * GUI pop up frame for if user types help
+     * WORK IN PROGRESS
+    */
+    void helpMenu(){
         JFrame jFrame=new JFrame("Help Menu");
         JTextArea jTextArea=new JTextArea("\n\t\t\tDirections\n\n\tCan either type N S E W or north south east west(not case sensitive)\n" +
                 "\n\t\t\tCommands\n\n\tex or explore to explore current room\n" +
