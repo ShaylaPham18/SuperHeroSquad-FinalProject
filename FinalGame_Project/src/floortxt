@@ -1,0 +1,5 @@
+4,Roof,up null,down 3
+3,3rd floor,up 4,down 2
+2,2nd floor,up 3,down 1
+1,1st floor,up 2,down 0
+0,basement,up 1,down null
