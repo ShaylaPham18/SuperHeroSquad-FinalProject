@@ -4,7 +4,7 @@ package model;
  * Razan Abdalla
  * //Puzzle File Format:
  * //PuzzleName|Description|RoomLocation|CorrectAnswer|ResultWhenSolved|maxAttempts|Hint
- * // {this is for the puzzle file} \\how i wrote it\\ i may change it later
+ * // {this is for the puzzle file} \\how I wrote it\\ I may change it later
  */
 //Puzzle File Format:
 //PuzzleName|Description|RoomLocation|CorrectAnswer|ResultWhenSolved|maxAttempts|Hint// {this is for the puzzle file} \\how i wrote it\\
@@ -22,18 +22,18 @@ public class Puzzle {
     //
     public Puzzle(String name, String description, String roomLocation,
                   String correctAnswer, String resultWhenSolved,
-                  int maxAttempts, int currentAttempts, String hint,
-                  boolean solved) {
+                  int maxAttempts, String hint) {
         this.name = name;
         this.description = description;
         this.roomLocation = roomLocation;
         this.correctAnswer = correctAnswer;
         this.resultWhenSolved = resultWhenSolved;
         this.maxAttempts = maxAttempts;
-        this.currentAttempts = currentAttempts;
+        this.currentAttempts = 0;  // default value
         this.hint = hint;
-        this.solved = solved;
+        this.solved = false;       // default value
     }
+
 
     // added getter and setter -- I will delete the extra later
     public String getName() {return name;}
