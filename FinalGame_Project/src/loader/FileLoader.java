@@ -41,7 +41,7 @@ public class FileLoader {
 
     Map<String, Room> roomMap = new HashMap<>();
     //private static Scanner scanner=new Scanner(System.in);
-    public void readRooms(){
+    public Map<String, Room> readRooms(){
         Map<String, String> roomExits = new HashMap<>();
         try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader("room.txt"));
@@ -85,5 +85,6 @@ public class FileLoader {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        return roomMap;
     }
     }

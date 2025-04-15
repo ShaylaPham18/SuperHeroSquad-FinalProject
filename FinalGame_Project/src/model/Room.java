@@ -2,6 +2,7 @@ package model;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class Room {
     private String roomID;
@@ -11,6 +12,7 @@ public class Room {
     private boolean roomHasStairs;
     private boolean roomIsElevator;
     Map<String,Room> exits;
+    private Puzzle puzzle; //Razan
     public Room(String roomID, String roomName, String roomDescription){
         this.roomID=roomID;
         this.roomName=roomName;
@@ -75,6 +77,18 @@ public class Room {
 
     public Room getExits(String direction) {
         return exits.get(direction);
+    }
+    // Getter for the puzzle //---> Razan
+    public Puzzle getPuzzle() {
+        return this.puzzle;
+    }
+
+    // Setter for the puzzle //---> Razan
+    public void setPuzzle(Puzzle puzzle) {
+        this.puzzle = puzzle;
+    }
+    public Set<String> getExitDirections() { //RAZAN
+        return exits.keySet();
     }
 
     @Override
