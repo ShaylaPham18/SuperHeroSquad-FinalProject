@@ -69,12 +69,12 @@ public class Room {
         this.roomIsElevator = roomIsElevator;
     }
 
-    public void setExits(Map<String, Room> exits) {
-        this.exits = exits;
+    public void setExits(String direction,Room room) {
+        exits.put(direction, room);
     }
 
-    public Map<String, Room> getExits() {
-        return exits;
+    public Room getExits(String direction) {
+        return exits.get(direction);
     }
 
     @Override
