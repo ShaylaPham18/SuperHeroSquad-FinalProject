@@ -8,6 +8,7 @@ import java.util.Scanner;
 
 public class GameMain {
     public static void main(String[] args) {
+        System.out.println("Working directory: " + System.getProperty("user.dir"));
         try {
             // Load rooms
             FileLoader fileLoader = new FileLoader();
