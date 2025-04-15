@@ -1,3 +1,5 @@
+package loader;
+
 import model.Puzzle;
 /**
  *In this file we should add all the loader methods of the files to read the files
