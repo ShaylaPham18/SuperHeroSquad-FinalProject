@@ -44,7 +44,7 @@ public class FileLoader {
     public void readRooms(){
         Map<String, String> roomExits = new HashMap<>();
         try {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader("FinalGame_Project/src/room.txt"));
+            BufferedReader bufferedReader = new BufferedReader(new FileReader("src/room.txt"));
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 String[] parts = line.split(",");
