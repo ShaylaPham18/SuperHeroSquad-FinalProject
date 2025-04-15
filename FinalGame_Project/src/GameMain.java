@@ -23,13 +23,13 @@ public class GameMain {
         }*/
         gameMain.readRooms();
     }
-    Map<String, Room> roomMap=new HashMap<>();
+    Map<String, Room> roomMap = new HashMap<>();
     private static Scanner scanner=new Scanner(System.in);
 
     public void readRooms(){
         Map<String, String> roomExits = new HashMap<>();
         try {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader("FinalGame_Project/src/roomtxt"));
+            BufferedReader bufferedReader = new BufferedReader(new FileReader("src/room.txt"));
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 String[] parts = line.split(",");
