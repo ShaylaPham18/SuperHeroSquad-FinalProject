@@ -1,0 +1,25 @@
+0exit,Exit Tunnel,A dark damp underground tunnel with rats and other rodents.,EAST->0br
+0expr,Experiment Room,A top-secret lab containing failed experiments.,EAST->UP0
+0br,Boiler Room,Hot and steamy with malfunctioning machinery.,WEST->0exit|NORTH->0sr
+0sr,Surveillance Room,A dimly lit room with security cameras monitoring every floor.,SOUTH->|WEST->|NORTH->
+ELE0,BasementElevator,A spacious medical-grade elevator designed for patient transport on the basement level,WEST->|NORTH->
+1sec,Security Room,Monitors and security equipment some still functional.,SOUTH->|NORTH->,EAST->
+1wait,Waiting Area,Chairs and magazines eerily quiet.,NORTH->|WEST->|EAST->
+1cafe,Cafeteria,Abandoned and filled with rotting food.,SOUTH->|WEST->
+1pharm,Pharmacy,Shelves of medication some useful, some expired.,NORTH->|SOUTH->|EAST->|WEST->
+1ew,Emergency Ward,A chaotic room filled with overturned beds and medical supplies. The doors exiting to the outside is buried in debris.,EAST->
+ELE1,1st floor Elevator,A spacious medical-grade elevator designed for patient transport on the 1st floor,NORTH->|SOUTH->|WEST->
+2ped,Pediatrics,A children's ward with abandoned toys and cribs.,NORTH->|SOUTH->|EAST->
+2er,Electrical Room,Overcrowded with medical supplies and hidden dangers,NORTH->|WEST->
+2rad,Radiology Room,X-ray machines flicker with ghostly images of a mysterious gas filling the air.,WEST->|SOUTH->|WAST->
+2do,Director’s Office,Office with a large desk and computer.,EAST->
+2sl,Staff Lounge,A break room with personal belongings of the hospital staff.,NORTH->|SOUTH->|EAST->|WEST->
+ELE2,Elevator,A spacious medical-grade elevator designed for patient transport on the 2nd floor,NORTH->|SOUTH->|WEST->
+3iso,Isolation Ward,Small room with white halls,NORTH->|SOUTH->|EAST->|WEST->
+3icu,Intensive Care Unit (ICU),Dark and silent with the occasional beeping of life support machines.,NORTH->|EAST->|WEST->
+3lab,Laboratory,The source of the outbreak was filled with scientific equipment.,SOUTH->|WEST->
+3or,Operating Room,A blood-stained surgical room with eerie surgical instruments.,SOUTH->|EAST->
+3sr,Server Room,Small room with computers and electrical panels.,EAST->
+ELE3,3rd floor Elevator,A spacious medical-grade elevator designed for patient transport on the 3rd floor,NORTH->|SOUTH->|WEST->
+ELE4,4th floor Elevator,A spacious medical-grade elevator designed for patient transport on the 4th floor,SOUTH->|WEST->
+roof,Roof,A rooftop with an abandoned helicopter sitting on a helicopter pad.,EAST->
