@@ -1,3 +1,4 @@
+import loader.FileLoader;
 import model.Floors;
 import model.Room;
 
@@ -21,15 +22,16 @@ public class GameMain {
         if (a.equalsIgnoreCase("help")){
             helpMenu();
         }*/
-        gameMain.readRooms();
+        FileLoader fileLoader=new FileLoader();
+        fileLoader.readRooms();
     }
-    Map<String, Room> roomMap = new HashMap<>();
-    private static Scanner scanner=new Scanner(System.in);
+    /*Map<String, Room> roomMap = new HashMap<>();
+    private static Scanner scanner=new Scanner(System.in);*/
 
-    public void readRooms(){
+    /*public void readRooms(){
         Map<String, String> roomExits = new HashMap<>();
         try {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader("src/room.txt"));
+            BufferedReader bufferedReader = new BufferedReader(new FileReader("FinalGame_Project/src/room.txt"));
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 String[] parts = line.split(",");
@@ -70,7 +72,7 @@ public class GameMain {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
+    }*/
 
     private static void helpMenu(){
         Frame frame=new Frame();

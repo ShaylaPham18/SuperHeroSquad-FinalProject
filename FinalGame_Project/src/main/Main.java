@@ -11,7 +11,7 @@ public class Main {
         public static void main(String[] args) {
             try {
                 // Load puzzles from file
-                List<Puzzle> puzzles = FileLoader.loadPuzzles("src/puzzles.txt");
+                List<Puzzle> puzzles = FileLoader.loadPuzzles("FinalGame_Project/src/puzzles.txt");
                 System.out.println("🧩 Loaded " + puzzles.size() + " puzzles!");
 
                 // List puzzle names
