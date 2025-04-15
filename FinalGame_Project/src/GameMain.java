@@ -10,8 +10,6 @@ import java.util.List;
 public class GameMain {
     public static void main(String[] args) {
         try {
-            System.out.println("📂 Working directory: " + System.getProperty("user.dir"));
-
             // 1. Load rooms
             FileLoader fileLoader = new FileLoader();
             Map<String, Room> rooms = fileLoader.readRooms();
@@ -26,18 +24,13 @@ public class GameMain {
                 }
             }
 
-            // 3. Create player and set starting room
+            // 3. Create player
             Player player = new Player("Razan");
-            Room startingRoom = rooms.get("Pediatrics"); // Make sure this room exists
-            if (startingRoom == null) {
-                System.out.println("❌ Starting room not found.");
-                return;
-            }
-            player.setCurrentRoom(startingRoom);
+
 
             // 4. Start the game loop with GameController
             GameController gameController = new GameController(player, rooms);
-            gameController.start(); // ✅ This should launch the game loop
+            gameController.start();
 
         } catch (Exception e) {
             System.out.println("❗ Error: " + e.getMessage());
