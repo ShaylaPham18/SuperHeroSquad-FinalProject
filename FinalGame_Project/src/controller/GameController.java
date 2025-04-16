@@ -90,7 +90,6 @@ public class GameController {
 
             if (controller.isPuzzleSolved()) {
                 System.out.println("🗝️ The puzzle seems to have unlocked something...");
-
             }
         }
     }
