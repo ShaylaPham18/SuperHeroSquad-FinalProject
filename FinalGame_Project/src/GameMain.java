@@ -17,7 +17,7 @@ public class GameMain {
 
             // 2. Load puzzles and assign to rooms you guys use this 1
             //List<Puzzle> puzzles = FileLoader.loadPuzzles("puzzles.txt");
-            List<Puzzle> puzzles = FileLoader.loadPuzzles("puzzles.txt");
+            List<Puzzle> puzzles = FileLoader.loadPuzzles("FinalGame_Project/puzzles.txt");
             for (Puzzle puzzle : puzzles) {
                 Room room = rooms.get(puzzle.getRoomLocation());
                 if (room != null) {
@@ -35,7 +35,7 @@ public class GameMain {
 
         } catch (Exception e) {
             System.out.println("❗ Error: " + e.getMessage());
-            e.printStackTrace();
+            //e.printStackTrace();
         }
     }
 }

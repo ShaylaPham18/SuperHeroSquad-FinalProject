@@ -1,8 +1,6 @@
 package model;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class Room {
     private String roomID;
@@ -12,6 +10,7 @@ public class Room {
     private boolean roomHasStairs;
     private boolean roomIsElevator;
     Map<String,Room> exits;
+    List<Items> roomInventory;
     private Puzzle puzzle; //Razan
     public Room(String roomID, String roomName, String roomDescription){
         this.roomID=roomID;
@@ -21,6 +20,7 @@ public class Room {
         this.roomHasStairs=false;
         this.roomIsElevator=false;
         this.exits=new HashMap<>();
+        this.roomInventory=new ArrayList<>();
     }
 
     public String getRoomID() {
@@ -89,6 +89,14 @@ public class Room {
     }
     public Set<String> getExitDirections() { //RAZAN
         return exits.keySet();
+    }
+
+    public List<Items> getRoomInventory() {
+        return roomInventory;
+    }
+
+    public void setRoomInventory(List<Items> roomInventory) {
+        this.roomInventory = roomInventory;
     }
 
     @Override

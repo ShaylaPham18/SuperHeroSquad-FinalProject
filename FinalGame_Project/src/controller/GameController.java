@@ -4,7 +4,9 @@ import model.Player;
 import model.Puzzle;
 import model.Room;
 import view.PuzzleView;
+import view.Frame;
 
+import java.awt.*;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -20,6 +22,8 @@ public class GameController {
     }
 
     public void start() {
+        Room current=rooms.get("1ew");//Justin-Come back here
+        player.setCurrentRoom(current);
         System.out.println("🎮 Welcome to The Infected Hospital!");
         System.out.println("Type 'explore', 'go <direction>', 'solve', or 'quit'.");
 
@@ -27,6 +31,11 @@ public class GameController {
         while (running) {
             System.out.print("\n> ");
             String input = scanner.nextLine().trim().toLowerCase();
+
+            if (input.equalsIgnoreCase("help")){
+                Frame frame=new Frame();
+                frame.helpMenu();
+            }
 
             if (input.equals("quit")) {
                 System.out.println("👋 Thanks for playing!");
