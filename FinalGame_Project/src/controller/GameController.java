@@ -1,6 +1,7 @@
 package controller;
 
 import loader.FileLoader;
+import model.Items;
 import model.Player;
 import model.Puzzle;
 import model.Room;
@@ -21,6 +22,7 @@ public class GameController {
         this.scanner = new Scanner(System.in);
     }
 
+    //Razan, Justin, Shayla
     public void start() {
         Room current=rooms.get("1ew");
         if (current==null){
@@ -75,6 +77,26 @@ public class GameController {
 
             } else if (input.equals("solve")) {
                 handlePuzzle();
+
+                //Pickup command
+            }else if (input.startsWith("pickup")){
+                String itemName = input.substring(6).trim();
+                Room currentRoom = player.getCurrentRoom();
+                Items itemToPickup = null;
+
+                for (Items item : currentRoom.getRoomInventory()) {
+                    if (item.getName().equalsIgnoreCase(itemName)) {
+                        itemToPickup = item;
+                        break;
+                    }
+                }
+                if (itemToPickup != null) {
+                    currentRoom.getRoomInventory().remove(itemToPickup);
+                    player.pickupItem(itemToPickup);
+                    System.out.println("You picked up: " + itemToPickup.getName());
+                } else {
+                    System.out.println("❌ That item isn't in this room.");
+                }
 
             } else {
                 System.err.println("❓ Unknown command. Type go<Direction> to navigate || or help to view all commands || or quit to end the game");
