@@ -6,9 +6,6 @@ import model.Puzzle;
 import model.Room;
 import view.PuzzleView;
 import view.Frame;
-
-import java.awt.*;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -31,7 +28,7 @@ public class GameController {
             return;
         }
         player.setCurrentRoom(current);
-        System.out.println("🎮 Welcome to The Infected Hospital!");
+        System.out.println("🎮🎮🎮🎮🎮🎮🎮🎮 Welcome to The Infected Hospital! 🎮🎮🎮🎮🎮🎮🎮🎮");
         System.out.println("Type go<Direction> to navigate || or help to view all commands || or quit to end the game");
         System.out.println("\nStaring room: "+current.toString()+" || available exits:"+current.getExitDirections());
 

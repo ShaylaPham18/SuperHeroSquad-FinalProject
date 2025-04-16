@@ -13,7 +13,7 @@ public class GameMain {
             // 1. Load rooms
             FileLoader fileLoader = new FileLoader();
             Map<String, Room> rooms = fileLoader.readRooms();
-            System.out.println("🏥 Loaded " + rooms.size() + " rooms!");
+            //System.out.println("🏥 Loaded " + rooms.size() + " rooms!"); // we do not need the number of rooms
 
             // 2. Load puzzles and assign to rooms you guys use this 1 PLEASE JUST COMMENT AND UNCOMMENT
             //List<Puzzle> puzzles = FileLoader.loadPuzzles("puzzles.txt");
