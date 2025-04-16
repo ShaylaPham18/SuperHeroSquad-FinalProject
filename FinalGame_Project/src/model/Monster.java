@@ -1,14 +1,17 @@
+package model;
+
 public class Monster {
-    private String name;
-    private String description;
+    private final String name;
+    private final String description;
     private int health;
-    private int maxHealth;
-    private int damageToPlayer;
-    private String[] weaponWeaknesses;
-    private int[] weaponDamages;
-    private int spawnChance;
-    private String spawnLocation;
-    private String specialRule;
+    private final int maxHealth;
+    private final int damageToPlayer;
+    private final String[] weaponWeaknesses;
+    private final int[] weaponDamages;
+    private final int spawnChance;
+    private final String spawnLocation;
+    private final String specialRule;
+    private boolean isDefeated;
 
     // Constructor
     public Monster(String name, String description, int health, int damageToPlayer,
@@ -24,8 +27,10 @@ public class Monster {
         this.spawnChance = spawnChance;
         this.spawnLocation = spawnLocation;
         this.specialRule = specialRule;
+        this.isDefeated = false;
     }
 
+    // Rest of the class remains the same...
     // Getters and setters
     public String getName() {
         return name;
@@ -67,6 +72,14 @@ public class Monster {
         return specialRule;
     }
 
+    public boolean isDefeated() {
+        return isDefeated;
+    }
+
+    public void setDefeated(boolean defeated) {
+        isDefeated = defeated;
+    }
+
     // Combat methods
     public int attack() {
         // For Amalgamation, implement critical hit chance
@@ -76,8 +89,7 @@ public class Monster {
 
             // 25% chance for critical hit
             if (roll < 25) {
-                System.out.println("The Amalgamation lands a CRITICAL HIT for " + (damageToPlayer * 2) + " damage!");
-                return damageToPlayer * 2;
+                return damageToPlayer * 2; // Critical hit
             }
         }
 
@@ -85,8 +97,6 @@ public class Monster {
         if (name.equals("Facehugger")) {
             return damageToPlayer + 2; // Base damage plus 2 extra for monster's action
         }
-
-        // Special rules for other monsters can be added here
 
         // Basic attack returns the monster's damage value
         return damageToPlayer;
@@ -97,7 +107,6 @@ public class Monster {
         if (name.equals("Zombie Dog")) {
             // 30% chance to dodge
             if (Math.random() < 0.3) {
-                System.out.println("The Zombie Dog dodges your attack!");
                 return false; // Return false to indicate dodge (no damage)
             }
         }
@@ -106,7 +115,7 @@ public class Monster {
 
         // Check if the weapon is a weakness
         for (int i = 0; i < weaponWeaknesses.length; i++) {
-            if (weaponWeaknesses[i].equals(weapon)) {
+            if (weaponWeaknesses[i].equalsIgnoreCase(weapon)) {
                 // Apply the corresponding damage multiplier
                 damageMultiplier = 1.0 + (weaponDamages[i] / 100.0);
                 break;
@@ -117,19 +126,14 @@ public class Monster {
         int actualDamage = (int)Math.round(baseDamage * damageMultiplier);
         health -= actualDamage;
 
-        // Special rule for Facehugger - deals 2 extra damage per action (including player's attack)
-        if (name.equals("Facehugger")) {
-            System.out.println("Special Rule Activates: The Facehugger deals 2 damage as you attack!");
-            return health <= 0;
-        }
-
         // Ensure health doesn't go below 0
-        if (health < 0) {
+        if (health <= 0) {
             health = 0;
+            isDefeated = true;
         }
 
         // Return true if the monster is defeated
-        return health <= 0;
+        return isDefeated;
     }
 
     // Check if monster should spawn based on chance
@@ -140,6 +144,7 @@ public class Monster {
     // Reset monster health (for respawning)
     public void reset() {
         health = maxHealth;
+        isDefeated = false;
     }
 
     @Override
