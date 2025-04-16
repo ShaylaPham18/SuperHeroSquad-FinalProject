@@ -47,10 +47,21 @@ public class FileLoader {
         Map<String, String> roomExits = new HashMap<>();
         try {
             //you guys use this 1 PLEASE JUST COMMENT AND UNCOMMENT
+<<<<<<< HEAD
             //BufferedReader bufferedReader = new BufferedReader(new FileReader("room.txt"));
             BufferedReader bufferedReader = new BufferedReader(new FileReader("FinalGame_Project/room.txt"));
            // BufferedReader bufferedReader = new BufferedReader(new FileReader("room.txt"));
             //BufferedReader bufferedReader = new BufferedReader(new FileReader("FinalGame_Project/room.txt"));
+=======
+
+            BufferedReader bufferedReader = new BufferedReader(new FileReader("room.txt"));
+            //BufferedReader bufferedReader = new BufferedReader(new FileReader("FinalGame_Project/room.txt"));
+
+            //BufferedReader bufferedReader = new BufferedReader(new FileReader("room.txt"));
+          //  BufferedReader bufferedReader = new BufferedReader(new FileReader("FinalGame_Project/room.txt"));
+            //BufferedReader bufferedReader = new BufferedReader(new FileReader("FinalGame_Project/room.txt"));
+
+>>>>>>> 088d9ca900f9bff2bf4e01301179f85722e3a48a
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 String[] parts = line.split(",",4);

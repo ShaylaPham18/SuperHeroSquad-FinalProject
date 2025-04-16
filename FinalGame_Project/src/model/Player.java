@@ -1,15 +1,17 @@
 package model;
 
+import java.util.ArrayList;
+
 public class Player {
     private String name;
     private int health;
-    private Inventory inventory;
+    private ArrayList<Items> inventory;
     private Room currentRoom;
 
     public Player(String name) {
         this.name = name;
         this.health = 100;
-        this.inventory = new Inventory();
+        this.inventory = new ArrayList<>();
         this.currentRoom = null; // starting room set later
     }
 
@@ -29,19 +31,15 @@ public class Player {
         this.health = health;
     }
 
-    public Inventory getInventory() {
-        return inventory;
-    }
-
-    public void setInventory(Inventory inventory) {
-        this.inventory = inventory;
-    }
-
     public Room getCurrentRoom() {
         return currentRoom;
     }
 
     public void setCurrentRoom(Room currentRoom) {
         this.currentRoom = currentRoom;
+    }
+
+    public void pickupItem(Items item) {
+        inventory.add(item);
     }
 }

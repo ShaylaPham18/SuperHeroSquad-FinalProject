@@ -28,9 +28,6 @@ public class GameController {
             return;
         }
         player.setCurrentRoom(current);
-
-        System.out.println("🎮 Welcome to The Infected Hospital!");
-
         System.out.println("🎮🎮🎮🎮🎮🎮🎮🎮 Welcome to The Infected Hospital! 🎮🎮🎮🎮🎮🎮🎮🎮");
         System.out.println("Type go<Direction> to navigate || or help to view all commands || or quit to end the game");
 
@@ -98,7 +95,6 @@ public class GameController {
 
             if (controller.isPuzzleSolved()) {
                 System.out.println("🗝️ The puzzle seems to have unlocked something...");
-
             }
         }
     }
