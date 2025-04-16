@@ -64,7 +64,6 @@ public class FileLoader {
                 }
             }
             bufferedReader.close();
-
             for (Map.Entry<String, String> entry : roomExits.entrySet()) {
                 String roomID2 = entry.getKey();
                 String[] exitSplit = entry.getValue().split("\\|");
@@ -84,11 +83,9 @@ public class FileLoader {
                     }
                 }
             }
-
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         return roomMap;
     }
-
-    }
+}
