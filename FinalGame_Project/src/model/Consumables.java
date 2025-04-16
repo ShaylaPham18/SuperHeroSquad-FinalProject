@@ -17,4 +17,6 @@ public class Consumables extends Items{
         super(id, name, description);
         this.healPercentage = healPercentage;
     }
+
+
 }

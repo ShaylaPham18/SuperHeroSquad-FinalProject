@@ -14,6 +14,6 @@ itemID-itemName-itemType-itemStat-itemDescription
 13-eyeball-key-0-A severed human eyeball.
 14-hand/fingerprint-key-0-A severed hand from a security officer.
 15-ID badge-key-0-A hospital administrator's ID.
-16-scalpel-key-0-A doctor's toll
+16-scalpel-key-0-A doctor's toll.
 17-fire extinguisher-miscellaneous-0-A heavy CO2 extinguisher.
 
