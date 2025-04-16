@@ -34,7 +34,7 @@ public class GameController {
         System.out.println("🎮🎮🎮🎮🎮🎮🎮🎮 Welcome to The Infected Hospital! 🎮🎮🎮🎮🎮🎮🎮🎮");
         System.out.println("Type go<Direction> to navigate || or help to view all commands || or quit to end the game");
 
-        System.out.println("\nStaring room: "+current.toString()+" || available exits:"+current.getExitDirections());
+        System.out.println("\nStaring room: "+current.getRoomName()+" || available exits:"+current.getExitDirections());
 
         boolean running = true;
         while (running) {
