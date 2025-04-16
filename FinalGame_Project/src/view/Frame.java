@@ -15,7 +15,9 @@ public class Frame {
             JPanel panel = new JPanel(null);
 
             // Load the image
-            ImageIcon backgroundImage = new ImageIcon("FinalGame_Project/src/HospitalMap.png"); // <-- Update path to your .png
+            ImageIcon backgroundImage = new ImageIcon("src/HospitalMap.png"); // <-- Update path to your .png
+
+            //ImageIcon backgroundImage = new ImageIcon("FinalGame_Project/src/HospitalMap.png"); // <-- Update path to your .png
             JLabel backgroundLabel = new JLabel(backgroundImage);
             backgroundLabel.setBounds(0, 0, 800, 700); // match JFrame size
 
