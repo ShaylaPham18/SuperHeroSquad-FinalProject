@@ -1,6 +1,0 @@
-Medicine Cabinet Puzzle|Enter a number combination to unlock.|Pediatrics|3 1 2|Gain [Unverified Medication]|3|Check birthday hint in the Staff Lounge.
-Office Card Puzzle|The player needs a key to enter a room. Use the <Use> command.|Director’s Office|Director’s Badge|Unlocks Director’s Office|3|Inspect the body in the lab.
-Electric Panel Puzzle|Enter a 3-digit code, pull the panel lever down, then insert another 3-digit code.|Server model.Room|3 7 9 then 5 9 1|Turns computers back on for Staff Lounge and Surveillance model.Room|3|Look for a note in the Server model.Room.
-Circuit Breaker|Flip the circuits in the correct order to turn on the power.|Electrical model.Room|3 5 1 2 4 6 7 8 9|Turns power back on for Electric Panel Puzzle and Elevator|3|Check the journal for sequence order.
-Elevator Input Puzzle|Enter number 1,2,3 in order, unlocked after finding clue.|Elevator - Floor 3|3 2 1|Unlocks basement access via “south” command|3|Find the file in the Director’s Office.
-Security model.Room Puzzle|Must possess the [Guard’s Eye] obtained using [Scalpel].|Security model.Room|Guard’s Eye|Unlocks Security model.Room|3|Use the scalpel in ICU to get the eye.
