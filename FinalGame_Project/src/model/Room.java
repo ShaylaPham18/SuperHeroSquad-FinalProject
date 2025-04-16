@@ -8,7 +8,6 @@ public class Room {
     private String roomDescription;
     private boolean roomIsLocked;
     private boolean roomHasStairs;
-    private boolean roomIsElevator;
     Map<String,Room> exits;
     List<Items> roomInventory;
     private Puzzle puzzle; //Razan
@@ -18,7 +17,6 @@ public class Room {
         this.roomDescription=roomDescription;
         this.roomIsLocked=false;
         this.roomHasStairs=false;
-        this.roomIsElevator=false;
         this.exits=new HashMap<>();
         this.roomInventory=new ArrayList<>();
     }
@@ -61,14 +59,6 @@ public class Room {
 
     public void setRoomHasStairs(boolean roomHasStairs) {
         this.roomHasStairs = roomHasStairs;
-    }
-
-    public boolean isRoomIsElevator() {
-        return roomIsElevator;
-    }
-
-    public void setRoomIsElevator(boolean roomIsElevator) {
-        this.roomIsElevator = roomIsElevator;
     }
 
     public void setExits(String direction,Room room) {

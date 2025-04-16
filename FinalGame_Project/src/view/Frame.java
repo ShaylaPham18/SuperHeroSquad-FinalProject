@@ -22,11 +22,7 @@ public class Frame {
                 "\tpickup + itemName or pick up + itemName or pu + itemName to pick up an item\n" +
                 "\tinv or inventory to view inventory\n" +
                 "\tdrop + item name to drop item\n" +
-                "\tins + itemName or inspect + itemName to inspect an item(Must be in inventory)\n" +
-                "\n\n\n\n\t\t\tMap\n\n\n" +
-                "\t 3(Puzzle)\t 5(Item)\t\t6\n\tWashroom\tChemicals room                Thesis room" +
-                "\n\n\t 1(Item)\t 4(Item)\n\tLaboratory\tSamples room" +
-                "\n\n\t 2(Item)\n\tTools room");
+                "\tins + itemName or inspect + itemName to inspect an item(Must be in inventory)\n");
 
         jTextArea.setEditable(false);
         jTextArea.setPreferredSize(new Dimension(150,150));
@@ -41,5 +37,9 @@ public class Frame {
         //jFrame.setResizable(false);
         jFrame.setAlwaysOnTop(true);
         jFrame.setVisible(true);
+    }
+
+    public void map(){
+        //put map in here
     }
 }

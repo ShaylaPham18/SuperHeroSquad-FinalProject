@@ -14,7 +14,9 @@ import java.util.List;
 import java.util.Map;
 
 public class FileLoader {
-        public static List<Puzzle> loadPuzzles(String filePath) throws IOException {
+    private static String correctAnswer;
+
+    public static List<Puzzle> loadPuzzles(String filePath) throws IOException {
             List<Puzzle> puzzles = new ArrayList<>();
             BufferedReader reader = new BufferedReader(new FileReader(filePath));
             String line;
@@ -44,19 +46,18 @@ public class FileLoader {
     public Map<String, Room> readRooms(){
         Map<String, String> roomExits = new HashMap<>();
         try {
-            //you guys use this 1
+            //you guys use this 1 PLEASE JUST COMMENT AND UNCOMMENT
             //BufferedReader bufferedReader = new BufferedReader(new FileReader("room.txt"));
             BufferedReader bufferedReader = new BufferedReader(new FileReader("FinalGame_Project/room.txt"));
             String line;
             while ((line = bufferedReader.readLine()) != null) {
-                String[] parts = line.split(",");
+                String[] parts = line.split(",",4);
                 String roomId = parts[0].trim();
                 String roomName = parts[1].trim();
                 String roomDescription = parts[2].trim();
 
                 Room room = new Room(roomId, roomName, roomDescription);
                 roomMap.put(roomId, room);
-                System.out.println(room); //Delete later keep now for testing
 
                 if (parts.length > 3) {
                     roomExits.put(roomId, parts[3].trim());

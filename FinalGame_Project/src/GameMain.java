@@ -15,7 +15,7 @@ public class GameMain {
             Map<String, Room> rooms = fileLoader.readRooms();
             System.out.println("🏥 Loaded " + rooms.size() + " rooms!");
 
-            // 2. Load puzzles and assign to rooms you guys use this 1
+            // 2. Load puzzles and assign to rooms you guys use this 1 PLEASE JUST COMMENT AND UNCOMMENT
             //List<Puzzle> puzzles = FileLoader.loadPuzzles("puzzles.txt");
             List<Puzzle> puzzles = FileLoader.loadPuzzles("FinalGame_Project/puzzles.txt");
             for (Puzzle puzzle : puzzles) {
@@ -35,7 +35,6 @@ public class GameMain {
 
         } catch (Exception e) {
             System.out.println("❗ Error: " + e.getMessage());
-            //e.printStackTrace();
         }
     }
 }
