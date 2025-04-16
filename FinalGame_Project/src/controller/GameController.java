@@ -61,11 +61,16 @@ public class GameController {
                 System.out.println("🚪 Exits: " + room.getExitDirections()); // assumes getExitDirections() exists
 
             } else if (input.startsWith("go")) {
+                current.setRoomHasBeenVisited(true);
                 String orginalDirection = input.substring(2).toUpperCase().trim();
                 String direction= keyBoardShortCuts.resolveShortcut(orginalDirection);
                 Room next = player.getCurrentRoom().getExits(direction);
                 if (next != null) {
                     player.setCurrentRoom(next);
+                    if (next.isRoomHasBeenVisited()){
+                        next.beenHereBefore();
+                    }
+                    next.setRoomHasBeenVisited(true);
                     System.out.println("➡️ You moved to: " + next.getRoomName()+" || available exits: "+next.getExitDirections());
                 } else {
                     System.out.println("❌ You can't go that way.");

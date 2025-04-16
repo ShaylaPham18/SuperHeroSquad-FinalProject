@@ -15,13 +15,10 @@ public class GameMain {
             Map<String, Room> rooms = fileLoader.readRooms();
 
             // 2. Load puzzles and assign to rooms you guys use this 1 PLEASE JUST COMMENT AND UNCOMMENT
-<<<<<<< HEAD
             //List<Puzzle> puzzles = FileLoader.loadPuzzles("puzzles.txt");
             List<Puzzle> puzzles = FileLoader.loadPuzzles("FinalGame_Project/puzzles.txt");
-=======
-            List<Puzzle> puzzles = FileLoader.loadPuzzles("puzzles.txt");
+            //List<Puzzle> puzzles = FileLoader.loadPuzzles("puzzles.txt");
             //List<Puzzle> puzzles = FileLoader.loadPuzzles("FinalGame_Project/puzzles.txt");
->>>>>>> ad701ff91b0245dd9c5e79e9aaa76b646a327eca
             for (Puzzle puzzle : puzzles) {
                 Room room = rooms.get(puzzle.getRoomLocation());
                 if (room != null) {
