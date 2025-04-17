@@ -15,11 +15,11 @@ ELE1,1st floor Elevator,A spacious medical-grade elevator designed for patient t
 2do,Director’s Office,Office with a large desk and computer.,EAST->2sl
 2sl,Staff Lounge,A break room with personal belongings of the hospital staff.,NORTH->3iso|SOUTH->2ped|EAST->2rad|WEST->2do
 ELE2,2nd floor Elevator,A spacious medical-grade elevator designed for patient transport on the 2nd floor,NORTH->ELE3|SOUTH->ELE1|WEST->2rad
-3iso,Isolation Ward,Small room with white halls,NORTH->3or|SOUTH->2sl|WEST->3sr
+3iso,Isolation Ward,Small room with white halls,NORTH->3or|SOUTH->2sl|WEST->3sr|EAST->3icu
 3icu,Intensive Care Unit (ICU),Dark and silent with the occasional beeping of life support machines.,NORTH->3lab|EAST->ELE3|WEST->3iso
 3lab,Laboratory,The source of the outbreak was filled with scientific equipment.,SOUTH->3icu|WEST->3or
 3or,Operating Room,A blood-stained surgical room with eerie surgical instruments.,SOUTH->3iso|EAST->3lab
 3sr,Server Room,Small room with computers and electrical panels.,EAST->3iso
 ELE3,3rd floor Elevator,A spacious medical-grade elevator designed for patient transport on the 3rd floor,NORTH->ELE4|SOUTH->ELE2|WEST->3icu
 ELE4,Roof Elevator,A spacious medical-grade elevator designed for patient transport on the roof,SOUTH->ELE3|WEST->roof
-roof,Roof,A rooftop with an abandoned helicopter sitting on a helicopter pad.,EAST->ELE4
+roof,Roof,A rooftop with an abandoned helicopter sitting on a helicopter pad.,EAST->ELE4,lock

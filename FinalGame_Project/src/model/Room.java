@@ -10,6 +10,7 @@ public class Room {
     Map<String,Room> exits;
     List<Items> roomInventory;
     private Puzzle puzzle; //Razan
+    private boolean roomIsLocked;
     public Room(String roomID, String roomName, String roomDescription){
         this.roomID=roomID;
         this.roomName=roomName;
@@ -17,6 +18,7 @@ public class Room {
         this.roomHasBeenVisited=false;
         this.exits=new HashMap<>();
         this.roomInventory=new ArrayList<>();
+        this.roomIsLocked=false;
     }
 
     public String getRoomID() {
@@ -82,6 +84,20 @@ public class Room {
     public void beenHereBefore(){
         if (roomHasBeenVisited){
             System.out.println("\nHmmm I've been here before");
+        }
+    }
+
+    public boolean isRoomIsLocked() {
+        return roomIsLocked;
+    }
+
+    public void setRoomIsLocked(boolean roomIsLocked) {
+        this.roomIsLocked = roomIsLocked;
+    }
+
+    public void roomIsLocked(){
+        if (isRoomIsLocked()){
+            System.err.println("room is locked");
         }
     }
 

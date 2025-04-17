@@ -54,13 +54,19 @@ public class FileLoader {
             
             String line;
             while ((line = bufferedReader.readLine()) != null) {
-                String[] parts = line.split(",",4);
+                String[] parts = line.split(",",5);
                 String roomId = parts[0].trim();
                 String roomName = parts[1].trim();
                 String roomDescription = parts[2].trim();
 
                 Room room = new Room(roomId, roomName, roomDescription);
                 roomMap.put(roomId, room);
+                if (parts.length==5){
+                    String locked=parts[4].trim().toLowerCase();
+                    if (locked.equalsIgnoreCase("lock")){
+                        room.setRoomIsLocked(true);
+                    }
+                }
 
                 if (parts.length > 3) {
                     roomExits.put(roomId, parts[3].trim());

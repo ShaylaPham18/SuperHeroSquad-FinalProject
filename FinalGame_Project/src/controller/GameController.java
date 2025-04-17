@@ -119,8 +119,11 @@ public class GameController {
                 }
                 Room next = player.getCurrentRoom().getExits(direction);
                 if (next != null) {
+                    if (next.isRoomIsLocked()){
+                        System.err.println("The "+next.getRoomName()+" is locked");
+                        continue;
+                    }
                     player.setCurrentRoom(next);
-
                     System.out.println("➡️ You moved to: " + next.getRoomName() + " || available exits: " + next.getExitDirections());
 
                     if (next.isRoomHasBeenVisited()) {
@@ -178,6 +181,30 @@ public class GameController {
                     System.out.println("You picked up: " + itemToTake.getName());
                 } else {
                     System.out.println(itemName + " isn't in this room.");
+                }
+            }
+
+            else if (input.startsWith("drop")){
+                String itemName=input.substring(4).trim();
+                if (itemName.isBlank()) {
+                    System.out.println("What item did you want to drop?");
+                    continue;
+                }
+                Room currentRoom=player.getCurrentRoom();
+                Items items2drop=null;
+                for (Items items:player.getInventory()){
+                    if (items.getName().equalsIgnoreCase(itemName)){
+                        items2drop=items;
+                        break;
+                    }
+                }
+                if (items2drop!=null){
+                    player.dropItem(items2drop);
+                    currentRoom.getRoomInventory().add(items2drop);
+                    System.out.println("You dropped "+items2drop.getName());
+                }
+                else {
+                    System.err.println(itemName+" is not in inventory");
                 }
             }
 
