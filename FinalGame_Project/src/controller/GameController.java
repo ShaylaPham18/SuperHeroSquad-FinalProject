@@ -172,8 +172,8 @@ public class GameController {
             }
 
             //Shay, for consume item
-            else if (input.startsWith("consume")) {
-                String itemName = input.substring(7).trim();
+            else if (input.startsWith("use")) {
+                String itemName = input.substring(3).trim();
                 itemController.consumeItem(itemName);
             }
 
