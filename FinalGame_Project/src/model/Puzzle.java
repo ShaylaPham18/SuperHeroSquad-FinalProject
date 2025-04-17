@@ -18,6 +18,8 @@ public class Puzzle {
     private int currentAttempts;
     private String hint;
     private boolean solved;
+    private String hintItem;
+
 
     //
     public Puzzle(String name, String description, String roomLocation,
@@ -54,6 +56,14 @@ public class Puzzle {
     public void setHint(String hint) {this.hint = hint;}
     public boolean isSolved() {return solved;}
     public void setSolved(boolean solved) {this.solved = solved;}
+
+    public String getHintItem() {
+        return hintItem;
+    }
+
+    public void setHintItem(String hintItem) {
+        this.hintItem = hintItem;
+    }
 
     public boolean attempt(String input) {
         currentAttempts++;

@@ -1,5 +1,5 @@
 itemID-itemName-itemType-itemStat-itemDescription-roomID
-1-vaccine-consumable-100-A vial containing an experimental cure for the infection.-
+1-vaccine-consumable-100-A vial containing an experimental cure for the infection.-2er
 2-painkiller A-consumable-25-A standard medical kit with bandages and antibiotics.-
 3-painkiller B-consumable-5-A standard medical kit with bandages and antibiotics.-
 4-first aid kit-consumable-25-A military-grade medical kit.-

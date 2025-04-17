@@ -1,7 +1,6 @@
 package controller;
 
 import loader.FileLoader;
-import model.Items;
 import model.Player;
 import model.Puzzle;
 import model.Room;
@@ -22,7 +21,6 @@ public class GameController {
         this.scanner = new Scanner(System.in);
     }
 
-    //Razan, Justin, Shayla
     public void start() {
         Room current=rooms.get("1ew");
         if (current==null){
@@ -54,7 +52,7 @@ public class GameController {
                 System.out.println(room.getRoomDescription());
 
                 if (room.getPuzzle() != null && !room.getPuzzle().isSolved()) {
-                    System.out.println("🧩 There's a puzzle in this room. Try 'solve'.");
+                    System.out.println("👀 Something about this room seems off... Maybe try 'inspect'?");
                 }
 
                 System.out.println("🚪 Exits: " + room.getExitDirections()); // assumes getExitDirections() exists
@@ -78,27 +76,10 @@ public class GameController {
             } else if (input.equals("solve")) {
                 handlePuzzle();
 
-                //Pickup command
-            }else if (input.startsWith("pickup")){
-                String itemName = input.substring(6).trim();
-                Room currentRoom = player.getCurrentRoom();
-                Items itemToPickup = null;
-
-                for (Items item : currentRoom.getRoomInventory()) {
-                    if (item.getName().equalsIgnoreCase(itemName)) {
-                        itemToPickup = item;
-                        break;
-                    }
-                }
-                if (itemToPickup != null) {
-                    currentRoom.getRoomInventory().remove(itemToPickup);
-                    player.pickupItem(itemToPickup);
-                    System.out.println("You picked up: " + itemToPickup.getName());
-                } else {
-                    System.out.println("❌ That item isn't in this room.");
-                }
-
-            } else {
+            } else if (input.equals("inspect")) {
+                handleInspect();
+            }
+            else {
                 System.err.println("❓ Unknown command. Type go<Direction> to navigate || or help to view all commands || or quit to end the game");
             }
         }
@@ -112,7 +93,7 @@ public class GameController {
         } else if (puzzle.isSolved()) {
             System.out.println("✅ You've already solved this puzzle.");
         } else {
-            PuzzleController controller = new PuzzleController(puzzle, new PuzzleView());
+            PuzzleController controller = new PuzzleController(puzzle, new PuzzleView(), player.getCurrentRoom(), player);
             controller.startPuzzle();
 
             if (controller.isPuzzleSolved()) {
@@ -120,4 +101,19 @@ public class GameController {
             }
         }
     }
+    public void handleInspect() {
+        Room room = player.getCurrentRoom();
+        Puzzle puzzle = room.getPuzzle();
+
+        if (puzzle == null) {
+            System.out.println("🔍 You look around carefully, but there's nothing unusual to inspect here.");
+        } else if (puzzle.isSolved()) {
+            System.out.println("✅ You recall solving the puzzle here already.");
+        } else {
+            System.out.println("🧩 You uncover a hidden mechanism... It's a puzzle!");
+            System.out.println("📝 " + puzzle.getDescription());
+            System.out.println("Use the 'solve' command to attempt solving it.");
+        }
+    }
+
 }

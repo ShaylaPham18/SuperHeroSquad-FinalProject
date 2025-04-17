@@ -13,11 +13,16 @@ public class PuzzleController {
     private final PuzzleView view;
     private final Scanner scanner;
     private boolean puzzleSolved;
+    private final Room room;
+    private final Player player;
 
 
-    public PuzzleController(Puzzle puzzle, PuzzleView view) {
+
+    public PuzzleController(Puzzle puzzle, PuzzleView view, Room room, Player player) {
         this.puzzle = puzzle;
         this.view = view;
+        this.room = room;
+        this.player = player;
         this.scanner = new Scanner(System.in);
         this.puzzleSolved = puzzle.isSolved();
     }
@@ -31,6 +36,12 @@ public class PuzzleController {
         }
 
         view.displayPuzzleIntro(puzzle);
+        // OPTIONAL: Suggest reading item from inventory if it's helpful
+        String requiredItem = puzzle.getHintItem(); // You can create this field in Puzzle if needed
+        if (requiredItem != null && !requiredItem.isBlank() && player.hasItem(requiredItem)) {
+            System.out.println("📄 You notice you have something related to this puzzle in your inventory.");
+            System.out.println("💡 Try reading or inspecting '" + requiredItem + "' for a clue.");
+        }
 
         while (!puzzle.isSolved()) {
             view.displayPuzzlePrompt();
@@ -38,14 +49,17 @@ public class PuzzleController {
 
             switch (command) {
                 case "solve":
+                case "s":
                     handleSolve();
                     break;
 
                 case "hint":
+                case "h":
                     handleHint();
                     break;
 
                 case "leave":
+                case "l":
                     view.displayExitMessage();
                     return;
 
@@ -53,8 +67,17 @@ public class PuzzleController {
                     view.displayInvalidCommand();
             }
         }
+
         puzzleSolved = true;
+
+        // ✅ FR5.2 logic: remove puzzle from room if it's not Medicine Cabinet
+        if (!puzzle.getName().equalsIgnoreCase("Medicine Cabinet Puzzle")) {
+            room.setPuzzle(null);
+            System.out.println("🧹 The puzzle has been removed from the room.");
+        }
     }
+
+
 
     private void handleSolve() {
         view.displayInputPrompt();
@@ -66,9 +89,11 @@ public class PuzzleController {
         if (puzzle.canGetHint()) {
             view.displayHint(puzzle);
         } else {
-            System.out.println("❗ You need more attempts before you can get a hint.");
+            int remaining = Math.max(0, 3 - puzzle.getCurrentAttempts());
+            System.out.println("❗ You need " + remaining + " more attempt(s) before you can get a hint.");
         }
     }
+
     public boolean isPuzzleSolved() {
         return puzzleSolved;
     }
