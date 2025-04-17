@@ -1,19 +1,31 @@
-itemID-itemName-itemType-itemStat-itemDescription-roomID
-1-vaccine-consumable-100-A vial containing an experimental cure for the infection.-2er
-2-painkiller A-consumable-25-A standard medical kit with bandages and antibiotics.-
-3-painkiller B-consumable-5-A standard medical kit with bandages and antibiotics.-
-4-first aid kit-consumable-25-A military-grade medical kit.-
-5-gas mask-consumable-100-A worn respiratory mask.-
-6-12 gauge shotgun shells-ammunition-2-Shotgun shells used for shotgun.-
-7-.45 ACP-ammunition-6-Handgun ammunition for the Glock 30.-
-8-glock 30-weapon-8-A semi-automatic handgun.-
-9-shotgun-weapon-15-A pump-action shotgun with high stopping power.-
-10-knife-weapon-5-Surgical knives and scalpels.-
-11-axe-key-0-A firefighter's axe with a bloodstained blade.-
-12-helicopter key-key-0-A rusted key with a military insignia on it.-
-13-eyeball-key-0-A severed human eyeball.-
-14-hand/fingerprint-key-0-A severed hand from a security officer.-
-15-ID badge-key-0-A hospital administrator's ID.-
-16-scalpel-key-0-A doctor's toll.-
-17-fire extinguisher-miscellaneous-0-A heavy CO2 extinguisher.-
+itemID-itemName-itemType-itemStat-itemDescription-roomID-quantity
+1-vaccine-consumable-100-A vial containing an experimental cure for the infection.-2er-1
+1-vaccine-consumable-100-A vial containing an experimental cure for the infection.-1pharm-10
+2-painkiller A-consumable-25-A standard medical kit with bandages and antibiotics.-3icu-10
+2-painkiller A-consumable-25-A standard medical kit with bandages and antibiotics.-1ew-15
+3-painkiller B-consumable-5-A standard medical kit with bandages and antibiotics.-2ped-25
+4-first aid kit-consumable-25-A military-grade medical kit.-3or-10
+4-first aid kit-consumable-25-A military-grade medical kit.-3lab-10
+4-first aid kit-consumable-25-A military-grade medical kit.-2rad-10
+4-first aid kit-consumable-25-A military-grade medical kit.-1ew-1
+5-gas mask-consumable-100-A worn respiratory mask.-1ew-1
+6-12 gauge shotgun shells-ammunition-2-Shotgun shells used for shotgun.-0sr-30
+7-.45 ACP-ammunition-6-Handgun ammunition for the Glock 30.-1wait-10
+7-.45 ACP-ammunition-6-Handgun ammunition for the Glock 30.-1sec-20
+8-glock 30-weapon-8-A semi-automatic handgun.-1sec-1
+9-shotgun-weapon-15-A pump-action shotgun with high stopping power.-2do-1
+10-knife-weapon-5-Surgical knives and scalpels.-3lab-1
+10-knife-weapon-5-Surgical knives and scalpels.-2er-1
+10-knife-weapon-5-Surgical knives and scalpels.-1cafe-1
+10-knife-weapon-5-Surgical knives and scalpels.-3icu-1
+11-axe-key-0-A firefighter's axe with a bloodstained blade.-3sr-1
+12-helicopter key-key-0-A rusted key with a military insignia on it.-2do-1
+13-eyeball-key-0-A severed human eyeball.-3icu-1
+14-hand/fingerprint-key-0-A severed hand from a security officer.-2sl-1
+14-hand/fingerprint-key-0-A severed hand from a security officer.-1sec-1
+15-ID badge-key-0-A hospital administrator's ID.-2do-1
+16-scalpel-weapon-5-A doctor's toll.-3or-1
+17-fire extinguisher-miscellaneous-0-A heavy CO2 extinguisher.-3iso-1
+17-fire extinguisher-miscellaneous-0-A heavy CO2 extinguisher.-1cafe-1
+
 
