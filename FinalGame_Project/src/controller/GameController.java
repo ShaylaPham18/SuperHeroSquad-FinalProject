@@ -144,6 +144,11 @@ public class GameController {
                     String previousRoomID = current.getRoomID(); // Store previous room ID
                     boolean monsterDefeated = monsterSpawnManager.checkForMonsterEncounter(player, next, previousRoomID);
 
+                    // If player fled from combat, move them back to the previous room
+                    if (!monsterDefeated && player.getHealth() > 0) {
+                        movePlayerToRoom(previousRoomID);
+                    }
+
                     // If player died during monster encounter, handle game over
                     if (player.getHealth() <= 0) {
                         System.out.println("You have been killed. Game over.");
@@ -229,6 +234,17 @@ public class GameController {
         }
     }
 
+    /**
+     * Jose Montejo
+     * handlePlayerFlee
+     * Moves the player back to the previous room when they successfully flee from a monster.
+     *
+     * @param previousRoomID The ID of the room to flee to
+     * @return true if the player successfully fled, false otherwise
+     */
+    public boolean handlePlayerFlee(String previousRoomID) {
+        return movePlayerToRoom(previousRoomID);
+    }
 
     // ✅ WIN CONDITION METHOD
     public boolean checkWinCondition(Player player) {
