@@ -24,6 +24,7 @@ public class GameController {
     }
 
     //Justin, Razan, Shayla, Nelly
+    //Navigation win condition block
     public void start() {
         Room current = rooms.get("1ew");
         if (current == null) {
@@ -48,15 +49,32 @@ public class GameController {
             System.out.print("\n> ");
             String input = scanner.nextLine().trim().toLowerCase();
 
+            //quit original if statement
             if (input.equals("quit")) {
                 System.out.println("👋 Thanks for playing!");
                 running = false;
 
-            } else if (input.equalsIgnoreCase("help")) {
+            }
+
+            //help
+            else if (input.equalsIgnoreCase("help")) {
                 Frame frame = new Frame();
                 frame.helpMenu();
+            }
 
-            } else if (input.equalsIgnoreCase("explore") || input.equalsIgnoreCase("ex")) {
+            //map
+            else if (input.equalsIgnoreCase("map")){
+                Frame frame=new Frame();
+                frame.map();
+            }
+
+            //stats
+            else if (input.equalsIgnoreCase("stats")||input.equalsIgnoreCase("stat")||input.equalsIgnoreCase("st")){
+                player.showStats();
+            }
+
+            //explore
+            else if (input.equalsIgnoreCase("explore") || input.equalsIgnoreCase("ex")) {
                 Room room = player.getCurrentRoom();
                 System.out.println("📍 " + room.getRoomName());
                 System.out.println(room.getRoomDescription());
@@ -71,7 +89,9 @@ public class GameController {
 
                 System.out.println("🚪 Exits: " + room.getExitDirections());
 
-            } else if (input.startsWith("go")) {
+            }
+            //navigation
+            else if (input.startsWith("go")) {
                 current.setRoomHasBeenVisited(true);
                 String orginalDirection = input.substring(2).toUpperCase().trim();
                 String direction = keyBoardShortCuts.resolveShortcut(orginalDirection);
@@ -88,15 +108,24 @@ public class GameController {
                 } else {
                     System.out.println("❌ You can't go that way.");
                 }
-            } else if (input.equals("solve")) {
+            }
+            //solve
+            else if (input.equals("solve")) {
                 handlePuzzle();
 
-            } else if (input.equals("inspect")) {
+            }
+            //inspect
+            else if (input.equals("inspect")||input.equalsIgnoreCase("ins")) {
                 handleInspect();
+            }
 
-                //Shay, for pickup item
-            } else if (input.startsWith("pickup")){
+            //Start of pickup blocks Shayla VERY LONG
+            else if (input.startsWith("pickup")){
                 String itemName = input.substring(6).trim();
+                if (itemName.isBlank()){
+                    System.out.println("Specify an item to pick up");
+                    continue;
+                }
                 Room currentRoom = player.getCurrentRoom();
                 Items itemToPickup = null;
                 for (Items item : currentRoom.getRoomInventory()) {
@@ -111,19 +140,74 @@ public class GameController {
                     player.pickupItem(itemToPickup);
                     System.out.println("You picked up: " + itemToPickup.getName());
                 } else {
-                    System.out.println("❌ That item isn't in this room.");
+                    System.err.println(itemName+" isn't in this room.");
+                }
+            }else if (input.startsWith("pick up")){
+                String itemName = input.substring(7).trim();
+                if (itemName.isBlank()){
+                    System.out.println("Specify an item to pick up");
+                    continue;
+                }
+                Room currentRoom = player.getCurrentRoom();
+                Items itemToPickup = null;
+                for (Items item : currentRoom.getRoomInventory()) {
+                    if (item.getName().equalsIgnoreCase(itemName)) {
+                        itemToPickup = item;
+                        break;
+                    }
+                }
+                //Checks if item is in room and able to be picked up
+                if (itemToPickup != null){
+                    currentRoom.getRoomInventory().remove(itemToPickup);
+                    player.pickupItem(itemToPickup);
+                    System.out.println("You picked up: " + itemToPickup.getName());
+                } else {
+                    System.err.println(itemName+" isn't in this room.");
+                }
+            }else if (input.startsWith("pu")){
+                String itemName = input.substring(2).trim();
+                if (itemName.isBlank()){
+                    System.out.println("Specify an item to pick up");
+                    continue;
+                }
+                Room currentRoom = player.getCurrentRoom();
+                Items itemToPickup = null;
+                for (Items item : currentRoom.getRoomInventory()) {
+                    if (item.getName().equalsIgnoreCase(itemName)) {
+                        itemToPickup = item;
+                        break;
+                    }
+                }
+                //Checks if item is in room and able to be picked up
+                if (itemToPickup != null){
+                    currentRoom.getRoomInventory().remove(itemToPickup);
+                    player.pickupItem(itemToPickup);
+                    System.out.println("You picked up: " + itemToPickup.getName());
+                } else {
+                    System.err.println(itemName+" isn't in this room.");
+                }
+            }
+            //End of pickup blocks
+
+            //Shay, for consume item
+            else if(input.startsWith("consume")){
+                String itemName = input.substring(7).trim();
+                if (itemName.isBlank()){
+                    System.out.println("Specify an item to consume");
+                }else {
+                    player.consumeItem(itemName);
                 }
 
-                //Shay, for consume item
-            }else if(input.startsWith("consume")){
-                String itemName = input.substring(6).trim();
-                player.consumeItem(itemName);
+            }
 
-            }else {
+            //else for invalid commands/input
+            else {
                 System.err.println("❓ Unknown command. Type go<Direction> to navigate || or help to view all commands || or quit to end the game");
             }
         }
-    }
+
+
+    }//end of start()
 
 
             public void handlePuzzle () {

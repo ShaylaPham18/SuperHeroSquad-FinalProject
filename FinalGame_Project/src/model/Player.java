@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class Player {
     private String name;
     private int health;
+    private int basePlayerDamage=5;
     private ArrayList<Items> inventory;
     private Room currentRoom;
 
@@ -43,6 +44,22 @@ public class Player {
         inventory.add(item);
     }
 
+    public int getBasePlayerDamage() {
+        return basePlayerDamage;
+    }
+
+    public void setBasePlayerDamage(int basePlayerDamage) {
+        this.basePlayerDamage = basePlayerDamage;
+    }
+    public int totalDamage(){
+        //Logic will be if weapon equipped:   basePlayerDamage+weaponDamage
+        return basePlayerDamage;
+    }
+
+    public void showStats(){
+        System.out.println("Player health: "+health+"\nPlayer damage: "+basePlayerDamage);
+    }
+
     //Shayla
     public void consumeItem(String itemName) {
         Items item = null;
@@ -52,8 +69,8 @@ public class Player {
                 break;
             }
         }
-        if (item == null) {
-            System.out.println("You do not have that item.");
+        if (item == null) {//weird error here
+            System.err.println("You do not have "+itemName+" in your inventory.");
             return;
         }
         if (item instanceof Consumables) {
