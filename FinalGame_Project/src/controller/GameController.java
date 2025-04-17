@@ -90,7 +90,7 @@ public class GameController {
         } else if (puzzle.isSolved()) {
             System.out.println("✅ You've already solved this puzzle.");
         } else {
-            PuzzleController controller = new PuzzleController(puzzle, new PuzzleView());
+            PuzzleController controller = new PuzzleController(puzzle, new PuzzleView(), player.getCurrentRoom(), player);
             controller.startPuzzle();
 
             if (controller.isPuzzleSolved()) {
