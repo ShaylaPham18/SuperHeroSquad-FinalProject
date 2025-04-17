@@ -1,13 +1,11 @@
 package controller;
 
-import loader.FileLoader;
 import model.Items;
 import model.Player;
 import model.Puzzle;
 import model.Room;
 import view.PuzzleView;
 import view.Frame;
-
 import java.util.Map;
 import java.util.Scanner;
 
@@ -82,11 +80,9 @@ public class GameController {
                 if (room.getPuzzle() != null && !room.getPuzzle().isSolved()) {
                     System.out.println("👀 Something about this room seems off... Maybe try 'inspect'?");
                 }
-
                 if (!room.getRoomInventory().isEmpty()) {
                     System.out.println(" --> There seems to be stuff in this room. Perhaps you should inspect them.");
                 }
-
                 System.out.println("🚪 Exits: " + room.getExitDirections());
 
             }
@@ -120,7 +116,6 @@ public class GameController {
             else if (input.equals("inspect")||input.equalsIgnoreCase("ins")) {
                 handleInspect();
             }
-
             //Start of pickup blocks Shayla VERY LONG
             else if (input.startsWith("pickup")){
                 String itemName = input.substring(6).trim();
