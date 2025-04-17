@@ -122,75 +122,30 @@ public class GameController {
                 handleInspect();
             }
 
-            //Start of pickup blocks Shayla VERY LONG
-            else if (input.startsWith("pickup")) {
-                String itemName = input.substring(6).trim();
+            //Razan, Shayla
+            //Take command
+            else if (input.startsWith("take")) {
+                String itemName = input.substring(4).trim();
                 if (itemName.isBlank()) {
-                    System.out.println("Specify an item to pick up");
+                    System.out.println("What item did you want to take?");
                     continue;
                 }
                 Room currentRoom = player.getCurrentRoom();
-                Items itemToPickup = null;
+                Items itemToTake = null;
                 for (Items item : currentRoom.getRoomInventory()) {
                     if (item.getName().equalsIgnoreCase(itemName)) {
-                        itemToPickup = item;
+                        itemToTake = item;
                         break;
                     }
                 }
-                //Checks if item is in room and able to be picked up
-                if (itemToPickup != null) {
-                    currentRoom.getRoomInventory().remove(itemToPickup);
-                    player.pickupItem(itemToPickup);
-                    System.out.println("You picked up: " + itemToPickup.getName());
+                if (itemToTake != null) {
+                    currentRoom.getRoomInventory().remove(itemToTake);
+                    player.takeItem(itemToTake);
+                    System.out.println("You picked up: " + itemToTake.getName());
                 } else {
-                    System.err.println(itemName + " isn't in this room.");
-                }
-            } else if (input.startsWith("pick up")) {
-                String itemName = input.substring(7).trim();
-                if (itemName.isBlank()) {
-                    System.out.println("Specify an item to pick up");
-                    continue;
-                }
-                Room currentRoom = player.getCurrentRoom();
-                Items itemToPickup = null;
-                for (Items item : currentRoom.getRoomInventory()) {
-                    if (item.getName().equalsIgnoreCase(itemName)) {
-                        itemToPickup = item;
-                        break;
-                    }
-                }
-                //Checks if item is in room and able to be picked up
-                if (itemToPickup != null) {
-                    currentRoom.getRoomInventory().remove(itemToPickup);
-                    player.pickupItem(itemToPickup);
-                    System.out.println("You picked up: " + itemToPickup.getName());
-                } else {
-                    System.err.println(itemName + " isn't in this room.");
-                }
-            } else if (input.startsWith("pu")) {
-                String itemName = input.substring(2).trim();
-                if (itemName.isBlank()) {
-                    System.out.println("Specify an item to pick up");
-                    continue;
-                }
-                Room currentRoom = player.getCurrentRoom();
-                Items itemToPickup = null;
-                for (Items item : currentRoom.getRoomInventory()) {
-                    if (item.getName().equalsIgnoreCase(itemName)) {
-                        itemToPickup = item;
-                        break;
-                    }
-                }
-                //Checks if item is in room and able to be picked up
-                if (itemToPickup != null) {
-                    currentRoom.getRoomInventory().remove(itemToPickup);
-                    player.pickupItem(itemToPickup);
-                    System.out.println("You picked up: " + itemToPickup.getName());
-                } else {
-                    System.err.println(itemName + " isn't in this room.");
+                    System.out.println(itemName + " isn't in this room.");
                 }
             }
-            //End of pickup blocks
 
             //Shay, for consume item
             else if (input.startsWith("consume")) {
@@ -208,8 +163,6 @@ public class GameController {
                 System.err.println("❓ Unknown command. Type go<Direction> to navigate || or help to view all commands || or quit to end the game");
             }
         }
-
-
     }//end of start()
 
 
@@ -258,7 +211,9 @@ public class GameController {
             System.out.println("Use the 'solve' command to attempt solving it.");
         }
 
-        //inspect items in a room
+        //Shayla
+        //Inspect items in a room
+        //Printing them through hashmaps because there can be more of the same item in the same room
         if (!room.getRoomInventory().isEmpty()) {
             System.out.println("📦 The items in the " + room.getRoomName() + " room are:");
 

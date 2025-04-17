@@ -40,7 +40,7 @@ public class Player {
         this.currentRoom = currentRoom;
     }
 
-    public void pickupItem(Items item) {
+    public void takeItem(Items item) {
         inventory.add(item);
     }
 
