@@ -148,7 +148,6 @@ public class PuzzleController {
             }
         }
     }
-
     public static void assignPuzzlesToRooms(List<Puzzle> puzzles, Map<String, Room> rooms) {
         for (Puzzle puzzle : puzzles) {
             Room room = rooms.get(puzzle.getRoomLocation());
