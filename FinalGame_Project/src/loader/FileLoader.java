@@ -49,6 +49,7 @@ public class FileLoader {
             //you guys use this 1 PLEASE JUST COMMENT AND UNCOMMENT
 
 
+
            // BufferedReader bufferedReader = new BufferedReader(new FileReader("FinalGame_Project/room.txt"));
 
 
@@ -67,6 +68,10 @@ public class FileLoader {
             //BufferedReader bufferedReader = new BufferedReader(new FileReader("room.txt"));
           //  BufferedReader bufferedReader = new BufferedReader(new FileReader("FinalGame_Project/room.txt"));
             //BufferedReader bufferedReader = new BufferedReader(new FileReader("FinalGame_Project/room.txt"));
+
+            //BufferedReader bufferedReader = new BufferedReader(new FileReader("FinalGame_Project/room.txt"));
+            //BufferedReader bufferedReader = new BufferedReader(new FileReader("room.txt"));
+
 
 
             String line;
