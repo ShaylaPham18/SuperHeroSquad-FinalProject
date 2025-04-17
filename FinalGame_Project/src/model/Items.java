@@ -2,9 +2,13 @@ package model;
 
 //Shayla
 public class Items {
-    private int id;
-    private String name;
-    private String description;
+    protected int id;
+    protected String name;
+    protected String type;
+    protected int stat;
+    protected String description;
+    protected String roomID;
+    protected int quantity;
 
     //Shayla
     /**
@@ -14,10 +18,14 @@ public class Items {
      * @param name of the item
      * @param description of the item
      */
-    public Items(int id, String name, String description) {
+    public Items(int id, String name, String type, int stat, String description, String roomID, int quantity) {
         this.id = id;
         this.name = name;
+        this.type = type;
+        this.stat = stat;
         this.description = description;
+        this.roomID = roomID;
+        this.quantity = quantity;
     }
 
     //Shayla
