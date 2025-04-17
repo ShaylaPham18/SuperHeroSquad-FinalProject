@@ -71,9 +71,17 @@ public class Room {
         this.roomInventory = roomInventory;
     }
 
+    public boolean isRoomHasBeenVisited() {
+        return roomHasBeenVisited;
+    }
+
+    public void setRoomHasBeenVisited(boolean roomHasBeenVisited) {
+        this.roomHasBeenVisited = roomHasBeenVisited;
+    }
+
     public void beenHereBefore(){
         if (roomHasBeenVisited){
-            System.out.println("Hmmm I've been here before");
+            System.out.println("\nHmmm I've been here before");
         }
     }
 

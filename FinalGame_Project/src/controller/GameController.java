@@ -60,18 +60,27 @@ public class GameController {
                 System.out.println(room.getRoomDescription());
 
                 if (room.getPuzzle() != null && !room.getPuzzle().isSolved()) {
-                    System.out.println("🧩 There's a puzzle in this room. Try 'solve'.");
+                    System.out.println("👀 Something about this room seems off... Maybe try 'inspect'?");
                 }
 
                 System.out.println("🚪 Exits: " + room.getExitDirections());
 
             } else if (input.startsWith("go")) {
+                current.setRoomHasBeenVisited(true);
                 String orginalDirection = input.substring(2).toUpperCase().trim();
                 String direction = keyBoardShortCuts.resolveShortcut(orginalDirection);
                 Room next = player.getCurrentRoom().getExits(direction);
                 if (next != null) {
                     player.setCurrentRoom(next);
+<<<<<<< HEAD
                     System.out.println("➡️ You moved to: " + next.getRoomName() + " || available exits: " + next.getExitDirections());
+=======
+                    if (next.isRoomHasBeenVisited()){
+                        next.beenHereBefore();
+                    }
+                    next.setRoomHasBeenVisited(true);
+                    System.out.println("➡️ You moved to: " + next.getRoomName()+" || available exits: "+next.getExitDirections());
+>>>>>>> 1fb411e9e35af5d9a4a4f5b6167e19988237dda8
                 } else {
                     System.out.println("❌ You can't go that way.");
                 }
@@ -79,7 +88,10 @@ public class GameController {
             } else if (input.equals("solve")) {
                 handlePuzzle();
 
-            } else {
+            } else if (input.equals("inspect")) {
+                handleInspect();
+            }
+            else {
                 System.err.println("❓ Unknown command. Type go<Direction> to navigate || or help to view all commands || or quit to end the game");
             }
         }
@@ -93,7 +105,7 @@ public class GameController {
         } else if (puzzle.isSolved()) {
             System.out.println("✅ You've already solved this puzzle.");
         } else {
-            PuzzleController controller = new PuzzleController(puzzle, new PuzzleView());
+            PuzzleController controller = new PuzzleController(puzzle, new PuzzleView(), player.getCurrentRoom(), player);
             controller.startPuzzle();
 
             if (controller.isPuzzleSolved()) {
@@ -101,6 +113,7 @@ public class GameController {
             }
         }
     }
+<<<<<<< HEAD
 
     // ✅ WIN CONDITION METHOD
     public boolean checkWinCondition(Player player) {
@@ -113,4 +126,21 @@ public class GameController {
 
         return inFinalRoom && hasAllKeys;
     }
+=======
+    public void handleInspect() {
+        Room room = player.getCurrentRoom();
+        Puzzle puzzle = room.getPuzzle();
+
+        if (puzzle == null) {
+            System.out.println("🔍 You look around carefully, but there's nothing unusual to inspect here.");
+        } else if (puzzle.isSolved()) {
+            System.out.println("✅ You recall solving the puzzle here already.");
+        } else {
+            System.out.println("🧩 You uncover a hidden mechanism... It's a puzzle!");
+            System.out.println("📝 " + puzzle.getDescription());
+            System.out.println("Use the 'solve' command to attempt solving it.");
+        }
+    }
+
+>>>>>>> 1fb411e9e35af5d9a4a4f5b6167e19988237dda8
 }

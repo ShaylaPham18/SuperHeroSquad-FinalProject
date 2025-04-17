@@ -18,6 +18,8 @@ public class Puzzle {
     private int currentAttempts;
     private String hint;
     private boolean solved;
+    private String hintItem;
+
 
     //
     public Puzzle(String name, String description, String roomLocation,
@@ -55,10 +57,23 @@ public class Puzzle {
     public boolean isSolved() {return solved;}
     public void setSolved(boolean solved) {this.solved = solved;}
 
-    // added attempt method to track the attempt the player has, marks puzzle as solved if correct
+    public String getHintItem() {
+        return hintItem;
+    }
+
+    public void setHintItem(String hintItem) {
+        this.hintItem = hintItem;
+    }
+
     public boolean attempt(String input) {
         currentAttempts++;
-        if (input.equalsIgnoreCase(correctAnswer)) {
+        System.out.println("📊 Attempt #" + currentAttempts + ": input = '" + input );
+
+        // Normalize both strings: remove spaces and compare
+        String normalizedInput = input.replaceAll("\\s+", "");
+        String normalizedAnswer = correctAnswer.replaceAll("\\s+", "");
+
+        if (normalizedInput.equalsIgnoreCase(normalizedAnswer)) {
             solved = true;
             return true;
         }

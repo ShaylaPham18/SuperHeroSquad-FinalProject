@@ -3,7 +3,7 @@
 0br,Boiler Room,Hot and steamy with malfunctioning machinery.,WEST->0exit|NORTH->0sr
 0sr,Surveillance Room,A dimly lit room with security cameras monitoring every floor.,SOUTH->0br|WEST->0expr|NORTH->1sec|EAST->ELE0
 ELE0,BasementElevator,A spacious medical-grade elevator designed for patient transport on the basement level,WEST->0sr|NORTH->ELE1
-1sec,Security Room,Monitors and security equipment some still functional.,SOUTH->0sr|NORTH->1pharm,EAST->1wait
+1sec,Security Room,Monitors and security equipment some still functional.,SOUTH->0sr|NORTH->1pharm|EAST->1wait
 1wait,Waiting Area,Chairs and magazines eerily quiet.,NORTH->1cafe|WEST->1sec|EAST->ELE1
 1cafe,Cafeteria,Abandoned and filled with rotting food.,SOUTH->1wait|WEST->1pharm
 1pharm,Pharmacy,Shelves of medication some useful some expired.,NORTH->2ped|SOUTH->1sec|EAST->1cafe|WEST->1ew

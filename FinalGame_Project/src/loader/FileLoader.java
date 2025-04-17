@@ -48,11 +48,26 @@ public class FileLoader {
         try {
             //you guys use this 1 PLEASE JUST COMMENT AND UNCOMMENT
 
+<<<<<<< HEAD
            // BufferedReader bufferedReader = new BufferedReader(new FileReader("FinalGame_Project/room.txt"));
 
 
 
             BufferedReader bufferedReader = new BufferedReader(new FileReader("FinalGame_Project/room.txt"));
+=======
+            BufferedReader bufferedReader = new BufferedReader(new FileReader("room.txt"));
+            //BufferedReader bufferedReader = new BufferedReader(new FileReader("FinalGame_Project/room.txt"));
+           // BufferedReader bufferedReader = new BufferedReader(new FileReader("room.txt"));
+            //BufferedReader bufferedReader = new BufferedReader(new FileReader("FinalGame_Project/room.txt"));
+
+
+            //BufferedReader bufferedReader = new BufferedReader(new FileReader("room.txt"));
+            //BufferedReader bufferedReader = new BufferedReader(new FileReader("FinalGame_Project/room.txt"));
+
+            //BufferedReader bufferedReader = new BufferedReader(new FileReader("room.txt"));
+          //  BufferedReader bufferedReader = new BufferedReader(new FileReader("FinalGame_Project/room.txt"));
+            //BufferedReader bufferedReader = new BufferedReader(new FileReader("FinalGame_Project/room.txt"));
+>>>>>>> 1fb411e9e35af5d9a4a4f5b6167e19988237dda8
 
             String line;
             while ((line = bufferedReader.readLine()) != null) {
