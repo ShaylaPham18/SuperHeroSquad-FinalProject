@@ -32,7 +32,8 @@ public class GameController {
         // Jose Montejo
         // Initialize monster spawning system
         try {
-            List<Monster> monsters = MonsterLoader.loadMonsters("monsters.txt");
+            //List<Monster> monsters = MonsterLoader.loadMonsters("monsters.txt");
+            List<Monster> monsters = MonsterLoader.loadMonsters("FinalGame_Project/monsters.txt");
             Map<String, List<Monster>> monstersByLocation = MonsterLoader.getMonstersByLocation(monsters);
             this.monsterSpawnManager = new MonsterSpawnManager(monstersByLocation);
         } catch (Exception e) {
@@ -112,6 +113,10 @@ public class GameController {
                 current.setRoomHasBeenVisited(true);
                 String orginalDirection = input.substring(2).toUpperCase().trim();
                 String direction = keyBoardShortCuts.resolveShortcut(orginalDirection);
+                if (direction.isBlank()){
+                    System.out.println("Which way do you want to go");
+                    continue;
+                }
                 Room next = player.getCurrentRoom().getExits(direction);
                 if (next != null) {
                     player.setCurrentRoom(next);
@@ -124,6 +129,7 @@ public class GameController {
                     next.setRoomHasBeenVisited(true);
                 } else {
                     System.out.println("❌ You can't go that way.");
+                    continue;
                 }
                 // Jose Montejo
                 // Check for monster encounter in the new room
