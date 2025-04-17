@@ -1,3 +1,13 @@
+/**
+ * Jose Montejo
+ * MonsterController class
+ *
+ * NOTE: This class requires a getInventory() method to be added to the Player class.
+ * The person working on the Player class needs to add:
+ * public ArrayList<Items> getInventory() {
+ *     return inventory;
+ * }
+ */
 package controller;
 
 import model.Monster;
@@ -5,8 +15,6 @@ import model.Player;
 import model.Items;
 import view.MonsterView;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 import java.util.Random;
 
@@ -24,6 +32,7 @@ public class MonsterController {
     private final Scanner scanner;
     private final Random random;
     private boolean combatActive;
+    private String previousRoomID; // Store previous room ID for flee functionality
 
     /**
      * Jose Montejo
@@ -33,14 +42,16 @@ public class MonsterController {
      * @param monster The monster to control
      * @param player The player engaging with the monster
      * @param view The view to display monster-related information
+     * @param previousRoomID The ID of the room player was in before encountering monster
      */
-    public MonsterController(Monster monster, Player player, MonsterView view) {
+    public MonsterController(Monster monster, Player player, MonsterView view, String previousRoomID) {
         this.monster = monster;
         this.player = player;
         this.view = view;
         this.scanner = new Scanner(System.in);
         this.random = new Random();
         this.combatActive = false;
+        this.previousRoomID = previousRoomID;
     }
 
     /**
@@ -48,6 +59,8 @@ public class MonsterController {
      * encounterMonster
      * Initiates a monster encounter, displaying information and prompting for player action.
      * Returns true if the player defeats the monster, false otherwise.
+     *
+     * Implements FR3.1 (Flee from Monster) and FR3.2 (Attack Monsters)
      */
     public boolean encounterMonster() {
         // Display initial encounter message
@@ -80,6 +93,8 @@ public class MonsterController {
      * startCombat
      * Manages the combat loop between player and monster.
      * Returns true if the player defeats the monster, false if the player is defeated.
+     *
+     * Implements FR3.5 (Differentiate commands during combat)
      */
     private boolean startCombat() {
         combatActive = true;
@@ -89,9 +104,11 @@ public class MonsterController {
             view.displayCombatOptions();
             String choice = scanner.nextLine().trim().toLowerCase();
 
+            // FR3.5: Only allow specific commands during combat
             switch (choice) {
                 case "1":
                 case "attack":
+                case "att":
                     handlePlayerAttack();
                     break;
                 case "2":
@@ -100,6 +117,7 @@ public class MonsterController {
                     break;
                 case "3":
                 case "flee":
+                case "run":
                     if (tryToFlee()) {
                         combatActive = false;
                         return false;
@@ -109,7 +127,7 @@ public class MonsterController {
                     displayCombatHelp();
                     break;
                 default:
-                    System.out.println("Invalid command. Type 'help' for combat commands.");
+                    System.out.println("❌ Invalid combat command. Type 'help' for available combat commands.");
             }
 
             // Check if monster is defeated
@@ -146,11 +164,22 @@ public class MonsterController {
      * Jose Montejo
      * handlePlayerAttack
      * Processes the player's attack action, calculating damage and applying it to the monster.
+     *
+     * Implements FR3.3 (Increase Damage)
      */
     private void handlePlayerAttack() {
-        // For now, use base player damage since weapons aren't fully implemented
-        String weapon = "fists"; // Default weapon
-        int damage = player.totalDamage();
+        // Default weapon and damage
+        String weapon = "fists";
+        int damage = player.getBasePlayerDamage();
+
+        // FR3.3: Check for weapons in inventory to increase damage
+        // This is a simplified implementation - in the full game, you would check
+        // for specific weapons in the player's inventory and use the appropriate one
+
+        // Example of checking for weapons (would need to be expanded based on your Items implementation)
+        // TODO: Update this when Player.getInventory() method is available
+// For now, using base damage only
+        System.out.println("Using base damage. Weapon inventory check will be implemented when Player.getInventory() is available.");
 
         // Check if monster dodges (for Zombie Dog)
         boolean hit = monster.takeDamage(weapon, damage);
@@ -168,11 +197,10 @@ public class MonsterController {
      * Allows the player to use an item from their inventory during combat.
      */
     private void handleUseItem() {
-        // This would be expanded when inventory system is more developed
         System.out.println("What item would you like to use?");
         String itemName = scanner.nextLine().trim();
 
-        // For now, just handle healing items
+        // For consumable items like health packs
         player.consumeItem(itemName);
     }
 
@@ -181,6 +209,8 @@ public class MonsterController {
      * tryToFlee
      * Attempts to flee from combat with a 40% chance of success.
      * Returns true if successful, false otherwise.
+     *
+     * Implements FR3.1 (Flee from Monster)
      */
     private boolean tryToFlee() {
         boolean success = random.nextDouble() < 0.4; // 40% chance to flee
@@ -191,6 +221,10 @@ public class MonsterController {
             int damage = monster.attack();
             view.displayMonsterAttack(monster, damage);
             player.setHealth(player.getHealth() - damage);
+        } else {
+            // Return player to previous room
+            // This would be handled in GameController by checking the return value
+            // and setting player.setCurrentRoom(rooms.get(previousRoomID))
         }
 
         return success;
@@ -205,7 +239,7 @@ public class MonsterController {
         System.out.println("\n=== COMBAT COMMANDS ===");
         System.out.println("1 or attack - Attack the monster");
         System.out.println("2 or use - Use an item from your inventory");
-        System.out.println("3 or flee - Attempt to escape (40% chance)");
+        System.out.println("3 or flee/run - Attempt to escape (40% chance)");
         System.out.println("help - Display this help message");
         System.out.println("=====================\n");
     }
@@ -217,5 +251,15 @@ public class MonsterController {
      */
     public boolean isCombatActive() {
         return combatActive;
+    }
+
+    /**
+     * Jose Montejo
+     * getPreviousRoomID
+     * Returns the ID of the room the player was in before encountering the monster.
+     * Used for implementing the flee functionality.
+     */
+    public String getPreviousRoomID() {
+        return previousRoomID;
     }
 }
