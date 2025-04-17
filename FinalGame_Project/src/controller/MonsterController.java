@@ -3,11 +3,16 @@ package controller;
 import model.Monster;
 import model.Player;
 import model.Items;
+import model.Weapons;
+import model.Ammunition;
+import loader.WeaponsLoader;
 import view.MonsterView;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Random;
+import java.util.Map;
+import java.util.HashMap;
 
 /**
  * Jose Montejo
@@ -24,6 +29,8 @@ public class MonsterController {
     private final Random random;
     private boolean combatActive;
     private final String previousRoomID; // Store previous room ID for flee functionality
+    // Map to store weapons loaded from items.txt
+    private Map<String, Weapons> weaponsMap = new HashMap<>();
 
     /**
      * Jose Montejo
@@ -43,6 +50,13 @@ public class MonsterController {
         this.random = new Random();
         this.combatActive = false;
         this.previousRoomID = previousRoomID;
+
+        // Load weapons from items.txt
+        try {
+            this.weaponsMap = WeaponsLoader.loadWeapons("FinalGame_Project/items.txt");
+        } catch (Exception e) {
+            System.err.println("Error loading weapons: " + e.getMessage());
+        }
     }
 
     /**
@@ -165,28 +179,12 @@ public class MonsterController {
         String weapon = "fists";
         int damage = player.getBasePlayerDamage();
 
-        // FR3.3: Check for weapons in inventory to increase damage
-        ArrayList<Items> playerInventory = player.getInventory();
-        if (playerInventory != null && !playerInventory.isEmpty()) {
-            for (Items item : playerInventory) {
-                if (item.getName().equalsIgnoreCase("Glock 30")) {
-                    weapon = "Glock 30";
-                    damage = 8; // As specified in SRS
-                    break;
-                } else if (item.getName().equalsIgnoreCase("Shotgun")) {
-                    weapon = "Shotgun";
-                    damage = 15; // As specified in SRS
-                    break;
-                } else if (item.getName().equalsIgnoreCase("Knife")) {
-                    weapon = "Knife";
-                    damage = 5; // As specified in SRS
-                    break;
-                } else if (item.getName().equalsIgnoreCase("Axe")) {
-                    weapon = "Axe";
-                    damage = 7; // Example value
-                    break;
-                }
-            }
+        // Get the best weapon from player's inventory using WeaponsLoader
+        Weapons bestWeapon = getBestWeaponFromInventory();
+
+        if (bestWeapon != null) {
+            weapon = bestWeapon.getName();
+            damage = bestWeapon.getAttackDmg();
         }
 
         // Check if monster dodges (for Zombie Dog)
@@ -197,19 +195,6 @@ public class MonsterController {
         } else {
             view.displayPlayerAttack(weapon, damage, monster);
         }
-    }
-
-    /**
-     * Jose Montejo
-     * handleUseItem
-     * Allows the player to use an item from their inventory during combat.
-     */
-    private void handleUseItem() {
-        System.out.println("What item would you like to use?");
-        String itemName = scanner.nextLine().trim();
-
-        // For consumable items like health packs
-        player.consumeItem(itemName);
     }
 
     /**
@@ -247,6 +232,98 @@ public class MonsterController {
         System.out.println("3 or flee/run - Attempt to escape (40% chance)");
         System.out.println("help - Display this help message");
         System.out.println("=====================\n");
+    }
+
+    /**
+     * Get the best weapon from player's inventory
+     * @author Jose Montejo
+     * This method finds the weapon with the highest damage in the player's inventory
+     * @return The best weapon or null if no weapons found
+     */
+    private Weapons getBestWeaponFromInventory() {
+        Weapons bestWeapon = null;
+        int highestDamage = 0;
+
+        // Check each item in the player's inventory
+        ArrayList<Items> playerInventory = player.getInventory();
+        if (playerInventory != null && !playerInventory.isEmpty()) {
+            for (Items item : playerInventory) {
+                Weapons weapon = weaponsMap.get(item.getName().toLowerCase());
+                if (weapon != null && weapon.getAttackDmg() > highestDamage) {
+                    bestWeapon = weapon;
+                    highestDamage = weapon.getAttackDmg();
+                }
+            }
+        }
+
+        return bestWeapon;
+    }
+
+    /**
+     * Jose Montejo
+     * handleUseItem
+     * Processes the player's action to use an item during combat
+     */
+    private void handleUseItem() {
+        // Display player's inventory
+        ArrayList<Items> inventory = player.getInventory();
+        if (inventory.isEmpty()) {
+            System.out.println("You don't have any items to use.");
+            return;
+        }
+
+        System.out.println("\n=== YOUR INVENTORY ===");
+        for (int i = 0; i < inventory.size(); i++) {
+            System.out.println((i + 1) + ". " + inventory.get(i).getName());
+        }
+        System.out.println("0. Cancel");
+        System.out.print("\nEnter the number of the item you want to use: ");
+
+        String input = scanner.nextLine().trim();
+
+        // Check if player wants to cancel
+        if (input.equals("0")) {
+            System.out.println("You decided not to use any item.");
+            return;
+        }
+
+        try {
+            int itemIndex = Integer.parseInt(input) - 1;
+            if (itemIndex >= 0 && itemIndex < inventory.size()) {
+                Items selectedItem = inventory.get(itemIndex);
+                String itemName = selectedItem.getName().toLowerCase();
+
+                // Check if it's a consumable item by name
+                if (itemName.contains("painkiller") || itemName.contains("first aid") ||
+                        itemName.contains("vaccine") || itemName.contains("gas mask")) {
+
+                    // Determine heal amount based on item name from items.txt
+                    int healAmount = 0;
+                    if (itemName.contains("painkiller a")) {
+                        healAmount = 25;
+                    } else if (itemName.contains("painkiller b")) {
+                        healAmount = 5;
+                    } else if (itemName.contains("first aid")) {
+                        healAmount = 25;
+                    } else if (itemName.contains("vaccine") || itemName.contains("gas mask")) {
+                        healAmount = 100;
+                    }
+
+                    player.setHealth(Math.min(player.getHealth() + healAmount, 100));
+                    System.out.println("You used " + selectedItem.getName() + " and restored " + healAmount + " health.");
+                    System.out.println("Your health is now: " + player.getHealth());
+
+                    // Remove the item after use
+                    inventory.remove(itemIndex);
+                } else {
+                    System.out.println("You can't use " + selectedItem.getName() + " in combat.");
+                }
+            } else {
+                System.out.println("Invalid item number.");
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Please enter a valid number.");
+        }
     }
 
     /**

@@ -1,3 +1,15 @@
 # Default ignored files
 /shelf/
 /workspace.xml
+
+# Compiled class files
+*.class
+
+# Output folders
+out/
+target/
+build/
+
+# IDE-specific files
+.idea/
+*.iml
