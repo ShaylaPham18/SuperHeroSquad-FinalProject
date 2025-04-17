@@ -1,0 +1,10 @@
+name|description|health|damageToPlayer|weaponWeaknesses|weaponDamages|spawnChance|spawnLocation|specialRule
+Infected Doctor|A former surgeon turned monstrous, wielding surgical tools.|70|10|Glock 30,Shotgun|50,100|10|3or|null
+Rabid Nurse|A nurse with a twisted smile, quick and deadly.|80|10|Glock 30,Shotgun|50,100|100|1cafe|null
+Mutated Orderly|A hulking figure with enhanced strength.|60|20|Glock 30,Shotgun|50,100|50|3lab|null
+Tormented Patient|A suffering soul now haunting the halls.|60|20|Axe,Glock 30,Shotgun|25,50,100|80|2rad|null
+Facehugger|A parasitic creature that seems to latch onto any living organism.|30|10|Knife|50|100|3icu|deals 2 extra damage per action
+Amalgamation|A zombie that grew by cannibalizing its kind.|150|25|Shotgun,Flamethrower|50,100|40|0br|Has a 25% chance to deal 2x critical damage (50 damage)
+Spitter|A zombie that carries an infection.|70|50|Glock 30,Shotgun|50,100|100|0expr|Must be defeated to rescue pilot for helicopter ending
+Abandoned Baby|A child who has not survived.|40|10|Glock 30,Knife|100,25|20|2ped|null
+Zombie Dog|A dog that has devoured another zombie.|40|10|Knife,Axe|25,75|60|1wait|Chance of dodging
