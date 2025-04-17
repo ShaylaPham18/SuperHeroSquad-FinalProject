@@ -41,4 +41,16 @@ public class ItemView {
         System.out.println("Specify an item to consume.");
     }
 
+    public void displayDropped(String name){
+        System.out.println("You dropped: " + name);
+    }
+
+    public void displayNoItemToDrop(String name) {
+        System.out.println("You don't have " + name + " to drop.");
+    }
+
+    public void displayMissingItemToBeDropped() {
+        System.out.println("What item did you want to drop?");
+    }
+
 }
