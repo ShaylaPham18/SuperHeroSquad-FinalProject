@@ -13,7 +13,7 @@ itemID|itemName|itemType|itemStat|itemDescription|roomID|quantity
 7|.45 ACP|ammunition|6|Handgun ammunition for the Glock 30.|1wait|10
 7|.45 ACP|ammunition|6|Handgun ammunition for the Glock 30.|1sec|20
 8|glock 30|weapon|8|A semi-automatic handgun.(deals 8 dmg)|1sec|1
-9|shotgun|weapon|15|A pump-action shotgun with high stopping power. (deals 15 dmg)|2do|1
+9|shotgun|weapon|15|A pump-action shotgun with high stopping power.(deals 15 dmg)|2do|1
 10|knife|weapon|5|Surgical knives and scalpels.(deals 5 dmg)|3or|1
 10|knife|weapon|5|Surgical knives and scalpels.(deals 5 dmg)|3lab|1
 10|knife|weapon|5|Surgical knives and scalpels.(deals 5 dmg)|2er|1
