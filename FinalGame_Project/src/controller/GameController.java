@@ -5,12 +5,15 @@ import model.Items;
 import model.Player;
 import model.Puzzle;
 import model.Room;
+import model.Monster;
 import view.PuzzleView;
 import view.Frame;
+import loader.MonsterLoader;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.List;
 
 public class GameController {
     private final Player player;
@@ -18,10 +21,23 @@ public class GameController {
     private final Scanner scanner;
     KeyBoardShortCuts keyBoardShortCuts = new KeyBoardShortCuts();
 
+    // Jose Montejo
+    // MonsterSpawnManager to handle monster spawning logic
+    private MonsterSpawnManager monsterSpawnManager;
+
     public GameController(Player player, Map<String, Room> rooms) {
         this.player = player;
         this.rooms = rooms;
         this.scanner = new Scanner(System.in);
+        // Jose Montejo
+        // Initialize monster spawning system
+        try {
+            List<Monster> monsters = MonsterLoader.loadMonsters("monsters.txt");
+            Map<String, List<Monster>> monstersByLocation = MonsterLoader.getMonstersByLocation(monsters);
+            this.monsterSpawnManager = new MonsterSpawnManager(monstersByLocation);
+        } catch (Exception e) {
+            System.err.println("Error loading monsters: " + e.getMessage());
+        }
     }
 
     //Justin, Razan, Shayla, Nelly
@@ -108,6 +124,18 @@ public class GameController {
                     next.setRoomHasBeenVisited(true);
                 } else {
                     System.out.println("❌ You can't go that way.");
+                }
+                // Jose Montejo
+                // Check for monster encounter in the new room
+                if (monsterSpawnManager != null) {
+                    String previousRoomID = current.getRoomID(); // Store previous room ID
+                    boolean monsterDefeated = monsterSpawnManager.checkForMonsterEncounter(player, next, previousRoomID);
+
+                    // If player died during monster encounter, handle game over
+                    if (player.getHealth() <= 0) {
+                        System.out.println("You have been killed. Game over.");
+                        running = false;
+                    }
                 }
             }
             //solve --> Razan
@@ -232,4 +260,23 @@ public class GameController {
             }
         }
     }
+    /**
+     * Jose Montejo
+     * movePlayerToRoom
+     * Moves the player to a specific room by ID without changing room visit status.
+     * Used when fleeing from combat to return to the previous room.
+     *
+     * @param roomID The ID of the room to move to
+     * @return true if successful, false if room not found
+     */
+    private boolean movePlayerToRoom(String roomID) {
+        Room room = rooms.get(roomID);
+        if (room != null) {
+            player.setCurrentRoom(room);
+            System.out.println("You fled to: " + room.getRoomName() + " || available exits: " + room.getExitDirections());
+            return true;
+        }
+        return false;
+    }
 }
+
