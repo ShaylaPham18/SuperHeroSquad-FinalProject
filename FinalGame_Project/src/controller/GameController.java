@@ -117,7 +117,7 @@ public class GameController {
                 current.setRoomHasBeenVisited(true);
                 String orginalDirection = input.substring(2).toUpperCase().trim();
                 String direction = keyBoardShortCuts.resolveShortcut(orginalDirection);
-                if (direction.isBlank()){
+                if (direction.isBlank()) {
                     System.out.println("Which way do you want to go");
                     continue;
                 }
@@ -237,25 +237,8 @@ public class GameController {
 
         //Shayla
         //Inspect items in a room
-        //Printing them through hashmaps because there can be more of the same item in the same room
-        if (!room.getRoomInventory().isEmpty()) {
-            System.out.println("📦 The items in the " + room.getRoomName() + " room are:");
-
-            Map<String, Integer> itemAmount = new HashMap<>();
-            Map<String, String> itemDescriptions = new HashMap<>();
-
-            for (Items item : room.getRoomInventory()) {
-                String name = item.getName();
-                itemAmount.put(name, itemAmount.getOrDefault(name, 0) + 1);
-                itemDescriptions.putIfAbsent(name, item.getDescription());
-            }
-            for (String itemName : itemAmount.keySet()) {
-                int count = itemAmount.get(itemName);
-                String description = itemDescriptions.get(itemName);
-                System.out.println("--> " + itemName + " (" + count + "x): " + description);
-            }
-        }
-    }
+        itemController.inspectRoomItems(room);
+}
     /**
      * Jose Montejo
      * movePlayerToRoom
