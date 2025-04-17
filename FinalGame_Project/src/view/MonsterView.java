@@ -19,11 +19,11 @@ public class MonsterView {
      * Displays the monster's name, description, and special rule if applicable.
      */
     public void displayMonsterEncounter(Monster monster) {
-        System.out.println("\n🔴 A " + monster.getName() + " appears!");
+        System.out.println("\nA " + monster.getName() + " appears!");
         System.out.println(monster.getDescription());
 
         if (monster.getSpecialRule() != null) {
-            System.out.println("⚠️ Special: " + monster.getSpecialRule());
+            System.out.println("Special: " + monster.getSpecialRule());
         }
     }
 
@@ -49,11 +49,11 @@ public class MonsterView {
 
         // Display special rule messages
         if (monster.getName().equals("Amalgamation") && damage == monster.getDamageToPlayer() * 2) {
-            System.out.println("⚠️ CRITICAL HIT! The Amalgamation deals double damage!");
+            System.out.println("CRITICAL HIT! The Amalgamation deals double damage!");
         } else if (monster.getName().equals("Facehugger")) {
-            System.out.println("⚠️ The Facehugger deals 2 extra damage with its attack!");
+            System.out.println("The Facehugger deals 2 extra damage with its attack!");
         } else if (monster.getName().equals("Spitter")) {
-            System.out.println("⚠️ The Spitter's attack causes additional damage from infection!");
+            System.out.println("The Spitter's attack causes additional damage from infection!");
         }
     }
 
@@ -72,7 +72,7 @@ public class MonsterView {
      * Shows a message when a monster is defeated.
      */
     public void displayMonsterDefeated(Monster monster) {
-        System.out.println("🎯 You defeated the " + monster.getName() + "!");
+        System.out.println("You defeated the " + monster.getName() + "!");
     }
 
     /**
@@ -81,7 +81,7 @@ public class MonsterView {
      * Shows a message when the player is defeated by a monster.
      */
     public void displayPlayerDefeated() {
-        System.out.println("💀 You have been defeated!");
+        System.out.println("You have been defeated!");
     }
 
     /**
