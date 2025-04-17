@@ -6,6 +6,7 @@ import model.Player;
 import model.Puzzle;
 import model.Room;
 import model.Monster;
+import view.ItemView;
 import view.PuzzleView;
 import view.Frame;
 import loader.MonsterLoader;
@@ -19,6 +20,8 @@ public class GameController {
     private final Player player;
     private final Map<String, Room> rooms;
     private final Scanner scanner;
+    private final ItemController itemController;
+    private final ItemView itemView = new ItemView();
     KeyBoardShortCuts keyBoardShortCuts = new KeyBoardShortCuts();
 
     // Jose Montejo
@@ -29,6 +32,7 @@ public class GameController {
         this.player = player;
         this.rooms = rooms;
         this.scanner = new Scanner(System.in);
+        this.itemController = new ItemController(scanner, itemView, player);
         // Jose Montejo
         // Initialize monster spawning system
         try {
@@ -113,7 +117,7 @@ public class GameController {
                 current.setRoomHasBeenVisited(true);
                 String orginalDirection = input.substring(2).toUpperCase().trim();
                 String direction = keyBoardShortCuts.resolveShortcut(orginalDirection);
-                if (direction.isBlank()){
+                if (direction.isBlank()) {
                     System.out.println("Which way do you want to go");
                     continue;
                 }
@@ -167,21 +171,7 @@ public class GameController {
                     System.out.println("What item did you want to take?");
                     continue;
                 }
-                Room currentRoom = player.getCurrentRoom();
-                Items itemToTake = null;
-                for (Items item : currentRoom.getRoomInventory()) {
-                    if (item.getName().equalsIgnoreCase(itemName)) {
-                        itemToTake = item;
-                        break;
-                    }
-                }
-                if (itemToTake != null) {
-                    currentRoom.getRoomInventory().remove(itemToTake);
-                    player.takeItem(itemToTake);
-                    System.out.println("You picked up: " + itemToTake.getName());
-                } else {
-                    System.out.println(itemName + " isn't in this room.");
-                }
+                itemController.takeItem(itemName, player.getCurrentRoom());
             }
 
             else if (input.startsWith("drop")){
@@ -209,14 +199,9 @@ public class GameController {
             }
 
             //Shay, for consume item
-            else if (input.startsWith("consume")) {
-                String itemName = input.substring(7).trim();
-                if (itemName.isBlank()) {
-                    System.out.println("Specify an item to consume");
-                } else {
-                    player.consumeItem(itemName);
-                }
-
+            else if (input.startsWith("use")) {
+                String itemName = input.substring(3).trim();
+                itemController.consumeItem(itemName);
             }
 
             //else for invalid commands/input
@@ -274,25 +259,8 @@ public class GameController {
 
         //Shayla
         //Inspect items in a room
-        //Printing them through hashmaps because there can be more of the same item in the same room
-        if (!room.getRoomInventory().isEmpty()) {
-            System.out.println("📦 The items in the " + room.getRoomName() + " room are:");
-
-            Map<String, Integer> itemAmount = new HashMap<>();
-            Map<String, String> itemDescriptions = new HashMap<>();
-
-            for (Items item : room.getRoomInventory()) {
-                String name = item.getName();
-                itemAmount.put(name, itemAmount.getOrDefault(name, 0) + 1);
-                itemDescriptions.putIfAbsent(name, item.getDescription());
-            }
-            for (String itemName : itemAmount.keySet()) {
-                int count = itemAmount.get(itemName);
-                String description = itemDescriptions.get(itemName);
-                System.out.println("--> " + itemName + " (" + count + "x): " + description);
-            }
-        }
-    }
+        itemController.inspectRoomItems(room);
+}
     /**
      * Jose Montejo
      * movePlayerToRoom

@@ -2,24 +2,43 @@ package view;
 
 import model.Items;
 
+import java.util.Map;
+
 /**
  * Shayla
  *
  */
 public class ItemView {
-        public void displayItemInformation(Items item) {
-            System.out.println(" " + item.getName() + ": " + item.getDescription());
-        }
 
-        public void displaySuccess(Items item) {
-            System.out.println("You picked up: " + item.getName());
-        }
+    public void displaySuccess(Items item) {
+        System.out.println("You picked up: " + item.getName());
+    }
 
-        public void displayFailure(String itemName) {
-            System.out.println(itemName + "isn't in this room.");
-        }
+    public void displayFailure(String itemName) {
+        System.out.println(itemName + " isn't in this room.");
+    }
 
-        public void displayNoItemsInRoom() {
-            System.out.println("There are no items located here.");
+    public void displayNoItemsInRoom() {
+        System.out.println("There are no items located here.");
+    }
+
+    public void displayRoomItems(Map<String, Integer> itemCount, Map<String, String> itemDescriptions) {
+        System.out.println("📦 Items in this room:");
+        for (String name : itemCount.keySet()) {
+            System.out.println("--> " + name + " (" + itemCount.get(name) + "x): " + itemDescriptions.get(name));
         }
     }
+
+    public void displayConsumed(String name, int healed, int newHealth) {
+        System.out.println("You used " + name + " and healed " + healed + " health. Current HP: " + newHealth);
+    }
+
+    public void displayNotConsumable(String name) {
+        System.out.println(name + " is not something you can consume.");
+    }
+
+    public void displayMissingConsumable() {
+        System.out.println("Specify an item to consume.");
+    }
+
+}
