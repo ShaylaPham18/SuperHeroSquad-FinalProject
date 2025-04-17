@@ -124,6 +124,7 @@ public class GameController {
                     next.setRoomHasBeenVisited(true);
                 } else {
                     System.out.println("❌ You can't go that way.");
+                    continue;
                 }
                 // Jose Montejo
                 // Check for monster encounter in the new room
