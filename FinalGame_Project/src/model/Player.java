@@ -94,4 +94,15 @@ public class Player {
         }
         return false;
     }
+// Check the inventory --> Razan
+    public void showInventory() {
+        if (inventory.isEmpty()) {
+            System.out.println("🎒 Your inventory is empty.");
+        } else {
+            System.out.println("🎒 Your inventory contains:");
+            for (Items item : inventory) {
+                System.out.println("- " + item.getName() + ": " + item.getDescription());
+            }
+        }
+    }
 }
