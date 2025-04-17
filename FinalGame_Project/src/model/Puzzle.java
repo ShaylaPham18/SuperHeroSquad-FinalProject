@@ -3,11 +3,9 @@ package model;
 /**
  * Razan Abdalla
  * //Puzzle File Format:
- * //PuzzleName|Description|RoomLocation|CorrectAnswer|ResultWhenSolved|maxAttempts|Hint
- * // {this is for the puzzle file} \\how I wrote it\\ I may change it later
- */
-//Puzzle File Format:
-//Name | Description | RoomID | CorrectAnswer | ResultWhenSolved | MaxAttempts | Hint
+ * //Puzzle File Format:
+ * //Name | Description | RoomID | CorrectAnswer | ResultWhenSolved | MaxAttempts | Hint
+*/
 public class Puzzle {
     private String name;
     private String description;

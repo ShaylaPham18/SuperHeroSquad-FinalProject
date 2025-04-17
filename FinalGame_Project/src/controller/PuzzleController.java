@@ -67,13 +67,11 @@ public class PuzzleController {
                     view.displayInvalidCommand();
             }
         }
-
         puzzleSolved = true;
-
-        // ✅ FR5.2 logic: remove puzzle from room if it's not Medicine Cabinet
+        //✅ FR5.2 logic: remove puzzle from room if it's not Medicine Cabinet
         if (!puzzle.getName().equalsIgnoreCase("Medicine Cabinet Puzzle")) {
             room.setPuzzle(null);
-            System.out.println("🧹 The puzzle has been removed from the room.");
+            System.out.println("🧹The puzzle has been removed from the room.");
         }
     }
 
