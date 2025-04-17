@@ -23,6 +23,7 @@ public class PuzzleController {
         this.scanner = new Scanner(System.in);
         this.puzzleSolved = puzzle.isSolved();
     }
+
     public void startPuzzle() {
         if (puzzle.isSolved()) {
             view.displayAlreadySolved();
@@ -37,7 +38,7 @@ public class PuzzleController {
         }
 
         while (!puzzle.isSolved()) {
-            System.out.println("\nCommand options: [solve / hint / leave / use <item>]");
+            System.out.println("\nCommand options: [solve / hint / leave / use <item> / inventory]");
             System.out.print("⤷ What would you like to do? ");
             String input = scanner.nextLine().trim().toLowerCase();
 
@@ -54,12 +55,14 @@ public class PuzzleController {
                 case "h":
                     handleHint();
                     break;
-
                 case "leave":
                 case "l":
                     view.displayExitMessage();
                     return;
-
+                case "inventory":
+                case "inv":
+                    player.showInventory();
+                    return;
                 case "use":
                 case "u":
                     if (parts.length > 1) {
@@ -98,6 +101,7 @@ public class PuzzleController {
             puzzle.setSolved(true);
         }
     }
+
     private void handleHint() {
         if (puzzle.canGetHint()) {
             view.displayHint(puzzle);
@@ -106,6 +110,7 @@ public class PuzzleController {
             System.out.println("You need " + remaining + " more attempt(s) before you can get a hint.");
         }
     }
+
     public boolean isPuzzleSolved() {
         return puzzleSolved;
     }
@@ -115,7 +120,6 @@ public class PuzzleController {
             System.out.println("You don’t have '" + itemName + "' in your inventory.");
             return;
         }
-
         if (puzzle.getName().equalsIgnoreCase("Office Card Puzzle") &&
                 itemName.equalsIgnoreCase("ID badge")) {
 
@@ -144,6 +148,7 @@ public class PuzzleController {
             }
         }
     }
+
     public static void assignPuzzlesToRooms(List<Puzzle> puzzles, Map<String, Room> rooms) {
         for (Puzzle puzzle : puzzles) {
             Room room = rooms.get(puzzle.getRoomLocation());
