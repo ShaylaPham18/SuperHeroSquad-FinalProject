@@ -75,9 +75,22 @@ public class PuzzleController {
         }
     }
 
-
-
     private void handleSolve() {
+        String requiredItem = puzzle.getHintItem();
+
+        if (requiredItem != null && !requiredItem.isBlank()) {
+            if (player.hasItem(requiredItem)) {
+                System.out.println("✅ You used the " + requiredItem + " to solve the puzzle!");
+                puzzle.setSolved(true);
+                view.displayAttemptResult(true, puzzle);
+                return;
+            } else {
+                System.out.println("❗ You need the item: '" + requiredItem + "' to solve this puzzle.");
+                return;
+            }
+        }
+
+        // If no item is required, allow user to enter an answer
         view.displayInputPrompt();
         String input = scanner.nextLine();
         boolean success = puzzle.attempt(input);

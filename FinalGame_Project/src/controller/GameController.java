@@ -78,7 +78,7 @@ public class GameController {
                 Room room = player.getCurrentRoom();
                 System.out.println("📍 " + room.getRoomName());
                 System.out.println(room.getRoomDescription());
-
+                // use explore to check if there is a puzzle in the room --> Razan
                 if (room.getPuzzle() != null && !room.getPuzzle().isSolved()) {
                     System.out.println("👀 Something about this room seems off... Maybe try 'inspect'?");
                 }
@@ -109,12 +109,14 @@ public class GameController {
                     System.out.println("❌ You can't go that way.");
                 }
             }
-            //solve
+            //solve --> Razan
             else if (input.equals("solve")) {
                 handlePuzzle();
-
+            //inventory --> Razan
+            } else if (input.equalsIgnoreCase("inventory") || input.equalsIgnoreCase("inv")) {
+                player.showInventory();
             }
-            //inspect
+            //inspect --> Razan
             else if (input.equals("inspect")||input.equalsIgnoreCase("ins")) {
                 handleInspect();
             }
