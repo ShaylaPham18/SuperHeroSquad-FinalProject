@@ -43,10 +43,9 @@ public class Player {
         inventory.add(item);
     }
 
-<<<<<<< HEAD
+
     // ✅ New method for checking if player has a specific item
-=======
->>>>>>> 1fb411e9e35af5d9a4a4f5b6167e19988237dda8
+
     public boolean hasItem(String itemName) {
         for (Items item : inventory) {
             if (item.getName().equalsIgnoreCase(itemName)) {
@@ -55,9 +54,4 @@ public class Player {
         }
         return false;
     }
-<<<<<<< HEAD
 }
-=======
-
-}
->>>>>>> 1fb411e9e35af5d9a4a4f5b6167e19988237dda8

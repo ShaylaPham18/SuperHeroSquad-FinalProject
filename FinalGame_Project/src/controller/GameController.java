@@ -72,15 +72,15 @@ public class GameController {
                 Room next = player.getCurrentRoom().getExits(direction);
                 if (next != null) {
                     player.setCurrentRoom(next);
-<<<<<<< HEAD
+
                     System.out.println("➡️ You moved to: " + next.getRoomName() + " || available exits: " + next.getExitDirections());
-=======
+
                     if (next.isRoomHasBeenVisited()){
                         next.beenHereBefore();
                     }
                     next.setRoomHasBeenVisited(true);
                     System.out.println("➡️ You moved to: " + next.getRoomName()+" || available exits: "+next.getExitDirections());
->>>>>>> 1fb411e9e35af5d9a4a4f5b6167e19988237dda8
+
                 } else {
                     System.out.println("❌ You can't go that way.");
                 }
@@ -113,7 +113,7 @@ public class GameController {
             }
         }
     }
-<<<<<<< HEAD
+
 
     // ✅ WIN CONDITION METHOD
     public boolean checkWinCondition(Player player) {
@@ -126,7 +126,7 @@ public class GameController {
 
         return inFinalRoom && hasAllKeys;
     }
-=======
+
     public void handleInspect() {
         Room room = player.getCurrentRoom();
         Puzzle puzzle = room.getPuzzle();
@@ -142,5 +142,5 @@ public class GameController {
         }
     }
 
->>>>>>> 1fb411e9e35af5d9a4a4f5b6167e19988237dda8
+
 }
