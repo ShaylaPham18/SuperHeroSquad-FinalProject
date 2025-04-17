@@ -42,4 +42,16 @@ public class Player {
     public void pickupItem(Items item) {
         inventory.add(item);
     }
+
+
+    // ✅ New method for checking if player has a specific item
+
+    public boolean hasItem(String itemName) {
+        for (Items item : inventory) {
+            if (item.getName().equalsIgnoreCase(itemName)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

@@ -53,11 +53,9 @@ public class FileLoader {
             //BufferedReader bufferedReader = new BufferedReader(new FileReader("FinalGame_Project/room.txt"));
 //            BufferedReader bufferedReader = new BufferedReader(new FileReader("room.txt"));
             //BufferedReader bufferedReader = new BufferedReader(new FileReader("FinalGame_Project/room.txt"));
-
-            //BufferedReader bufferedReader = new BufferedReader(new FileReader("room.txt"));
-          //  BufferedReader bufferedReader = new BufferedReader(new FileReader("FinalGame_Project/room.txt"));
             //BufferedReader bufferedReader = new BufferedReader(new FileReader("FinalGame_Project/room.txt"));
-
+            //BufferedReader bufferedReader = new BufferedReader(new FileReader("room.txt"));
+            
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 String[] parts = line.split(",",4);

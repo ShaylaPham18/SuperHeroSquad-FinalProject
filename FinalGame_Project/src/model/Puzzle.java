@@ -3,11 +3,9 @@ package model;
 /**
  * Razan Abdalla
  * //Puzzle File Format:
- * //PuzzleName|Description|RoomLocation|CorrectAnswer|ResultWhenSolved|maxAttempts|Hint
- * // {this is for the puzzle file} \\how I wrote it\\ I may change it later
- */
-//Puzzle File Format:
-//Name | Description | RoomID | CorrectAnswer | ResultWhenSolved | MaxAttempts | Hint
+ * //Puzzle File Format:
+ * //Name | Description | RoomID | CorrectAnswer | ResultWhenSolved | MaxAttempts | Hint
+*/
 public class Puzzle {
     private String name;
     private String description;
@@ -18,6 +16,8 @@ public class Puzzle {
     private int currentAttempts;
     private String hint;
     private boolean solved;
+    private String hintItem;
+
 
     //
     public Puzzle(String name, String description, String roomLocation,
@@ -54,6 +54,14 @@ public class Puzzle {
     public void setHint(String hint) {this.hint = hint;}
     public boolean isSolved() {return solved;}
     public void setSolved(boolean solved) {this.solved = solved;}
+
+    public String getHintItem() {
+        return hintItem;
+    }
+
+    public void setHintItem(String hintItem) {
+        this.hintItem = hintItem;
+    }
 
     public boolean attempt(String input) {
         currentAttempts++;
