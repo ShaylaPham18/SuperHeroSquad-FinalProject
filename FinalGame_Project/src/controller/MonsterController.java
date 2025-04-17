@@ -70,27 +70,9 @@ public class MonsterController {
     public boolean encounterMonster() {
         // Display initial encounter message
         view.displayMonsterEncounter(monster);
-
-        System.out.println("\nWhat would you like to do?");
-        System.out.println("1. Attack");
-        System.out.println("2. Ignore (try to avoid combat)");
-        System.out.print("> ");
-
-        String choice = scanner.nextLine().trim().toLowerCase();
-
-        if (choice.equals("1") || choice.equals("attack") || choice.equals("att")) {
-            return startCombat();
-        } else {
-            // Player tries to avoid combat - 50% chance of success
-            boolean avoided = random.nextBoolean();
-            if (avoided) {
-                System.out.println("You successfully avoided the " + monster.getName() + "!");
-                return true;
-            } else {
-                System.out.println("The " + monster.getName() + " attacks you before you can escape!");
-                return startCombat();
-            }
-        }
+        System.out.println("Your health: " + player.getHealth() + " | " + monster.getName() + "'s health: " + monster.getHealth());
+        // Start combat immediately instead of showing a separate menu
+        return startCombat();
     }
 
     /**
@@ -135,6 +117,7 @@ public class MonsterController {
                     break;
                 default:
                     System.out.println("Invalid combat command. Type 'help' for available combat commands.");
+                    continue; // Skip the monster's attack for invalid commands
             }
 
             // Check if monster is defeated
@@ -145,9 +128,17 @@ public class MonsterController {
             }
 
             // Monster attacks if combat is still active
-            if (combatActive) {
+            if (combatActive && !monster.isDefeated()) {
                 int damage = monster.attack();
-                view.displayMonsterAttack(monster, damage);
+
+                // Display monster attack with separate messages for base damage and special rule
+                if (monster.getName().equals("Facehugger")) {
+                    System.out.println("The " + monster.getName() + " attacks you for " + (damage - 2) + " damage!");
+                    System.out.println("Special Rule Activates: The Facehugger deals 2 extra damage with its attack!");
+                } else {
+                    view.displayMonsterAttack(monster, damage);
+                }
+
                 player.setHealth(player.getHealth() - damage);
 
                 // Check if player is defeated
@@ -187,13 +178,23 @@ public class MonsterController {
             damage = bestWeapon.getAttackDmg();
         }
 
-        // Check if monster dodges (for Zombie Dog)
+        // Display player attack message first
+        System.out.println("You attack the " + monster.getName() + " with your " + weapon + " for " + damage + " damage!");
+
+        // Apply damage to monster and check if it dodges (for Zombie Dog)
         boolean hit = monster.takeDamage(weapon, damage);
 
         if (!hit && monster.getName().equals("Zombie Dog")) {
             view.displayDodge(monster);
         } else {
-            view.displayPlayerAttack(weapon, damage, monster);
+            // Display special rule activation for Facehugger
+            if (monster.getName().equals("Facehugger")) {
+                System.out.println("Special Rule Activates: The Facehugger attacks you for 2 extra damage as you attack!");
+                player.setHealth(player.getHealth() - 2);
+            }
+
+            // Display updated monster health
+            System.out.println("The " + monster.getName() + " has " + monster.getHealth() + " health remaining.");
         }
     }
 
@@ -213,7 +214,15 @@ public class MonsterController {
         if (!success) {
             // Monster gets a free attack if flee fails
             int damage = monster.attack();
-            view.displayMonsterAttack(monster, damage);
+
+            // Display monster attack with separate messages for base damage and special rule
+            if (monster.getName().equals("Facehugger")) {
+                System.out.println("The " + monster.getName() + " attacks you for " + (damage - 2) + " damage!");
+                System.out.println("Special Rule Activates: The Facehugger deals 2 extra damage with its attack!");
+            } else {
+                view.displayMonsterAttack(monster, damage);
+            }
+
             player.setHealth(player.getHealth() - damage);
         }
 
@@ -302,15 +311,22 @@ public class MonsterController {
                     if (itemName.contains("painkiller a")) {
                         healAmount = 25;
                     } else if (itemName.contains("painkiller b")) {
-                        healAmount = 5;
+                        healAmount = 50; // Fixed from 5 to 50 as per SRS
                     } else if (itemName.contains("first aid")) {
-                        healAmount = 25;
+                        healAmount = 10; // Fixed from 25 to 10 as per SRS
                     } else if (itemName.contains("vaccine") || itemName.contains("gas mask")) {
                         healAmount = 100;
                     }
 
                     player.setHealth(Math.min(player.getHealth() + healAmount, 100));
                     System.out.println("You used " + selectedItem.getName() + " and restored " + healAmount + " health.");
+
+                    // Display special rule activation for Facehugger when using items
+                    if (monster.getName().equals("Facehugger")) {
+                        System.out.println("Special Rule Activates: The Facehugger attacks you for 2 extra damage as you use an item!");
+                        player.setHealth(player.getHealth() - 2);
+                    }
+
                     System.out.println("Your health is now: " + player.getHealth());
 
                     // Remove the item after use

@@ -49,16 +49,28 @@ public class MonsterSpawnManager {
         String roomID = currentRoom.getRoomID();
 
         // Check if there are monsters that can spawn in this room
-        if (!monstersByLocation.containsKey(roomID)) {
-            return false; // No monsters can spawn here
+        boolean hasMonsters = false;
+        List<Monster> potentialMonsters = null;
+
+        // Try exact match first
+        if (monstersByLocation.containsKey(roomID)) {
+            potentialMonsters = monstersByLocation.get(roomID);
+            hasMonsters = true;
+        }
+        // If no exact match, try to match by room name
+        else if (currentRoom.getRoomName().contains("ICU") ||
+                currentRoom.getRoomName().contains("Intensive Care Unit")) {
+            potentialMonsters = monstersByLocation.get("3icu");
+            hasMonsters = potentialMonsters != null && !potentialMonsters.isEmpty();
+            System.out.println("Matched ICU room by name instead of ID");
         }
 
-        // Get list of potential monsters for this room
-        List<Monster> potentialMonsters = monstersByLocation.get(roomID);
-        if (potentialMonsters.isEmpty()) {
-            return false; // No monsters left to spawn
+        if (!hasMonsters || potentialMonsters == null || potentialMonsters.isEmpty()) {
+            return false;
         }
 
+
+        // Rest of the method remains the same...
         // Select a random monster from the list that hasn't spawned yet
         for (Monster monster : potentialMonsters) {
             String monsterKey = monster.getName() + "_" + roomID;
@@ -78,12 +90,11 @@ public class MonsterSpawnManager {
 
                 // If player fled, move them back to the previous room
                 if (!monsterDefeated && player.getHealth() > 0) {
-                    // Find the previous room and set it as the current room
-                    // This is now handled in GameController
                     return false;
                 }
 
                 return monsterDefeated;
+            } else {
             }
         }
 
@@ -107,6 +118,8 @@ public class MonsterSpawnManager {
         // Start the encounter
         return controller.encounterMonster();
     }
+
+
 
     /**
      * Jose Montejo
