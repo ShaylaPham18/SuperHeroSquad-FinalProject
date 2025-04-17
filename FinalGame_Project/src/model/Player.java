@@ -42,4 +42,14 @@ public class Player {
     public void pickupItem(Items item) {
         inventory.add(item);
     }
+
+    public boolean hasItem(String itemName) {
+        for (Items item : inventory) {
+            if (item.getName().equalsIgnoreCase(itemName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
