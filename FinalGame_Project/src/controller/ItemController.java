@@ -84,4 +84,26 @@ public class ItemController {
             view.displayNotConsumable(item.getName());
         }
     }
+
+    public void dropItem(String itemName, Room currentRoom) {
+        if (itemName == null || itemName.isBlank()) {
+            view.displayMissingItemToBeDropped();
+            return;
+        }
+        Items target = null;
+        for (Items item : player.getInventory()) {
+            if (item.getName().equalsIgnoreCase(itemName)) {
+                target = item;
+                break;
+            }
+        }
+        if (target != null) {
+            player.getInventory().remove(target);
+            currentRoom.getRoomInventory().add(target);
+            view.displayDropped(target.getName());
+        } else {
+            view.displayNoItemToDrop(itemName);
+        }
+    }
+
 }

@@ -179,28 +179,10 @@ public class GameController {
                 itemController.takeItem(itemName, player.getCurrentRoom());
             }
 
-            else if (input.startsWith("drop")){
-                String itemName=input.substring(4).trim();
-                if (itemName.isBlank()) {
-                    System.out.println("What item did you want to drop?");
-                    continue;
-                }
-                Room currentRoom=player.getCurrentRoom();
-                Items items2drop=null;
-                for (Items items:player.getInventory()){
-                    if (items.getName().equalsIgnoreCase(itemName)){
-                        items2drop=items;
-                        break;
-                    }
-                }
-                if (items2drop!=null){
-                    player.dropItem(items2drop);
-                    currentRoom.getRoomInventory().add(items2drop);
-                    System.out.println("You dropped "+items2drop.getName());
-                }
-                else {
-                    System.err.println(itemName+" is not in inventory");
-                }
+            //Shay, drop command
+            else if (input.startsWith("drop")) {
+                String itemName = input.substring(4).trim();
+                itemController.dropItem(itemName, player.getCurrentRoom());
             }
 
             //Shay, for consume item
