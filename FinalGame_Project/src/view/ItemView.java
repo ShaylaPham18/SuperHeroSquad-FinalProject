@@ -28,4 +28,17 @@ public class ItemView {
             System.out.println("--> " + name + " (" + itemCount.get(name) + "x): " + itemDescriptions.get(name));
         }
     }
+
+    public void displayConsumed(String name, int healed, int newHealth) {
+        System.out.println("You used " + name + " and healed " + healed + " health. Current HP: " + newHealth);
+    }
+
+    public void displayNotConsumable(String name) {
+        System.out.println(name + " is not something you can consume.");
+    }
+
+    public void displayMissingConsumable() {
+        System.out.println("Specify an item to consume.");
+    }
+
 }

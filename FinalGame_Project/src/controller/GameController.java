@@ -174,12 +174,7 @@ public class GameController {
             //Shay, for consume item
             else if (input.startsWith("consume")) {
                 String itemName = input.substring(7).trim();
-                if (itemName.isBlank()) {
-                    System.out.println("Specify an item to consume");
-                } else {
-                    player.consumeItem(itemName);
-                }
-
+                itemController.consumeItem(itemName);
             }
 
             //else for invalid commands/input

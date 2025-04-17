@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+//Shayla
 public class ItemController {
 
     private final ItemView view;
@@ -21,6 +22,7 @@ public class ItemController {
         this.player = player;
     }
 
+    //take
     public void takeItem(String itemName, Room currentRoom) {
         List<Items> items = currentRoom.getRoomInventory();
         Items target = null;
@@ -52,5 +54,34 @@ public class ItemController {
             itemDescriptions.putIfAbsent(item.getName(), item.getDescription());
         }
         view.displayRoomItems(itemCount, itemDescriptions);
+    }
+
+    //Consuming a consumable
+    public void consumeItem(String itemName) {
+        if (itemName == null || itemName.isBlank()) {
+            view.displayMissingConsumable();
+            return;
+        }
+        Items item = null;
+        for (Items i : player.getInventory()) {
+            if (i.getName().equalsIgnoreCase(itemName)) {
+                item = i;
+                break;
+            }
+        }
+        if (item == null) {
+            view.displayFailure(itemName);
+            return;
+        }
+        if (item instanceof model.Consumables consumable) {
+            int healed = consumable.calculateHealthHealed(player.getHealth());
+            int newHealth = player.getHealth() + healed;
+            player.setHealth(newHealth);
+            //Removes the item from inventory
+            player.getInventory().remove(item);
+            view.displayConsumed(item.getName(), healed, newHealth);
+        } else {
+            view.displayNotConsumable(item.getName());
+        }
     }
 }
