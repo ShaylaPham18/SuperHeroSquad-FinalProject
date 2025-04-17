@@ -155,8 +155,8 @@ public class GameController {
                 }
             }
             //solve --> Razan
-            else if (input.equals("solve")) {
-                handlePuzzle();
+            else if (input.equals("solve") || input.equalsIgnoreCase("s")) {
+                PuzzleController.handlePuzzle(player);
                 //inventory --> Razan
             } else if (input.equalsIgnoreCase("inventory") || input.equalsIgnoreCase("inv")) {
                 player.showInventory();
@@ -197,22 +197,7 @@ public class GameController {
     }//end of start()
 
 
-    public void handlePuzzle() {
-        Puzzle puzzle = player.getCurrentRoom().getPuzzle();
 
-        if (puzzle == null) {
-            System.out.println("❌ There is no puzzle in this room.");
-        } else if (puzzle.isSolved()) {
-            System.out.println("✅ You've already solved this puzzle.");
-        } else {
-            PuzzleController controller = new PuzzleController(puzzle, new PuzzleView(), player.getCurrentRoom(), player);
-            controller.startPuzzle();
-
-            if (controller.isPuzzleSolved()) {
-                System.out.println("🗝️ The puzzle seems to have unlocked something...");
-            }
-        }
-    }
 
     /**
      * Jose Montejo

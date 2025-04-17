@@ -1,4 +1,5 @@
 import controller.GameController;
+import controller.PuzzleController;
 import loader.FileLoader;
 import model.Player;
 import model.Puzzle;
@@ -18,12 +19,7 @@ public class GameMain {
             List<Puzzle> puzzles = FileLoader.loadPuzzles("puzzles.txt");
             //List<Puzzle> puzzles = FileLoader.loadPuzzles("FinalGame_Project/puzzles.txt");
             //  links each puzzles to the rooms --> Razan
-            for (Puzzle puzzle : puzzles) {
-                Room room = rooms.get(puzzle.getRoomLocation());
-                if (room != null) {
-                    room.setPuzzle(puzzle);
-                }
-            }
+            PuzzleController.assignPuzzlesToRooms(puzzles, rooms);
 
             //Shayla
            FileLoader.loadItems("items.txt", rooms);
