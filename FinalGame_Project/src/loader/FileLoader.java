@@ -1,7 +1,9 @@
 package loader;
 
+import model.Consumables;
 import model.Puzzle;
 import model.Room;
+import model.Items;
 /**
  *In this file we should add all the loader methods of the files to read the files
  **/
@@ -47,14 +49,8 @@ public class FileLoader {
         Map<String, String> roomExits = new HashMap<>();
         try {
             //you guys use this 1 PLEASE JUST COMMENT AND UNCOMMENT
-            //BufferedReader bufferedReader = new BufferedReader(new FileReader("room.txt"));
-            BufferedReader bufferedReader = new BufferedReader(new FileReader("FinalGame_Project/room.txt"));
-           // BufferedReader bufferedReader = new BufferedReader(new FileReader("room.txt"));
+            BufferedReader bufferedReader = new BufferedReader(new FileReader("room.txt"));
             //BufferedReader bufferedReader = new BufferedReader(new FileReader("FinalGame_Project/room.txt"));
-//            BufferedReader bufferedReader = new BufferedReader(new FileReader("room.txt"));
-            //BufferedReader bufferedReader = new BufferedReader(new FileReader("FinalGame_Project/room.txt"));
-            //BufferedReader bufferedReader = new BufferedReader(new FileReader("FinalGame_Project/room.txt"));
-            //BufferedReader bufferedReader = new BufferedReader(new FileReader("room.txt"));
             
             String line;
             while ((line = bufferedReader.readLine()) != null) {
@@ -94,5 +90,40 @@ public class FileLoader {
             throw new RuntimeException(e);
         }
         return roomMap;
+    }
+
+    //Shayla
+    public static void loadItems(String filePath, Map<String, Room> rooms) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            reader.readLine();
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split("\\|");
+
+                if (parts.length < 7) continue;
+
+                int itemId = Integer.parseInt(parts[0].trim());
+                String itemName = parts[1].trim();
+                String itemType = parts[2].trim().toLowerCase();
+                int itemStat = Integer.parseInt(parts[3].trim());
+                String itemDescription = parts[4].trim();
+                String roomId = parts[5].trim();
+                int quantity = Integer.parseInt(parts[6].trim());
+                Room room = rooms.get(roomId);
+                if (room == null) {
+                    System.err.println("Room not found for ID: " + roomId);
+                    continue;
+                }
+                for (int i = 0; i < quantity; i++) {
+                    Items item = switch (itemType) {
+                        case "consumable" -> new Consumables(itemId, itemName, itemStat, itemDescription);
+                        default -> new Items(itemId, itemName, itemDescription);
+                    };
+                    room.getRoomInventory().add(item);
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error loading items: " + e.getMessage());
+        }
     }
 }

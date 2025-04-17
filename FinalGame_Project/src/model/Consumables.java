@@ -17,4 +17,14 @@ public class Consumables extends Items{
         super(id, name, description);
         this.healPercentage = healPercentage;
     }
+
+    //Shayla
+    public int getHealPercentage() {
+        return healPercentage;
+    }
+
+    //Shayla
+    public int calculateHealthHealed(int playerHealthHealed){
+        return (playerHealthHealed * healPercentage) / 100;
+    }
 }

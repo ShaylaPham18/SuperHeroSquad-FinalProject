@@ -43,6 +43,29 @@ public class Player {
         inventory.add(item);
     }
 
+    //Shayla
+    public void consumeItem(String itemName) {
+        Items item = null;
+        for (Items i : inventory) {
+            if (i.getName().equalsIgnoreCase(itemName)) {
+                item = i;
+                break;
+            }
+        }
+        if (item == null) {
+            System.out.println("You do not have that item.");
+            return;
+        }
+        if (item instanceof Consumables) {
+            Consumables consume = (Consumables) item;
+            int healedAmount = consume.calculateHealthHealed(100);
+            health += healedAmount;
+            inventory.remove(item);
+            System.out.println("You used " + item.getName() + " and healed " + healedAmount + " health. Current Health: " + health);
+        } else {
+            System.out.println(item.getName() + " is not consumable.");
+        }
+    }
 
     // ✅ New method for checking if player has a specific item
 

@@ -23,6 +23,7 @@ public class GameController {
         this.scanner = new Scanner(System.in);
     }
 
+    //Justin, Razan, Shayla, Nelly
     public void start() {
         Room current = rooms.get("1ew");
         if (current == null) {
@@ -64,6 +65,10 @@ public class GameController {
                     System.out.println("👀 Something about this room seems off... Maybe try 'inspect'?");
                 }
 
+                if (!room.getRoomInventory().isEmpty()) {
+                    System.out.println(" --> There seems to be stuff in this room. Perhaps you should inspect them.");
+                }
+
                 System.out.println("🚪 Exits: " + room.getExitDirections());
 
             } else if (input.startsWith("go")) {
@@ -89,8 +94,8 @@ public class GameController {
             } else if (input.equals("inspect")) {
                 handleInspect();
 
-                //Shay, for pickup command
-            } else if (input.startsWith("pickup")) {
+                //Shay, for pickup item
+            } else if (input.startsWith("pickup")){
                 String itemName = input.substring(6).trim();
                 Room currentRoom = player.getCurrentRoom();
                 Items itemToPickup = null;
@@ -101,7 +106,7 @@ public class GameController {
                     }
                 }
                 //Checks if item is in room and able to be picked up
-                if (itemToPickup != null) {
+                if (itemToPickup != null){
                     currentRoom.getRoomInventory().remove(itemToPickup);
                     player.pickupItem(itemToPickup);
                     System.out.println("You picked up: " + itemToPickup.getName());
@@ -109,7 +114,12 @@ public class GameController {
                     System.out.println("❌ That item isn't in this room.");
                 }
 
-            } else {
+                //Shay, for consume item
+            }else if(input.startsWith("consume")){
+                String itemName = input.substring(6).trim();
+                player.consumeItem(itemName);
+
+            }else {
                 System.err.println("❓ Unknown command. Type go<Direction> to navigate || or help to view all commands || or quit to end the game");
             }
         }
