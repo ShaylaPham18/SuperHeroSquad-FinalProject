@@ -114,6 +114,7 @@ public class GameController {
             }
             //navigation
             else if (input.startsWith("go")) {
+                String previousRoomID = current.getRoomID(); // Store previous room ID
                 current.setRoomHasBeenVisited(true);
                 String orginalDirection = input.substring(2).toUpperCase().trim();
                 String direction = keyBoardShortCuts.resolveShortcut(orginalDirection);
@@ -141,19 +142,16 @@ public class GameController {
                 // Jose Montejo
                 // Check for monster encounter in the new room
                 if (monsterSpawnManager != null) {
-                    String previousRoomID = current.getRoomID(); // Store previous room ID
                     boolean monsterDefeated = monsterSpawnManager.checkForMonsterEncounter(player, next, previousRoomID);
-
-                    // If player fled from combat, move them back to the previous room
-                    if (!monsterDefeated && player.getHealth() > 0) {
-                        movePlayerToRoom(previousRoomID);
-                    }
 
                     // If player died during monster encounter, handle game over
                     if (player.getHealth() <= 0) {
                         System.out.println("You have been killed. Game over.");
                         running = false;
                     }
+
+                    // Note: Player movement back to previous room is now handled in MonsterController
+                    // when the player explicitly chooses to flee
                 }
             }
             //solve --> Razan

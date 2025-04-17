@@ -71,7 +71,7 @@ public class MonsterController {
             boolean avoided = random.nextBoolean();
             if (avoided) {
                 System.out.println("You successfully avoided the " + monster.getName() + "!");
-                return false;
+                return true;
             } else {
                 System.out.println("The " + monster.getName() + " attacks you before you can escape!");
                 return startCombat();
