@@ -1,13 +1,3 @@
-/**
- * Jose Montejo
- * MonsterController class
- *
- * NOTE: This class requires a getInventory() method to be added to the Player class.
- * The person working on the Player class needs to add:
- * public ArrayList<Items> getInventory() {
- *     return inventory;
- * }
- */
 package controller;
 
 import model.Monster;
@@ -15,6 +5,7 @@ import model.Player;
 import model.Items;
 import view.MonsterView;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Random;
 
@@ -32,7 +23,7 @@ public class MonsterController {
     private final Scanner scanner;
     private final Random random;
     private boolean combatActive;
-    private String previousRoomID; // Store previous room ID for flee functionality
+    private final String previousRoomID; // Store previous room ID for flee functionality
 
     /**
      * Jose Montejo
@@ -173,13 +164,28 @@ public class MonsterController {
         int damage = player.getBasePlayerDamage();
 
         // FR3.3: Check for weapons in inventory to increase damage
-        // This is a simplified implementation - in the full game, you would check
-        // for specific weapons in the player's inventory and use the appropriate one
-
-        // Example of checking for weapons (would need to be expanded based on your Items implementation)
-        // TODO: Update this when Player.getInventory() method is available
-// For now, using base damage only
-        System.out.println("Using base damage. Weapon inventory check will be implemented when Player.getInventory() is available.");
+        ArrayList<Items> playerInventory = player.getInventory();
+        if (playerInventory != null && !playerInventory.isEmpty()) {
+            for (Items item : playerInventory) {
+                if (item.getName().equalsIgnoreCase("Glock 30")) {
+                    weapon = "Glock 30";
+                    damage = 8; // As specified in SRS
+                    break;
+                } else if (item.getName().equalsIgnoreCase("Shotgun")) {
+                    weapon = "Shotgun";
+                    damage = 15; // As specified in SRS
+                    break;
+                } else if (item.getName().equalsIgnoreCase("Knife")) {
+                    weapon = "Knife";
+                    damage = 5; // As specified in SRS
+                    break;
+                } else if (item.getName().equalsIgnoreCase("Axe")) {
+                    weapon = "Axe";
+                    damage = 7; // Example value
+                    break;
+                }
+            }
+        }
 
         // Check if monster dodges (for Zombie Dog)
         boolean hit = monster.takeDamage(weapon, damage);
@@ -221,11 +227,8 @@ public class MonsterController {
             int damage = monster.attack();
             view.displayMonsterAttack(monster, damage);
             player.setHealth(player.getHealth() - damage);
-        } else {
-            // Return player to previous room
-            // This would be handled in GameController by checking the return value
-            // and setting player.setCurrentRoom(rooms.get(previousRoomID))
         }
+        // The actual room change will be handled in GameController
 
         return success;
     }

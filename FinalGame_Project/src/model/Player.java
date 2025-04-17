@@ -84,6 +84,18 @@ public class Player {
         }
     }
 
+    //Jose Montejo
+    /**
+     * getInventory
+     * Returns the player's current inventory as an ArrayList of Items.
+     * Used by MonsterController to check for weapons during combat.
+     *
+     * @return ArrayList<Items> containing all items in the player's inventory
+     */
+    public ArrayList<Items> getInventory() {
+        return inventory;
+    }
+
     // ✅ New method for checking if player has a specific item
 
     public boolean hasItem(String itemName) {
