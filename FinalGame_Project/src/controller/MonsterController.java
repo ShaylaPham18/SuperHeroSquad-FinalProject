@@ -71,7 +71,7 @@ public class MonsterController {
             boolean avoided = random.nextBoolean();
             if (avoided) {
                 System.out.println("You successfully avoided the " + monster.getName() + "!");
-                return false;
+                return true;
             } else {
                 System.out.println("The " + monster.getName() + " attacks you before you can escape!");
                 return startCombat();
@@ -110,6 +110,8 @@ public class MonsterController {
                 case "flee":
                 case "run":
                     if (tryToFlee()) {
+                        // If flee is successful, we need to move the player back to the previous room
+                        // This is handled in GameController by returning false here
                         combatActive = false;
                         return false;
                     }
@@ -118,7 +120,7 @@ public class MonsterController {
                     displayCombatHelp();
                     break;
                 default:
-                    System.out.println("❌ Invalid combat command. Type 'help' for available combat commands.");
+                    System.out.println("Invalid combat command. Type 'help' for available combat commands.");
             }
 
             // Check if monster is defeated
@@ -214,6 +216,7 @@ public class MonsterController {
      * Jose Montejo
      * tryToFlee
      * Attempts to flee from combat with a 40% chance of success.
+     * If successful, the player will be moved back to the previous room.
      * Returns true if successful, false otherwise.
      *
      * Implements FR3.1 (Flee from Monster)
@@ -228,7 +231,6 @@ public class MonsterController {
             view.displayMonsterAttack(monster, damage);
             player.setHealth(player.getHealth() - damage);
         }
-        // The actual room change will be handled in GameController
 
         return success;
     }
@@ -245,15 +247,6 @@ public class MonsterController {
         System.out.println("3 or flee/run - Attempt to escape (40% chance)");
         System.out.println("help - Display this help message");
         System.out.println("=====================\n");
-    }
-
-    /**
-     * Jose Montejo
-     * isCombatActive
-     * Returns whether combat is currently active.
-     */
-    public boolean isCombatActive() {
-        return combatActive;
     }
 
     /**

@@ -45,9 +45,7 @@ public class Frame {
                 JFrame frame = new JFrame("Image Viewer");
 
                 // Load the image into an ImageIcon
-                ImageIcon imageIcon = new ImageIcon("HospitalMap.png"); // e.g., "assets/image.png"
-
-                //ImageIcon imageIcon = new ImageIcon("FinalGame_Project/src/HospitalMap.png"); // e.g., "assets/image.png"
+                ImageIcon imageIcon = new ImageIcon("FinalGame_Project/src/HospitalMap.png"); // e.g., "assets/image.png"
 
                 // Create a JLabel to hold the image
                 JLabel imageLabel = new JLabel(imageIcon);

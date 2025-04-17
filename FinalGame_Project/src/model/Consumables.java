@@ -4,17 +4,22 @@ package model;
 public class Consumables extends Items{
     public int healPercentage;
 
-
     //Shayla
+
     /**
      * Constructor
      *
      * @param id
      * @param name
+     * @param type
+     * @param stat
      * @param description
+     * @param roomID
+     * @param quantity
+     * @param healPercentage
      */
-    public Consumables(int id, String name, int healPercentage, String description) {
-        super(id, name, description);
+    public Consumables(int id, String name, String type, int stat, String description, String roomID, int quantity, int healPercentage) {
+        super(id, name, type, stat, description, roomID, quantity);
         this.healPercentage = healPercentage;
     }
 

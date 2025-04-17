@@ -6,6 +6,7 @@ import model.Player;
 import model.Puzzle;
 import model.Room;
 import model.Monster;
+import view.ItemView;
 import view.PuzzleView;
 import view.Frame;
 import loader.MonsterLoader;
@@ -19,6 +20,8 @@ public class GameController {
     private final Player player;
     private final Map<String, Room> rooms;
     private final Scanner scanner;
+    private final ItemController itemController;
+    private final ItemView itemView = new ItemView();
     KeyBoardShortCuts keyBoardShortCuts = new KeyBoardShortCuts();
 
     // Jose Montejo
@@ -29,10 +32,12 @@ public class GameController {
         this.player = player;
         this.rooms = rooms;
         this.scanner = new Scanner(System.in);
+        this.itemController = new ItemController(scanner, itemView, player);
         // Jose Montejo
         // Initialize monster spawning system
         try {
-            List<Monster> monsters = MonsterLoader.loadMonsters("monsters.txt");
+            //List<Monster> monsters = MonsterLoader.loadMonsters("monsters.txt");
+            List<Monster> monsters = MonsterLoader.loadMonsters("FinalGame_Project/monsters.txt");
             Map<String, List<Monster>> monstersByLocation = MonsterLoader.getMonstersByLocation(monsters);
             this.monsterSpawnManager = new MonsterSpawnManager(monstersByLocation);
         } catch (Exception e) {
@@ -97,7 +102,7 @@ public class GameController {
                 System.out.println(room.getRoomDescription());
                 // use explore to check if there is a puzzle in the room --> Razan
                 if (room.getPuzzle() != null && !room.getPuzzle().isSolved()) {
-                    System.out.println("👀 Something about this room seems off... Maybe try 'inspect'?");
+                    System.out.println("👀 Something about this room seems tricky... Maybe try 'inspect'?");
                 }
 
                 if (!room.getRoomInventory().isEmpty()) {
@@ -109,13 +114,21 @@ public class GameController {
             }
             //navigation
             else if (input.startsWith("go")) {
+                String previousRoomID = current.getRoomID(); // Store previous room ID
                 current.setRoomHasBeenVisited(true);
                 String orginalDirection = input.substring(2).toUpperCase().trim();
                 String direction = keyBoardShortCuts.resolveShortcut(orginalDirection);
+                if (direction.isBlank()) {
+                    System.out.println("Which way do you want to go");
+                    continue;
+                }
                 Room next = player.getCurrentRoom().getExits(direction);
                 if (next != null) {
+                    if (next.isRoomIsLocked()){
+                        System.err.println("The "+next.getRoomName()+" is locked");
+                        continue;
+                    }
                     player.setCurrentRoom(next);
-
                     System.out.println("➡️ You moved to: " + next.getRoomName() + " || available exits: " + next.getExitDirections());
 
                     if (next.isRoomHasBeenVisited()) {
@@ -129,7 +142,6 @@ public class GameController {
                 // Jose Montejo
                 // Check for monster encounter in the new room
                 if (monsterSpawnManager != null) {
-                    String previousRoomID = current.getRoomID(); // Store previous room ID
                     boolean monsterDefeated = monsterSpawnManager.checkForMonsterEncounter(player, next, previousRoomID);
 
                     // If player died during monster encounter, handle game over
@@ -137,6 +149,9 @@ public class GameController {
                         System.out.println("You have been killed. Game over.");
                         running = false;
                     }
+
+                    // Note: Player movement back to previous room is now handled in MonsterController
+                    // when the player explicitly chooses to flee
                 }
             }
             //solve --> Razan
@@ -151,7 +166,7 @@ public class GameController {
                 handleInspect();
             }
 
-            //Razan, Shayla
+            //Shayla
             //Take command
             else if (input.startsWith("take")) {
                 String itemName = input.substring(4).trim();
@@ -159,32 +174,19 @@ public class GameController {
                     System.out.println("What item did you want to take?");
                     continue;
                 }
-                Room currentRoom = player.getCurrentRoom();
-                Items itemToTake = null;
-                for (Items item : currentRoom.getRoomInventory()) {
-                    if (item.getName().equalsIgnoreCase(itemName)) {
-                        itemToTake = item;
-                        break;
-                    }
-                }
-                if (itemToTake != null) {
-                    currentRoom.getRoomInventory().remove(itemToTake);
-                    player.takeItem(itemToTake);
-                    System.out.println("You picked up: " + itemToTake.getName());
-                } else {
-                    System.out.println(itemName + " isn't in this room.");
-                }
+                itemController.takeItem(itemName, player.getCurrentRoom());
+            }
+
+            //Shay, drop command
+            else if (input.startsWith("drop")) {
+                String itemName = input.substring(4).trim();
+                itemController.dropItem(itemName, player.getCurrentRoom());
             }
 
             //Shay, for consume item
-            else if (input.startsWith("consume")) {
-                String itemName = input.substring(7).trim();
-                if (itemName.isBlank()) {
-                    System.out.println("Specify an item to consume");
-                } else {
-                    player.consumeItem(itemName);
-                }
-
+            else if (input.startsWith("use")) {
+                String itemName = input.substring(3).trim();
+                itemController.consumeItem(itemName);
             }
 
             //else for invalid commands/input
@@ -212,6 +214,17 @@ public class GameController {
         }
     }
 
+    /**
+     * Jose Montejo
+     * handlePlayerFlee
+     * Moves the player back to the previous room when they successfully flee from a monster.
+     *
+     * @param previousRoomID The ID of the room to flee to
+     * @return true if the player successfully fled, false otherwise
+     */
+    public boolean handlePlayerFlee(String previousRoomID) {
+        return movePlayerToRoom(previousRoomID);
+    }
 
     // ✅ WIN CONDITION METHOD
     public boolean checkWinCondition(Player player) {
@@ -242,25 +255,8 @@ public class GameController {
 
         //Shayla
         //Inspect items in a room
-        //Printing them through hashmaps because there can be more of the same item in the same room
-        if (!room.getRoomInventory().isEmpty()) {
-            System.out.println("📦 The items in the " + room.getRoomName() + " room are:");
-
-            Map<String, Integer> itemAmount = new HashMap<>();
-            Map<String, String> itemDescriptions = new HashMap<>();
-
-            for (Items item : room.getRoomInventory()) {
-                String name = item.getName();
-                itemAmount.put(name, itemAmount.getOrDefault(name, 0) + 1);
-                itemDescriptions.putIfAbsent(name, item.getDescription());
-            }
-            for (String itemName : itemAmount.keySet()) {
-                int count = itemAmount.get(itemName);
-                String description = itemDescriptions.get(itemName);
-                System.out.println("--> " + itemName + " (" + count + "x): " + description);
-            }
-        }
-    }
+        itemController.inspectRoomItems(room);
+}
     /**
      * Jose Montejo
      * movePlayerToRoom

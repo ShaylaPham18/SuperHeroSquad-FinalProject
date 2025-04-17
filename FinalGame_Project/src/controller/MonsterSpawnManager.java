@@ -8,7 +8,6 @@ import view.MonsterView;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 /**
  * Jose Montejo
@@ -20,7 +19,6 @@ import java.util.Random;
 public class MonsterSpawnManager {
     private final Map<String, List<Monster>> monstersByLocation;
     private final Map<String, Boolean> spawnedMonsters; // Tracks which monsters have been spawned
-    private final Random random;
     private final MonsterView monsterView;
 
     /**
@@ -33,7 +31,6 @@ public class MonsterSpawnManager {
     public MonsterSpawnManager(Map<String, List<Monster>> monstersByLocation) {
         this.monstersByLocation = monstersByLocation;
         this.spawnedMonsters = new HashMap<>();
-        this.random = new Random();
         this.monsterView = new MonsterView();
     }
 
@@ -77,7 +74,16 @@ public class MonsterSpawnManager {
                 spawnedMonsters.put(monsterKey, true);
 
                 // Handle the monster encounter
-                return handleMonsterEncounter(monster, player, previousRoomID);
+                boolean monsterDefeated = handleMonsterEncounter(monster, player, previousRoomID);
+
+                // If player fled, move them back to the previous room
+                if (!monsterDefeated && player.getHealth() > 0) {
+                    // Find the previous room and set it as the current room
+                    // This is now handled in GameController
+                    return false;
+                }
+
+                return monsterDefeated;
             }
         }
 

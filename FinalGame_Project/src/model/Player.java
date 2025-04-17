@@ -43,6 +43,9 @@ public class Player {
     public void takeItem(Items item) {
         inventory.add(item);
     }
+    public void dropItem(Items items){
+        inventory.remove(items);
+    }
 
     public int getBasePlayerDamage() {
         return basePlayerDamage;
