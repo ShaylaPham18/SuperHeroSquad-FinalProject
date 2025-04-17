@@ -11,13 +11,6 @@ public class Items {
     protected int quantity;
 
     //Shayla
-    /**
-     * Constructor
-     *
-     * @param id of item
-     * @param name of the item
-     * @param description of the item
-     */
     public Items(int id, String name, String type, int stat, String description, String roomID, int quantity) {
         this.id = id;
         this.name = name;
