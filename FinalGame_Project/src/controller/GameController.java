@@ -46,7 +46,7 @@ public class GameController {
                 continue;
             }
 
-            System.out.println("Type go<Direction> to navigate || or help to view all commands || or quit to end the game");
+            System.out.println("Type go<Direction> to navigate || or help to view all commands || or quit to end the game || explore || inspect");
             System.out.print("\n> ");
             String input = scanner.nextLine().trim().toLowerCase();
 
