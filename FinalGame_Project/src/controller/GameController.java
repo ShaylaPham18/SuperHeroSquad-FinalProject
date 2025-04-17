@@ -98,7 +98,7 @@ public class GameController {
                 System.out.println(room.getRoomDescription());
                 // use explore to check if there is a puzzle in the room --> Razan
                 if (room.getPuzzle() != null && !room.getPuzzle().isSolved()) {
-                    System.out.println("👀 Something about this room seems off... Maybe try 'inspect'?");
+                    System.out.println("👀 Something about this room seems tricky... Maybe try 'inspect'?");
                 }
 
                 if (!room.getRoomInventory().isEmpty()) {
@@ -156,7 +156,7 @@ public class GameController {
                 handleInspect();
             }
 
-            //Razan, Shayla
+            //Shayla
             //Take command
             else if (input.startsWith("take")) {
                 String itemName = input.substring(4).trim();
