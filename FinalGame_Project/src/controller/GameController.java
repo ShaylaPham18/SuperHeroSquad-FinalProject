@@ -6,6 +6,7 @@ import model.Player;
 import model.Puzzle;
 import model.Room;
 import model.Monster;
+import view.ItemView;
 import view.PuzzleView;
 import view.Frame;
 import loader.MonsterLoader;
@@ -19,6 +20,8 @@ public class GameController {
     private final Player player;
     private final Map<String, Room> rooms;
     private final Scanner scanner;
+    private final ItemController itemController;
+    private final ItemView itemView = new ItemView();
     KeyBoardShortCuts keyBoardShortCuts = new KeyBoardShortCuts();
 
     // Jose Montejo
@@ -29,6 +32,7 @@ public class GameController {
         this.player = player;
         this.rooms = rooms;
         this.scanner = new Scanner(System.in);
+        this.itemController = new ItemController(scanner, itemView, player);
         // Jose Montejo
         // Initialize monster spawning system
         try {
@@ -164,21 +168,7 @@ public class GameController {
                     System.out.println("What item did you want to take?");
                     continue;
                 }
-                Room currentRoom = player.getCurrentRoom();
-                Items itemToTake = null;
-                for (Items item : currentRoom.getRoomInventory()) {
-                    if (item.getName().equalsIgnoreCase(itemName)) {
-                        itemToTake = item;
-                        break;
-                    }
-                }
-                if (itemToTake != null) {
-                    currentRoom.getRoomInventory().remove(itemToTake);
-                    player.takeItem(itemToTake);
-                    System.out.println("You picked up: " + itemToTake.getName());
-                } else {
-                    System.out.println(itemName + " isn't in this room.");
-                }
+                itemController.takeItem(itemName, player.getCurrentRoom());
             }
 
             //Shay, for consume item
