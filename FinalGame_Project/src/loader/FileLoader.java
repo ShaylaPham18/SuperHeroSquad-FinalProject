@@ -105,9 +105,7 @@ public class FileLoader {
             reader.readLine();
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split("\\|");
-
                 if (parts.length < 7) continue;
-
                 int itemId = Integer.parseInt(parts[0].trim());
                 String itemName = parts[1].trim();
                 String itemType = parts[2].trim().toLowerCase();
@@ -115,16 +113,21 @@ public class FileLoader {
                 String itemDescription = parts[4].trim();
                 String roomId = parts[5].trim();
                 int quantity = Integer.parseInt(parts[6].trim());
+
                 Room room = rooms.get(roomId);
                 if (room == null) {
                     System.err.println("Room not found for ID: " + roomId);
                     continue;
                 }
                 for (int i = 0; i < quantity; i++) {
-                    Items item = switch (itemType) {
-                        case "consumable" -> new Consumables(itemId, itemName, itemStat, itemDescription);
-                        default -> new Items(itemId, itemName, itemDescription);
-                    };
+                    Items item;
+
+                    switch (itemType) {
+                        case "consumable" -> item = new Consumables(
+                                itemId, itemName, itemType, itemStat, itemDescription, roomId, 1, itemStat);
+                        default -> item = new Items(
+                                itemId, itemName, itemType, itemStat, itemDescription, roomId, 1);
+                    }
                     room.getRoomInventory().add(item);
                 }
             }
@@ -132,4 +135,5 @@ public class FileLoader {
             System.err.println("Error loading items: " + e.getMessage());
         }
     }
+
 }
