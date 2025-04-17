@@ -52,7 +52,7 @@ public class GameController {
                 System.out.println(room.getRoomDescription());
 
                 if (room.getPuzzle() != null && !room.getPuzzle().isSolved()) {
-                    System.out.println("👀 Something about this room seems off... Maybe try 'inspect'?");
+                    System.out.println("🧩 There's a puzzle in this room. Try 'solve'.");
                 }
 
                 System.out.println("🚪 Exits: " + room.getExitDirections()); // assumes getExitDirections() exists
@@ -76,30 +76,11 @@ public class GameController {
             } else if (input.equals("solve")) {
                 handlePuzzle();
 
-            } else if (input.equalsIgnoreCase("inspect")) {
-                handleInspect();
-            }
-
-            else {
+            } else {
                 System.err.println("❓ Unknown command. Type go<Direction> to navigate || or help to view all commands || or quit to end the game");
             }
         }
     }
-    public void handleInspect() {
-        Room room = player.getCurrentRoom();
-        Puzzle puzzle = room.getPuzzle();
-
-        if (puzzle == null) {
-            System.out.println("🔍 You look around carefully, but there's nothing unusual to inspect here.");
-        } else if (puzzle.isSolved()) {
-            System.out.println("✅ You recall solving the puzzle here already.");
-        } else {
-            System.out.println("🧩 You uncover a hidden mechanism... It's a puzzle!");
-            System.out.println("📝 " + puzzle.getDescription());
-            System.out.println("Use the 'solve' command to attempt solving it.");
-        }
-    }
-
 
     public void handlePuzzle() {
         Puzzle puzzle = player.getCurrentRoom().getPuzzle();
@@ -109,7 +90,7 @@ public class GameController {
         } else if (puzzle.isSolved()) {
             System.out.println("✅ You've already solved this puzzle.");
         } else {
-            PuzzleController controller = new PuzzleController(puzzle, new PuzzleView(), player.getCurrentRoom(), player);
+            PuzzleController controller = new PuzzleController(puzzle, new PuzzleView());
             controller.startPuzzle();
 
             if (controller.isPuzzleSolved()) {
