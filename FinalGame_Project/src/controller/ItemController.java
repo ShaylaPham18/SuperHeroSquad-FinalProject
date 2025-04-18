@@ -98,25 +98,37 @@ public class ItemController {
         }
     }
 
-    public void dropItem(String itemName, Room currentRoom) {
+    public void dropItem(String itemName, Room currentRoom, int quantity) {
         if (itemName == null || itemName.isBlank()) {
             view.displayMissingItemToBeDropped();
             return;
         }
-        Items target = null;
-        for (Items item : player.getInventory()) {
+        List<Items> inventory = player.getInventory();
+        List<Items> sameItems = new ArrayList<>();
+        for (Items item : inventory) {
             if (item.getName().equalsIgnoreCase(itemName)) {
-                target = item;
-                break;
+                sameItems.add(item);
             }
         }
-        if (target != null) {
-            player.getInventory().remove(target);
-            currentRoom.getRoomInventory().add(target);
-            view.displayDropped(target.getName());
-        } else {
+        if (sameItems.isEmpty()) {
             view.displayNoItemToDrop(itemName);
+            return;
+        }
+        Items sample = sameItems.get(0);
+        String type = sample.getClass().getSimpleName().toLowerCase();
+        if (type.contains("consumable") || type.contains("ammunition")) {
+            int actualQuantity = Math.min(quantity, sameItems.size());
+            for (int i = 0; i < actualQuantity; i++) {
+                Items toDrop = sameItems.get(i);
+                inventory.remove(toDrop);
+                currentRoom.getRoomInventory().add(toDrop);
+            }
+            view.displayMultiDrop(itemName, quantity);
+        } else {
+            Items toDrop = sameItems.get(0);
+            inventory.remove(toDrop);
+            currentRoom.getRoomInventory().add(toDrop);
+            view.displayDropped(toDrop.getName());
         }
     }
-
 }
