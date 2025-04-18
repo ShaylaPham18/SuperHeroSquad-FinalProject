@@ -4,6 +4,7 @@ import model.Consumables;
 import model.Puzzle;
 import model.Room;
 import model.Items;
+import model.Player;
 /**
  *In this file we should add all the loader methods of the files to read the files
  **/
@@ -17,6 +18,7 @@ import java.util.Map;
 
 public class FileLoader {
     private static String correctAnswer;
+    private Player player;
 
     public static List<Puzzle> loadPuzzles(String filePath) throws IOException {
             List<Puzzle> puzzles = new ArrayList<>();

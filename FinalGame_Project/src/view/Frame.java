@@ -42,18 +42,12 @@ public class Frame {
         }
 
         public void map(){
-                JFrame frame = new JFrame("Image Viewer");
-
-                // Load the image into an ImageIcon
-                ImageIcon imageIcon = new ImageIcon("FinalGame_Project/src/HospitalMap.png"); // e.g., "assets/image.png"
-
-                // Create a JLabel to hold the image
+                JFrame frame = new JFrame("Map");
+                //ImageIcon imageIcon = new ImageIcon("FinalGame_Project/src/HospitalMap.png");
+                ImageIcon imageIcon = new ImageIcon("src/HospitalMap.png");
                 JLabel imageLabel = new JLabel(imageIcon);
-
-                // Optional: scale image to fit the frame
                 Image image = imageIcon.getImage().getScaledInstance(800, 600, Image.SCALE_SMOOTH);
                 imageLabel.setIcon(new ImageIcon(image));
-
                 frame.add(imageLabel);
                 frame.setSize(800, 600);
                 frame.setLocationRelativeTo(null);

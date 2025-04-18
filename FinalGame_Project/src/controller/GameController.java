@@ -6,6 +6,7 @@ import model.Items;
 import model.Player;
 import model.Puzzle;
 import model.Room;
+//import model.Monster;
 import model.Monster;
 import view.ItemView;
 import view.PuzzleView;
@@ -117,7 +118,7 @@ public class GameController {
             }
             //navigation
             else if (input.startsWith("go")) {
-                String previousRoomID = current.getRoomID(); // Store previous room ID
+                String previousRoomID = current.getRoomID();
                 current.setRoomHasBeenVisited(true);
                 String orginalDirection = input.substring(2).toUpperCase().trim();
                 String direction = keyBoardShortCuts.resolveShortcut(orginalDirection);

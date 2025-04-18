@@ -22,4 +22,4 @@ ELE2,2nd floor Elevator,A spacious medical-grade elevator designed for patient t
 3sr,Server Room,Small room with computers and electrical panels.,EAST->3iso
 ELE3,3rd floor Elevator,A spacious medical-grade elevator designed for patient transport on the 3rd floor,NORTH->ELE4|SOUTH->ELE2|WEST->3icu
 ELE4,Roof Elevator,A spacious medical-grade elevator designed for patient transport on the roof,SOUTH->ELE3|WEST->roof
-roof,Roof,A rooftop with an abandoned helicopter sitting on a helicopter pad.,EAST->ELE4,lock
+roof,Roof,A rooftop with an abandoned helicopter sitting on a helicopter pad.,EAST->ELE4
