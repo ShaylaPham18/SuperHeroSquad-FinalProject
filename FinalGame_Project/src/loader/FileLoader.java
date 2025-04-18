@@ -1,10 +1,6 @@
 package loader;
 
-import model.Consumables;
-import model.Puzzle;
-import model.Room;
-import model.Items;
-import model.Player;
+import model.*;
 /**
  *In this file we should add all the loader methods of the files to read the files
  **/
@@ -126,6 +122,8 @@ public class FileLoader {
 
                     switch (itemType) {
                         case "consumable" -> item = new Consumables(
+                                itemId, itemName, itemType, itemStat, itemDescription, roomId, 1, itemStat);
+                        case "ammunition" -> item = new Ammunition(
                                 itemId, itemName, itemType, itemStat, itemDescription, roomId, 1, itemStat);
                         default -> item = new Items(
                                 itemId, itemName, itemType, itemStat, itemDescription, roomId, 1);
