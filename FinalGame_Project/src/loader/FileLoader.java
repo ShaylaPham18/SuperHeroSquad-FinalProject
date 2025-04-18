@@ -1,9 +1,6 @@
 package loader;
 
 import model.*;
-/**
- *In this file we should add all the loader methods of the files to read the files
- **/
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -12,9 +9,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * In this file we should add all the loader methods of the files to read the files
+ */
 public class FileLoader {
-    private static String correctAnswer;
-    private Player player;
 
     public static List<Puzzle> loadPuzzles(String filePath) throws IOException {
         List<Puzzle> puzzles = new ArrayList<>();
@@ -31,10 +29,10 @@ public class FileLoader {
                 String resultWhenSolved = parts[4].trim();
                 int maxAttempts = Integer.parseInt(parts[5].trim());
                 String hint = parts[6].trim();
-                String requiredItem = parts[7].trim(); // new field
+                String requiredItem = parts[7].trim();
 
                 Puzzle puzzle = new Puzzle(name, description, roomLocation, correctAnswer, resultWhenSolved, maxAttempts, hint);
-                puzzle.setRequiredItem(requiredItem);// use setter to assign new field
+                puzzle.setRequiredItem(requiredItem);
                 puzzles.add(puzzle);
             } else {
                 System.err.println("⚠️ Invalid puzzle format: " + line);
@@ -45,29 +43,33 @@ public class FileLoader {
         return puzzles;
     }
 
+    // original method for teammates using "room.txt"
+    public Map<String, Room> readRooms() {
+        return readRooms("FinalGame_Project/room.txt");
+    }
 
-    Map<String, Room> roomMap = new HashMap<>();
-    //private static Scanner scanner=new Scanner(System.in);
-    public Map<String, Room> readRooms(){
+    // flexible method to allow custom path
+    public Map<String, Room> readRooms(String filePath) {
+        Map<String, Room> roomMap = new HashMap<>();
         Map<String, String> roomExits = new HashMap<>();
+
         try {
-            //you guys use this 1 PLEASE JUST COMMENT AND UNCOMMENT
-            BufferedReader bufferedReader = new BufferedReader(new FileReader("room.txt"));
-            //BufferedReader bufferedReader = new BufferedReader(new FileReader("FinalGame_Project/room.txt"));
-            
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath));
             String line;
+
             while ((line = bufferedReader.readLine()) != null) {
-                String[] parts = line.split(",",6);
+                String[] parts = line.split(",", 6);
                 String roomId = parts[0].trim();
                 String roomName = parts[1].trim();
                 String roomDescription = parts[2].trim();
 
                 Room room = new Room(roomId, roomName, roomDescription);
                 roomMap.put(roomId, room);
-                if (parts.length==6){
-                    String locked=parts[4].trim().toLowerCase();
-                    String unlockItem=parts[5].trim().toLowerCase();
-                    if (locked.equalsIgnoreCase("lock")){
+
+                if (parts.length == 6) {
+                    String locked = parts[4].trim().toLowerCase();
+                    String unlockItem = parts[5].trim().toLowerCase();
+                    if (locked.equalsIgnoreCase("lock")) {
                         room.setRoomIsLocked(true);
                         room.setUnlockItem(unlockItem);
                     }
@@ -78,39 +80,44 @@ public class FileLoader {
                 }
             }
             bufferedReader.close();
-            for (Map.Entry<String, String> entry : roomExits.entrySet()) {
-                String roomID2 = entry.getKey();
-                String[] exitSplit = entry.getValue().split("\\|");
 
-                Room currentRoom = roomMap.get(roomID2);
+            for (Map.Entry<String, String> entry : roomExits.entrySet()) {
+                String roomID = entry.getKey();
+                String[] exitSplit = entry.getValue().split("\\|");
+                Room currentRoom = roomMap.get(roomID);
+
                 for (String exit : exitSplit) {
-                    String[] exitSplitParts = exit.split("->");
-                    if (exitSplitParts.length == 2) {
-                        String exitDirection = exitSplitParts[0].trim().toUpperCase();
-                        String roomGoingTo = exitSplitParts[1].trim();
-                        Room exitRoom = roomMap.get(roomGoingTo);
-                        if (exitRoom != null) {
-                            currentRoom.setExits(exitDirection, exitRoom);
+                    String[] exitParts = exit.split("->");
+                    if (exitParts.length == 2) {
+                        String direction = exitParts[0].trim().toUpperCase();
+                        String targetRoom = exitParts[1].trim();
+                        Room destination = roomMap.get(targetRoom);
+                        if (destination != null) {
+                            currentRoom.setExits(direction, destination);
                         } else {
-                            System.err.println("Warning: Exit room " + roomGoingTo + " not found for " + roomID2);
+                            System.err.println("⚠ Exit room " + targetRoom + " not found for " + roomID);
                         }
                     }
                 }
             }
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
         return roomMap;
     }
 
-    //Shayla
+    // Shayla's Item Loader
     public static void loadItems(String filePath, Map<String, Room> rooms) {
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
-            reader.readLine();
+            reader.readLine(); // Skip header
+
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split("\\|");
                 if (parts.length < 7) continue;
+
                 int itemId = Integer.parseInt(parts[0].trim());
                 String itemName = parts[1].trim();
                 String itemType = parts[2].trim().toLowerCase();
@@ -124,16 +131,13 @@ public class FileLoader {
                     System.err.println("Room not found for ID: " + roomId);
                     continue;
                 }
+
                 for (int i = 0; i < quantity; i++) {
                     Items item;
-
                     switch (itemType) {
-                        case "consumable" -> item = new Consumables(
-                                itemId, itemName, itemType, itemStat, itemDescription, roomId, 1, itemStat);
-                        case "ammunition" -> item = new Ammunition(
-                                itemId, itemName, itemType, itemStat, itemDescription, roomId, 1, itemStat);
-                        default -> item = new Items(
-                                itemId, itemName, itemType, itemStat, itemDescription, roomId, 1);
+                        case "consumable" -> item = new Consumables(itemId, itemName, itemType, itemStat, itemDescription, roomId, 1, itemStat);
+                        case "ammunition" -> item = new Ammunition(itemId, itemName, itemType, itemStat, itemDescription, roomId, 1, itemStat);
+                        default -> item = new Items(itemId, itemName, itemType, itemStat, itemDescription, roomId, 1);
                     }
                     room.getRoomInventory().add(item);
                 }
@@ -142,5 +146,4 @@ public class FileLoader {
             System.err.println("Error loading items: " + e.getMessage());
         }
     }
-
 }

@@ -1,6 +1,6 @@
 Locked room,unlocking item,where unlock item can be found
 all 4 elevators,ID badge,2do director office
-pharmacy,gas mask,1ew
-,hand finger,2sl 1sec
-,axe,3sr
-,helicopter key,3do
+pharmacy,gas mask,1ew emergency ward
+directors office,hand finger,2sl 1sec staff lounge security
+exit tunnel,axe,3sr server room
+roof,helicopter key,2do director office
