@@ -1,8 +1,7 @@
 package model;
+
 import java.util.ArrayList;
-/**
- * Razan Abdalla
- */
+
 public class Player {
     private String name;
     private int health;
@@ -101,6 +100,7 @@ public class Player {
     }
 
     // ✅ New method for checking if player has a specific item
+
     public boolean hasItem(String itemName) {
         for (Items item : inventory) {
             if (item.getName().equalsIgnoreCase(itemName)) {
@@ -112,9 +112,9 @@ public class Player {
 // Check the inventory --> Razan
     public void showInventory() {
         if (inventory.isEmpty()) {
-            System.out.println("(0) Your inventory is empty.");
+            System.out.println("🎒 Your inventory is empty.");
         } else {
-            System.out.println("(0) Your inventory contains:");
+            System.out.println("🎒 Your inventory contains:");
             for (Items item : inventory) {
                 System.out.println("- " + item.getName() + ": " + item.getDescription());
             }

@@ -36,9 +36,8 @@ public class GameController {
         // Jose Montejo
         // Initialize monster spawning system
         try {
-            List<Monster> monsters = MonsterLoader.loadMonsters("monsters.txt");
-
-           // List<Monster> monsters = MonsterLoader.loadMonsters("FinalGame_Project/monsters.txt");
+           // List<Monster> monsters = MonsterLoader.loadMonsters("monsters.txt");
+            List<Monster> monsters = MonsterLoader.loadMonsters("FinalGame_Project/monsters.txt");
             Map<String, List<Monster>> monstersByLocation = MonsterLoader.getMonstersByLocation(monsters);
             this.monsterSpawnManager = new MonsterSpawnManager(monstersByLocation);
 
@@ -70,6 +69,7 @@ public class GameController {
                 continue;
             }
 
+            //justin
             System.out.println("Type go<Direction> to navigate || or help to view all commands || or quit to end the game || explore || inspect");
             System.out.print("\n> ");
             String input = scanner.nextLine().trim().toLowerCase();
@@ -127,10 +127,20 @@ public class GameController {
                 }
                 Room next = player.getCurrentRoom().getExits(direction);
                 if (next != null) {
-                    if (next.isRoomIsLocked()){
-                        System.err.println("The "+next.getRoomName()+" is locked");
-                        continue;
+                    if (next.isRoomIsLocked()) {
+                        String requiredItem = next.getUnlockItem();
+                        boolean hasKey = player.getInventory().stream()
+                                .anyMatch(item -> item.getName().equalsIgnoreCase(requiredItem));
+
+                        if (hasKey) {
+                            next.setRoomIsLocked(false);
+                            System.out.println("🔓 You used " + requiredItem + " to unlock the " + next.getRoomName() + "!");
+                        } else {
+                            System.err.println("🚪 The " + next.getRoomName() + " is locked. You need: " + requiredItem);
+                            continue;
+                        }
                     }
+
                     player.setCurrentRoom(next);
                     System.out.println("➡️ You moved to: " + next.getRoomName() + " || available exits: " + next.getExitDirections());
 
@@ -140,6 +150,7 @@ public class GameController {
                     next.setRoomHasBeenVisited(true);
                 } else {
                     System.out.println("❌ You can't go that way.");
+                    System.out.println("Currently in "+player.getCurrentRoom().getRoomName()+" || available exits: "+player.getCurrentRoom().getExitDirections());
                     continue;
                 }
                 // Jose Montejo
@@ -187,10 +198,23 @@ public class GameController {
                 itemController.takeItem(itemName.trim(), player.getCurrentRoom(), quantity);
             }
 
-            //Shay, drop command
+            //Shay, drop command (one and multiple items)
             else if (input.startsWith("drop")) {
-                String itemName = input.substring(4).trim();
-                itemController.dropItem(itemName, player.getCurrentRoom());
+                String[] words = input.substring(4).trim().split(" ");
+
+                if (words.length == 0) {
+                    System.out.println("What item did you want to drop?");
+                    continue;
+                }
+                int quantity = 1;
+                String itemName;
+                try {
+                    quantity = Integer.parseInt(words[words.length - 1]);
+                    itemName = String.join(" ", Arrays.copyOfRange(words, 0, words.length - 1));
+                } catch (NumberFormatException e) {
+                    itemName = String.join(" ", words);
+                }
+                itemController.dropItem(itemName.trim(), player.getCurrentRoom(), quantity);
             }
 
             //Shay, for consume item
@@ -205,9 +229,6 @@ public class GameController {
             }
         }
     }//end of start()
-
-
-
 
     /**
      * Jose Montejo

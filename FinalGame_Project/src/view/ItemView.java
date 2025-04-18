@@ -45,6 +45,10 @@ public class ItemView {
         System.out.println("You dropped: " + name);
     }
 
+    public void displayMultiDrop(String itemName, int quantity){
+        System.out.println("You dropped: " + quantity + "x " + itemName);
+    }
+
     public void displayNoItemToDrop(String name) {
         System.out.println("You don't have " + name + " to drop.");
     }

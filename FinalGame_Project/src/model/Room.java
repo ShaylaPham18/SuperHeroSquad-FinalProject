@@ -1,7 +1,7 @@
 package model;
 
 import java.util.*;
-
+//justin
 public class Room {
     private String roomID;
     private String roomName;
@@ -11,6 +11,7 @@ public class Room {
     List<Items> roomInventory;
     private Puzzle puzzle; //Razan
     private boolean roomIsLocked;
+    private String unlockItem;
     public Room(String roomID, String roomName, String roomDescription){
         this.roomID=roomID;
         this.roomName=roomName;
@@ -99,6 +100,14 @@ public class Room {
         if (isRoomIsLocked()){
             System.err.println("room is locked");
         }
+    }
+
+    public String getUnlockItem() {
+        return unlockItem;
+    }
+
+    public void setUnlockItem(String unlockItem) {
+        this.unlockItem = unlockItem;
     }
 
     @Override
