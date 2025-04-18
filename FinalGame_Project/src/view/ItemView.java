@@ -53,4 +53,8 @@ public class ItemView {
         System.out.println("What item did you want to drop?");
     }
 
+    public void displayPickedUpAmount(String name, int quantity) {
+        System.out.println("You picked up " + quantity + " of " + name + ".");
+    }
+
 }

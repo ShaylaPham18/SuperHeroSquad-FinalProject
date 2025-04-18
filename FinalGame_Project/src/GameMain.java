@@ -16,13 +16,13 @@ public class GameMain {
             Map<String, Room> rooms = fileLoader.readRooms();
 
             // 2. Load puzzles and assign to rooms you guys use this 1 PLEASE JUST COMMENT AND UNCOMMENT
-            //List<Puzzle> puzzles = FileLoader.loadPuzzles("puzzles.txt");
-            List<Puzzle> puzzles = FileLoader.loadPuzzles("FinalGame_Project/puzzles.txt");
+            List<Puzzle> puzzles = FileLoader.loadPuzzles("puzzles.txt");
+            //List<Puzzle> puzzles = FileLoader.loadPuzzles("FinalGame_Project/puzzles.txt");
             //  links each puzzles to the rooms --> Razan
             PuzzleController.assignPuzzlesToRooms(puzzles, rooms);
             //Shayla
-           //FileLoader.loadItems("items.txt", rooms);
-            FileLoader.loadItems("FinalGame_Project/items.txt",rooms);
+           FileLoader.loadItems("items.txt", rooms);
+            //FileLoader.loadItems("FinalGame_Project/items.txt",rooms);
             // 3. Create player
             Player player = new Player("Razan");
             // 4. Start the game loop with GameController
