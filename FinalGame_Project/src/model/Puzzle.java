@@ -1,7 +1,4 @@
 package model;
-
-import java.util.List;
-
 /**
  * Razan Abdalla
  * Name|Description|RoomLocation|CorrectAnswer|ResultWhenSolved|MaxAttempts|Hint|RequiredItem

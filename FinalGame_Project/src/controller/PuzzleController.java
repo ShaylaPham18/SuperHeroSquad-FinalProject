@@ -4,11 +4,9 @@ import model.Player;
 import model.Puzzle;
 import model.Room;
 import view.PuzzleView;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-
 /**
  * Razan Abdalla
  */
@@ -29,7 +27,6 @@ public class PuzzleController {
         this.scanner = new Scanner(System.in);
         this.puzzleSolved = puzzle.isSolved();
     }
-
     public void startPuzzle() {
         if (puzzle.isSolved()) {
             view.displayAlreadySolved();
@@ -40,9 +37,8 @@ public class PuzzleController {
         // Optional hint based on inventory
         String hintItem = puzzle.getHintItem();
         if (hintItem != null && !hintItem.isBlank() && player.hasItem(hintItem)) {
-            System.out.println("🧠 You might want to inspect or read your '" + hintItem + "' for a clue.");
+            System.out.println("-->You might want to inspect or read your '" + hintItem + "' for a clue.");
         }
-
         while (!puzzle.isSolved()) {
             System.out.println("\nCommand options: [solve / hint / leave / use <item> / inventory]");
             System.out.print("⤷ What would you like to do? ");
@@ -82,7 +78,7 @@ public class PuzzleController {
         }
 
         while (!puzzle.isSolved()) {
-            System.out.println("Enter your answer use 'exit' to exit solving mode'");
+            System.out.println("Enter your answer use 'exit' to exit solving mode or 'hint' for Hint");
             System.out.print("-> " );
             String input = scanner.nextLine().trim().toLowerCase();
 
