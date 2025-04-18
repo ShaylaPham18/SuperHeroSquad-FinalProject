@@ -52,22 +52,24 @@ public class FileLoader {
         Map<String, String> roomExits = new HashMap<>();
         try {
             //you guys use this 1 PLEASE JUST COMMENT AND UNCOMMENT
-            BufferedReader bufferedReader = new BufferedReader(new FileReader("room.txt"));
-            //BufferedReader bufferedReader = new BufferedReader(new FileReader("FinalGame_Project/room.txt"));
+            //BufferedReader bufferedReader = new BufferedReader(new FileReader("room.txt"));
+            BufferedReader bufferedReader = new BufferedReader(new FileReader("FinalGame_Project/room.txt"));
             
             String line;
             while ((line = bufferedReader.readLine()) != null) {
-                String[] parts = line.split(",",5);
+                String[] parts = line.split(",",6);
                 String roomId = parts[0].trim();
                 String roomName = parts[1].trim();
                 String roomDescription = parts[2].trim();
 
                 Room room = new Room(roomId, roomName, roomDescription);
                 roomMap.put(roomId, room);
-                if (parts.length==5){
+                if (parts.length==6){
                     String locked=parts[4].trim().toLowerCase();
+                    String unlockItem=parts[5].trim().toLowerCase();
                     if (locked.equalsIgnoreCase("lock")){
                         room.setRoomIsLocked(true);
+                        room.setUnlockItem(unlockItem);
                     }
                 }
 

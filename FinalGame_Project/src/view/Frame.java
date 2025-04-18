@@ -43,8 +43,8 @@ public class Frame {
 
         public void map(){
                 JFrame frame = new JFrame("Map");
-                //ImageIcon imageIcon = new ImageIcon("FinalGame_Project/src/HospitalMap.png");
-                ImageIcon imageIcon = new ImageIcon("src/HospitalMap.png");
+                ImageIcon imageIcon = new ImageIcon("FinalGame_Project/src/HospitalMap.png");
+                //ImageIcon imageIcon = new ImageIcon("HospitalMap.png");
                 JLabel imageLabel = new JLabel(imageIcon);
                 Image image = imageIcon.getImage().getScaledInstance(800, 600, Image.SCALE_SMOOTH);
                 imageLabel.setIcon(new ImageIcon(image));

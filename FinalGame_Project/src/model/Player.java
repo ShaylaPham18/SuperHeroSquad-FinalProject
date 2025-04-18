@@ -76,7 +76,7 @@ public class Player {
                 break;
             }
         }
-        if (item == null) {//weird error here
+        if (item == null) {
             System.err.println("You do not have " + itemName + " in your inventory.");
             return;
         }
