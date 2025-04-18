@@ -110,6 +110,16 @@ public class Room {
         this.unlockItem = unlockItem;
     }
 
+    //// razan test
+    // Use this for puzzle-based unlocking
+    public void setLocked(boolean locked) {
+        this.roomIsLocked = locked;
+    }
+
+    // Use this for clearing required item if puzzle unlocks the room
+    public void setRequiredItem(String itemName) {
+        this.unlockItem = itemName;
+    }
     @Override
     public String toString() {
         return roomName +" -> "+roomDescription;

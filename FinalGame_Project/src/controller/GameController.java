@@ -169,8 +169,8 @@ public class GameController {
                 }
             }
             //solve --> Razan
-            else if (input.equals("solve") || input.equalsIgnoreCase("s")) {
-                PuzzleController.handlePuzzle(player);
+            else if (input.equals("try") || input.equalsIgnoreCase("t")) {
+                PuzzleController.handlePuzzle(player,rooms);
                 //inventory --> Razan
             } else if (input.equalsIgnoreCase("inventory") || input.equalsIgnoreCase("inv")) {
                 player.showInventory();
@@ -266,7 +266,7 @@ public class GameController {
         } else {
             System.out.println("🧩 You uncover a hidden mechanism... It's a puzzle!");
             System.out.println("📝 " + puzzle.getDescription());
-            System.out.println("Use the 'solve' command to attempt solving it.");
+            System.out.println("Use the 'Try' command to attempt solving it.");
         }
 
         //Shayla

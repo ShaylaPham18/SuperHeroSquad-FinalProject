@@ -5,9 +5,11 @@ import model.Puzzle;
 // Iam adding this class for puzzle view we may add it to game view after we finish the work
 public class PuzzleView {
     public void displayPuzzleIntro(Puzzle puzzle) {
-        System.out.println("\nYou’ve discovered a puzzle: " + puzzle.getName());
-        System.out.println(puzzle.getDescription());
-    }
+            System.out.println("🧩 You found a strange puzzle: " + puzzle.getName());
+            System.out.println("🧠 " + puzzle.getDescription());
+            System.out.println("🔑 Type 'solve' to begin solving, or 'hint' to get a clue.");
+        }
+
     public void displayAttemptResult(boolean success, Puzzle puzzle) {
         if (success) {
             System.out.println("✅ Puzzle solved! " + puzzle.getResultWhenSolved());
