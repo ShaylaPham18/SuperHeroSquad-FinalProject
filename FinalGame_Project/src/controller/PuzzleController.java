@@ -11,7 +11,6 @@ import java.util.Scanner;
  * Razan Abdalla
  */
 public class PuzzleController {
-
     private final Puzzle puzzle;
     private final PuzzleView view;
     private final Scanner scanner;
@@ -47,24 +46,34 @@ public class PuzzleController {
             String action = parts[0];
 
             switch (action) {
-                case "solve", "s" -> handleSolve();
-                case "hint", "h" -> handleHint();
-                case "leave", "l" -> {
+                case "solve":
+                case "s" :
+                     handleSolve();
+                     return;
+                case "hint":
+                case "h":
+                    handleHint();
+                    return;
+                case "leave":
+                case  "l":
                     view.displayExitMessage();
                     return;
-                }
-                case "inventory", "inv" -> player.showInventory();
-                case "use", "u" -> {
+                case "inventory":
+                case  "inv":
+                    player.showInventory();
+                case "use":
+                case "u":
+                {
                     if (parts.length > 1) {
                         handleUseItem(parts[1]);
                     } else {
-                        System.out.println("⚠️ Please specify an item, like: use ID badge");
+                        System.out.println("⚠Please specify an item, like: use ID badge");
                     }
                 }
-                default -> System.out.println("❌ Invalid command. Please type 'solve', 'hint', 'leave', or 'use <item>'.");
+                default:
+                    System.out.println(" XXX-->Invalid command. Please type 'solve', 'hint', 'leave', or 'use <item>'.");
             }
         }
-
         puzzleSolved = true;
     }
 
