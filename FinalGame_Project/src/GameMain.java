@@ -4,7 +4,6 @@ import loader.FileLoader;
 import model.Player;
 import model.Puzzle;
 import model.Room;
-
 import java.util.Map;
 import java.util.List;
 

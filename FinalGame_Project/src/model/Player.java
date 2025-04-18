@@ -1,13 +1,11 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
 
 public class Player {
     private String name;
     private int health;
-    private int basePlayerDamage = 5;
+    private int basePlayerDamage=5;
     private ArrayList<Items> inventory;
     private Room currentRoom;
 
@@ -45,8 +43,7 @@ public class Player {
     public void takeItem(Items item) {
         inventory.add(item);
     }
-
-    public void dropItem(Items items) {
+    public void dropItem(Items items){
         inventory.remove(items);
     }
 
@@ -57,14 +54,13 @@ public class Player {
     public void setBasePlayerDamage(int basePlayerDamage) {
         this.basePlayerDamage = basePlayerDamage;
     }
-
-    public int totalDamage() {
+    public int totalDamage(){
         //Logic will be if weapon equipped:   basePlayerDamage+weaponDamage
         return basePlayerDamage;
     }
 
-    public void showStats() {
-        System.out.println("Player health: " + health + "\nPlayer damage: " + basePlayerDamage);
+    public void showStats(){
+        System.out.println("Player health: "+health+"\nPlayer damage: "+basePlayerDamage);
     }
 
     //Shayla
@@ -76,8 +72,8 @@ public class Player {
                 break;
             }
         }
-        if (item == null) {
-            System.err.println("You do not have " + itemName + " in your inventory.");
+        if (item == null) {//weird error here
+            System.err.println("You do not have "+itemName+" in your inventory.");
             return;
         }
         if (item instanceof Consumables) {
@@ -92,7 +88,6 @@ public class Player {
     }
 
     //Jose Montejo
-
     /**
      * getInventory
      * Returns the player's current inventory as an ArrayList of Items.
@@ -114,28 +109,14 @@ public class Player {
         }
         return false;
     }
-
-    // Check the inventory --> Razan, Shayla
+// Check the inventory --> Razan
     public void showInventory() {
         if (inventory.isEmpty()) {
             System.out.println("🎒 Your inventory is empty.");
         } else {
             System.out.println("🎒 Your inventory contains:");
-            Map<String, Integer> itemCount = new HashMap<>();
-            Map<String, String> itemDescriptions = new HashMap<>();
             for (Items item : inventory) {
-                String name = item.getName();
-                itemCount.put(name, itemCount.getOrDefault(name, 0) + 1);
-                itemDescriptions.putIfAbsent(name, item.getDescription());
-            }
-            for (String name : itemCount.keySet()) {
-                int count = itemCount.get(name);
-                String description = itemDescriptions.get(name);
-                if (count > 1) {
-                    System.out.println("- " + name + " (" + count + "x): " + description);
-                } else {
-                    System.out.println("- " + name + ": " + description);
-                }
+                System.out.println("- " + item.getName() + ": " + item.getDescription());
             }
         }
     }
