@@ -69,10 +69,7 @@ public class MonsterController {
      * Implements FR3.1 (Flee from Monster) and FR3.2 (Attack Monsters)
      */
     public boolean encounterMonster() {
-        // Display initial encounter message
-        view.displayMonsterEncounter(monster);
-        System.out.println("Your health: " + player.getHealth() + " | " + monster.getName() + "'s health: " + monster.getHealth());
-        // Start combat immediately instead of showing a separate menu
+        // Skip the prompt and go straight to combat
         return startCombat();
     }
 
@@ -202,30 +199,13 @@ public class MonsterController {
     /**
      * Jose Montejo
      * tryToFlee
-     * Attempts to flee from combat with a 40% chance of success.
-     * If successful, the player will be moved back to the previous room.
-     * Returns true if successful, false otherwise.
-     *
+     * Flees from combat
      * Implements FR3.1 (Flee from Monster)
      */
     private boolean tryToFlee() {
-        boolean success = random.nextDouble() < 0.4; // 40% chance to flee
+        // Always succeed at fleeing - no RNG
+        boolean success = true;
         view.displayFleeResult(success);
-
-        if (!success) {
-            // Monster gets a free attack if flee fails
-            int damage = monster.attack();
-
-            // Display monster attack with separate messages for base damage and special rule
-            if (monster.getName().equals("Facehugger")) {
-                System.out.println("The " + monster.getName() + " attacks you for " + (damage - 2) + " damage!");
-                System.out.println("Special Rule Activates: The Facehugger deals 2 extra damage with its attack!");
-            } else {
-                view.displayMonsterAttack(monster, damage);
-            }
-
-            player.setHealth(player.getHealth() - damage);
-        }
 
         return success;
     }

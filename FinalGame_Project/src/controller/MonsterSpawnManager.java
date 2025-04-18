@@ -21,6 +21,7 @@ public class MonsterSpawnManager {
     private final Map<String, List<Monster>> monstersByLocation;
     private final Map<String, Boolean> spawnedMonsters; // Tracks which monsters have been spawned
     private final MonsterView monsterView;
+    private final Map<String, Monster> activeMonsters; // Tracks monsters that are present in rooms but not defeated
 
     /**
      * Jose Montejo
@@ -32,6 +33,7 @@ public class MonsterSpawnManager {
     public MonsterSpawnManager(Map<String, List<Monster>> monstersByLocation) {
         this.monstersByLocation = monstersByLocation;
         this.spawnedMonsters = new HashMap<>();
+        this.activeMonsters = new HashMap<>();
         this.monsterView = new MonsterView();
     }
 
@@ -48,6 +50,49 @@ public class MonsterSpawnManager {
      */
     public boolean checkForMonsterEncounter(Player player, Room currentRoom, String previousRoomID) {
         String roomID = currentRoom.getRoomID();
+        boolean monsterHandled = false;
+        // Check if there's already an active monster in this room
+        if (activeMonsters.containsKey(roomID)) {
+            Monster activeMonster = activeMonsters.get(roomID);
+
+            // Display monster presence
+            System.out.println("\nThe " + activeMonster.getName() + " is still here!");
+            System.out.println(activeMonster.getDescription());
+            if (activeMonster.getSpecialRule() != null && !activeMonster.getSpecialRule().equals("null")) {
+                System.out.println("Special: " + activeMonster.getSpecialRule());
+            }
+            System.out.println("Your health: " + player.getHealth() + " | " + activeMonster.getName() + "'s health: " + activeMonster.getHealth());
+            monsterHandled = true;
+            System.out.println("Do you want to fight the " + activeMonster.getName() + "? (yes/no)");
+
+            // Get player's choice
+            java.util.Scanner scanner = new java.util.Scanner(System.in);
+            String choice = scanner.nextLine().trim().toLowerCase();
+
+            if (choice.equals("yes") || choice.equals("y") || choice.equals("fight")) {
+                // Handle the monster encounter
+                boolean monsterDefeated = handleMonsterEncounter(activeMonster, player, previousRoomID);
+
+                // If monster is defeated, remove it from active monsters
+                if (monsterDefeated) {
+                    activeMonsters.remove(roomID);
+                }
+
+                // If player fled, move them back to the previous room
+                if (!monsterDefeated && player.getHealth() > 0) {
+                    return false;
+                }
+
+                return monsterDefeated;
+            } else {
+                System.out.println("You decide not to engage the " + activeMonster.getName() + " for now.");
+                return false;
+            }
+        }
+
+        if (monsterHandled) {
+            return false;  // Skip monster spawning if we already handled a monster
+        }
 
         // Check if there are monsters that can spawn in this room
         boolean hasMonsters = false;
@@ -65,37 +110,182 @@ public class MonsterSpawnManager {
             hasMonsters = potentialMonsters != null && !potentialMonsters.isEmpty();
             System.out.println("Matched ICU room by name instead of ID");
         }
+        // Specific checks for Boiler Room and Operating Room
+        else if (currentRoom.getRoomName().contains("Boiler Room")) {
+            // Try to find monsters for Boiler Room by ID or name
+            potentialMonsters = monstersByLocation.get("0br");  // Use the actual room ID from your debug output
+            if (potentialMonsters == null || potentialMonsters.isEmpty()) {
+                // Try alternative IDs that might be used
+                potentialMonsters = monstersByLocation.get("boiler");
+                if (potentialMonsters == null || potentialMonsters.isEmpty()) {
+                    potentialMonsters = monstersByLocation.get("boilerroom");
+                }
+            }
+            hasMonsters = potentialMonsters != null && !potentialMonsters.isEmpty();
+            System.out.println("Matched Boiler Room by name");
+        }
+        else if (currentRoom.getRoomName().contains("Operating Room")) {
+            // Try to find monsters for Operating Room by ID or name
+            potentialMonsters = monstersByLocation.get("3or");  // Use the actual room ID from your debug output
+            if (potentialMonsters == null || potentialMonsters.isEmpty()) {
+                // Try alternative IDs that might be used
+                potentialMonsters = monstersByLocation.get("operating");
+                if (potentialMonsters == null || potentialMonsters.isEmpty()) {
+                    potentialMonsters = monstersByLocation.get("operatingroom");
+                }
+            }
+            hasMonsters = potentialMonsters != null && !potentialMonsters.isEmpty();
+            System.out.println("Matched Operating Room by name");
+        }
 
         if (!hasMonsters || potentialMonsters == null || potentialMonsters.isEmpty()) {
             return false;
         }
+        System.out.println("DEBUG: Checking for monsters in room: " + roomID + " (" + currentRoom.getRoomName() + ")");
+        System.out.println("DEBUG: Found " + potentialMonsters.size() + " potential monsters for this room");
 
-
-        // Rest of the method remains the same...
-        // Select a random monster from the list that hasn't spawned yet
+        // Select a monster from the list
         for (Monster monster : potentialMonsters) {
+            // Skip if we've already handled a monster in this room
+            if (monsterHandled) {
+                return false;
+            }
             String monsterKey = monster.getName() + "_" + roomID;
 
-            // Skip if this monster has already spawned
+            // Check if this monster has already been spawned but not added to active monsters
             if (spawnedMonsters.containsKey(monsterKey) && spawnedMonsters.get(monsterKey)) {
-                continue;
+                // Monster has been spawned before but not added to active monsters
+                // This happens when the player returns to a room with a monster
+
+                // Add to active monsters
+                activeMonsters.put(roomID, monster);
+
+                // Display monster presence
+                System.out.println("\nThe " + monster.getName() + " is still here!");
+                System.out.println(monster.getDescription());
+                if (monster.getSpecialRule() != null && !monster.getSpecialRule().equals("null")) {
+                    System.out.println("Special: " + monster.getSpecialRule());
+                }
+                System.out.println("Your health: " + player.getHealth() + " | " + monster.getName() + "'s health: " + monster.getHealth());
+                monsterHandled = true;
+                System.out.println("Do you want to fight the " + monster.getName() + "? (yes/no)");
+
+                // Get player's choice
+                java.util.Scanner scanner = new java.util.Scanner(System.in);
+                String choice = scanner.nextLine().trim().toLowerCase();
+
+                if (choice.equals("yes") || choice.equals("y") || choice.equals("fight")) {
+                    // Handle the monster encounter
+                    boolean monsterDefeated = handleMonsterEncounter(monster, player, previousRoomID);
+
+                    // If monster is defeated, remove it from active monsters
+                    if (monsterDefeated) {
+                        activeMonsters.remove(roomID);
+                    }
+
+                    // If player fled, move them back to the previous room
+                    if (!monsterDefeated && player.getHealth() > 0) {
+                        return false;
+                    }
+
+                    return monsterDefeated;
+                } else {
+                    System.out.println("You decide not to engage the " + monster.getName() + " for now.");
+                    return false;
+                }
             }
 
-            // Check spawn chance
+            // Force spawn for Operating Room
+            // Force spawn for critical rooms (Operating Room, Boiler Room, Experiment Room, etc.)
+            if (!spawnedMonsters.containsKey(monsterKey) && (
+                    roomID.equals("3or") || currentRoom.getRoomName().contains("Operating Room") ||
+                            roomID.equals("0br") || currentRoom.getRoomName().contains("Boiler Room") ||
+                            roomID.equals("0expr") || currentRoom.getRoomName().contains("Experiment Room") ||
+                            roomID.equals("3icu") || currentRoom.getRoomName().contains("ICU") ||
+                            roomID.equals("1cafe") || currentRoom.getRoomName().contains("Cafeteria") ||
+                            roomID.equals("3lab") || currentRoom.getRoomName().contains("Laboratory") ||
+                            roomID.equals("2rad") || currentRoom.getRoomName().contains("Radiology") ||
+                            roomID.equals("1wait") || currentRoom.getRoomName().contains("Waiting Area") ||
+                            roomID.equals("2ped") || currentRoom.getRoomName().contains("Pediatrics"))) {
+                spawnedMonsters.put(monsterKey, true);
+
+                // Add to active monsters
+                activeMonsters.put(roomID, monster);
+
+                // Display monster presence
+                System.out.println("\nA " + monster.getName() + " appears!");
+                System.out.println(monster.getDescription());
+                if (monster.getSpecialRule() != null && !monster.getSpecialRule().equals("null")) {
+                    System.out.println("Special: " + monster.getSpecialRule());
+                }
+                System.out.println("Your health: " + player.getHealth() + " | " + monster.getName() + "'s health: " + monster.getHealth());
+                System.out.println("Do you want to fight the " + monster.getName() + "? (yes/no)");
+
+                // Get player's choice
+                java.util.Scanner scanner = new java.util.Scanner(System.in);
+                String choice = scanner.nextLine().trim().toLowerCase();
+
+                if (choice.equals("yes") || choice.equals("y") || choice.equals("fight")) {
+                    // Handle the monster encounter
+                    boolean monsterDefeated = handleMonsterEncounter(monster, player, previousRoomID);
+
+                    // If monster is defeated, remove it from active monsters
+                    if (monsterDefeated) {
+                        activeMonsters.remove(roomID);
+                    }
+
+                    // If player fled, move them back to the previous room
+                    if (!monsterDefeated && player.getHealth() > 0) {
+                        return false;
+                    }
+
+                    return monsterDefeated;
+                } else {
+                    System.out.println("You decide not to engage the " + monster.getName() + " for now.");
+                    return false;
+                }
+            }
+
+            // Check spawn chance for new monsters
             if (monster.shouldSpawn()) {
                 // Mark this monster as spawned
                 spawnedMonsters.put(monsterKey, true);
 
-                // Handle the monster encounter
-                boolean monsterDefeated = handleMonsterEncounter(monster, player, previousRoomID);
+                // Add to active monsters
+                activeMonsters.put(roomID, monster);
 
-                // If player fled, move them back to the previous room
-                if (!monsterDefeated && player.getHealth() > 0) {
+                // Display monster presence
+                System.out.println("\nA " + monster.getName() + " appears!");
+                System.out.println(monster.getDescription());
+                if (monster.getSpecialRule() != null && !monster.getSpecialRule().equals("null")) {
+                    System.out.println("Special: " + monster.getSpecialRule());
+                }
+                System.out.println("Your health: " + player.getHealth() + " | " + monster.getName() + "'s health: " + monster.getHealth());
+                System.out.println("Do you want to fight the " + monster.getName() + "? (yes/no)");
+
+                // Get player's choice
+                java.util.Scanner scanner = new java.util.Scanner(System.in);
+                String choice = scanner.nextLine().trim().toLowerCase();
+
+                if (choice.equals("yes") || choice.equals("y") || choice.equals("fight")) {
+                    // Handle the monster encounter
+                    boolean monsterDefeated = handleMonsterEncounter(monster, player, previousRoomID);
+
+                    // If monster is defeated, remove it from active monsters
+                    if (monsterDefeated) {
+                        activeMonsters.remove(roomID);
+                    }
+
+                    // If player fled, move them back to the previous room
+                    if (!monsterDefeated && player.getHealth() > 0) {
+                        return false;
+                    }
+
+                    return monsterDefeated;
+                } else {
+                    System.out.println("You decide not to engage the " + monster.getName() + " for now.");
                     return false;
                 }
-
-                return monsterDefeated;
-            } else {
             }
         }
 
@@ -117,7 +307,19 @@ public class MonsterSpawnManager {
         MonsterController controller = new MonsterController(monster, player, monsterView, previousRoomID);
 
         // Start the encounter
-        return controller.encounterMonster();
+        boolean monsterDefeated = controller.encounterMonster();
+
+        // If monster is defeated, remove it from active monsters
+        if (monsterDefeated) {
+            for (Map.Entry<String, Monster> entry : activeMonsters.entrySet()) {
+                if (entry.getValue() == monster) {
+                    activeMonsters.remove(entry.getKey());
+                    break;
+                }
+            }
+        }
+
+        return monsterDefeated;
     }
 
 
@@ -130,8 +332,8 @@ public class MonsterSpawnManager {
      */
     public void resetMonsterSpawns() {
         spawnedMonsters.clear();
+        activeMonsters.clear();
     }
-
     /**
      * Jose Montejo
      * getSpawnedMonsterCount
