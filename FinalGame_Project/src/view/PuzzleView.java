@@ -8,7 +8,6 @@ public class PuzzleView {
         System.out.println("\nYou’ve discovered a puzzle: " + puzzle.getName());
         System.out.println(puzzle.getDescription());
     }
-
     public void displayAttemptResult(boolean success, Puzzle puzzle) {
         if (success) {
             System.out.println("✅ Puzzle solved! " + puzzle.getResultWhenSolved());
@@ -16,7 +15,6 @@ public class PuzzleView {
             System.out.println("❌ Incorrect. Try again.");
         }
     }
-
     public void displayHint(Puzzle puzzle) {
         System.out.println("🔍 Hint: " + puzzle.getHint());
     }
@@ -25,17 +23,6 @@ public class PuzzleView {
         System.out.println("You already solved this puzzle!");
     }
 
-    public void displayPuzzlePrompt() {
-        System.out.print("\nCommand (solve / hint / leave): ");
-    }
-
-    public void displayInputPrompt() {
-        System.out.print("Enter your answer: ");
-    }
-
-    public void displayInvalidCommand() {
-        System.out.println("Invalid command during puzzle. You can only use solve, hint, or leave.");
-    }
 
     public void displayExitMessage() {
         System.out.println("You’ve left the puzzle.");

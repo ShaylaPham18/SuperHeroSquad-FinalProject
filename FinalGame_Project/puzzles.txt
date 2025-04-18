@@ -1,6 +1,6 @@
-Medicine Cabinet Puzzle|Enter a number combination to unlock.|2ped|312|Gain [Unverified Medication]|3|Check birthday hint in the Staff Lounge.
-Office Card Puzzle|The player needs a key to enter a room. Use the <Use> command.|2do|Director’s Badge|Unlocks Director’s Office|3|Inspect the body in the lab.
-Electric Panel Puzzle|Enter a 3-digit code, pull the panel lever down, then insert another 3-digit code.|3sr|379 then 591|Turns computers back on for Staff Lounge and Surveillance Room|3|Look for a note in the Server Room.
-Circuit Breaker|Flip the circuits in the correct order to turn on the power.|2er|351246789|Turns power back on for Electric Panel Puzzle and Elevator|3|Check the journal for sequence order.
-Elevator Input Puzzle|Enter number 1,2,3 in order, unlocked after finding clue.|ELE3|321|Unlocks basement access via “south” command|3|Find the file in the Director’s Office.
-Security Room Puzzle|Must possess the [Guard’s Eye] obtained using [Scalpel].|1sec|Guard’s Eye|Unlocks Security Room|3|Use the scalpel in ICU to get the eye.
+Medicine Cabinet Puzzle|Enter a number combination to unlock.|2ped|312|Gain [Unverified Medication]|3|Check birthday hint in the Staff Lounge.|none
+Office Card Puzzle|The player needs a key to enter a room. Use the <Use> command.|2do|Director’s Badge|Unlocks Director’s Office|3|Inspect the body in the lab.|ID badge
+Electric Panel Puzzle|Enter a 3-digit code, pull the panel lever down, then insert another 3-digit code.|3sr|379;591|Turns computers back on for Staff Lounge and Surveillance Room|3|Look for a note in the Server Room.|none
+Circuit Breaker|Flip the circuits in the correct order to turn on the power.|2er|351246789|Turns power back on for Electric Panel Puzzle and Elevator|3|Check the journal for sequence order.|none
+Elevator Input Puzzle|Enter number 1,2,3 in order, unlocked after finding clue.|ELE3|321|Unlocks basement access via “south” command|3|Find the file in the Director’s Office.|ID badge
+Security Room Puzzle|Must possess the [Guard’s Eye] obtained using [Scalpel].|1sec|Guard’s Eye|Unlocks Security Room|3|Use the scalpel in ICU to get the eye.|scalpel

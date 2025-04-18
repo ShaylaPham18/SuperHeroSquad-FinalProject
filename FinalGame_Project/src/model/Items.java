@@ -21,6 +21,9 @@ public class Items {
         this.quantity = quantity;
     }
 
+    public Items(int number, String name) {
+    }
+
     //Shayla
     /**
      * Getter Methods:

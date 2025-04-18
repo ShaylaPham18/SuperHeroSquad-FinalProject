@@ -17,29 +17,34 @@ public class FileLoader {
     private Player player;
 
     public static List<Puzzle> loadPuzzles(String filePath) throws IOException {
-            List<Puzzle> puzzles = new ArrayList<>();
-            BufferedReader reader = new BufferedReader(new FileReader(filePath));
-            String line;
+        List<Puzzle> puzzles = new ArrayList<>();
+        BufferedReader reader = new BufferedReader(new FileReader(filePath));
+        String line;
 
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split("\\|");
-                if (parts.length == 7) {
-                    String name = parts[0].trim();
-                    String description = parts[1].trim();
-                    String roomLocation = parts[2].trim();
-                    String correctAnswer = parts[3].trim();
-                    String resultWhenSolved = parts[4].trim();
-                    int maxAttempts = Integer.parseInt(parts[5].trim());
-                    String hint = parts[6].trim();
+        while ((line = reader.readLine()) != null) {
+            String[] parts = line.split("\\|");
+            if (parts.length == 8) {
+                String name = parts[0].trim();
+                String description = parts[1].trim();
+                String roomLocation = parts[2].trim();
+                String correctAnswer = parts[3].trim();
+                String resultWhenSolved = parts[4].trim();
+                int maxAttempts = Integer.parseInt(parts[5].trim());
+                String hint = parts[6].trim();
+                String requiredItem = parts[7].trim(); // new field
 
-                    Puzzle puzzle = new Puzzle(name, description, roomLocation, correctAnswer, resultWhenSolved, maxAttempts, hint);
-                    puzzles.add(puzzle);
-                }
+                Puzzle puzzle = new Puzzle(name, description, roomLocation, correctAnswer, resultWhenSolved, maxAttempts, hint);
+                puzzle.setRequiredItem(requiredItem);// use setter to assign new field
+                puzzles.add(puzzle);
+            } else {
+                System.err.println("⚠️ Invalid puzzle format: " + line);
             }
-
-            reader.close();
-            return puzzles;
         }
+
+        reader.close();
+        return puzzles;
+    }
+
 
     Map<String, Room> roomMap = new HashMap<>();
     //private static Scanner scanner=new Scanner(System.in);
