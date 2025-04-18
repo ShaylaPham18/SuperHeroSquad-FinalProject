@@ -13,10 +13,7 @@ import view.PuzzleView;
 import view.Frame;
 import loader.MonsterLoader;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.List;
+import java.util.*;
 
 public class GameController {
     private final Player player;
@@ -173,12 +170,19 @@ public class GameController {
             //Shayla
             //Take command
             else if (input.startsWith("take")) {
-                String itemName = input.substring(4).trim();
-                if (itemName.isBlank()) {
+                String[] parts = input.substring(4).trim().split(" ");
+                if (parts.length == 0) {
                     System.out.println("What item did you want to take?");
                     continue;
                 }
-                itemController.takeItem(itemName, player.getCurrentRoom());
+                String itemName = String.join(" ", Arrays.copyOf(parts, parts.length - 1));
+                int quantity = 1;
+                try {
+                    quantity = Integer.parseInt(parts[parts.length - 1]);
+                } catch (NumberFormatException e) {
+                    itemName = String.join(" ", parts);
+                }
+                itemController.takeItem(itemName.trim(), player.getCurrentRoom(), quantity);
             }
 
             //Shay, drop command

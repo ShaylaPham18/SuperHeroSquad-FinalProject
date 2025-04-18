@@ -4,10 +4,8 @@ import model.Items;
 import model.Player;
 import model.Room;
 import view.ItemView;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+
+import java.util.*;
 
 //Shayla
 public class ItemController {
@@ -23,21 +21,36 @@ public class ItemController {
     }
 
     //take
-    public void takeItem(String itemName, Room currentRoom) {
+    public void takeItem(String itemName, Room currentRoom, int quantity) {
         List<Items> items = currentRoom.getRoomInventory();
-        Items target = null;
+        List<Items> sameItems = new ArrayList<>();
         for (Items item : items) {
             if (item.getName().equalsIgnoreCase(itemName)) {
-                target = item;
-                break;
+                sameItems.add(item);
             }
         }
-        if (target != null) {
-            items.remove(target);
-            player.takeItem(target);
-            view.displaySuccess(target);
-        } else {
+
+        //Item view
+        if (sameItems.isEmpty()) {
             view.displayFailure(itemName);
+            return;
+        }
+        Items firstMatch = sameItems.get(0);
+        String type = firstMatch.getClass().getSimpleName().toLowerCase();
+        String baseType = firstMatch.getClass().getSuperclass().getSimpleName().toLowerCase();
+        if (type.contains("consumable") || type.contains("ammunition")) {
+            int actualQuantity = Math.min(quantity, sameItems.size());
+            for (int i = 0; i < actualQuantity; i++) {
+                Items itemToTake = sameItems.get(i);
+                player.takeItem(itemToTake);
+                items.remove(itemToTake);
+            }
+            view.displayPickedUpAmount(itemName, actualQuantity);
+        } else {
+            Items itemToTake = sameItems.get(0);
+            player.takeItem(itemToTake);
+            items.remove(itemToTake);
+            view.displaySuccess(itemToTake);
         }
     }
 
