@@ -94,6 +94,7 @@ public class MonsterView {
         System.out.println("1. Attack with weapon");
         System.out.println("2. Use item");
         System.out.println("3. Flee");
+        System.out.println("4. Equip weapon");
     }
 
     /**

@@ -32,6 +32,7 @@ public class MonsterController {
     private final String previousRoomID; // Store previous room ID for flee functionality
     // Map to store weapons loaded from items.txt
     private Map<String, Weapons> weaponsMap = new HashMap<>();
+    private Weapons equippedWeapon = null;
 
     /**
      * Jose Montejo
@@ -83,10 +84,26 @@ public class MonsterController {
      */
     private boolean startCombat() {
         combatActive = true;
+        boolean skipMonsterTurn = false;
+
+        // Jose Montejo: Added check to prevent combat with already defeated monsters
+        if (monster.isDefeated() || monster.getHealth() <= 0) {
+            view.displayMonsterDefeated(monster);
+            return true;
+        }
 
         while (combatActive) {
+            // Reset skipMonsterTurn at the start of each loop
+            skipMonsterTurn = false;
+
             // Display combat options
             view.displayCombatOptions();
+            // Add display for currently equipped weapon
+            if (equippedWeapon != null) {
+                System.out.println("Currently equipped: " + equippedWeapon.getName());
+            } else {
+                System.out.println("Currently equipped: fists");
+            }
             String choice = scanner.nextLine().trim().toLowerCase();
 
             // FR3.5: Only allow specific commands during combat
@@ -95,10 +112,19 @@ public class MonsterController {
                 case "attack":
                 case "att":
                     handlePlayerAttack();
+
+                    // Jose Montejo: Check if monster is defeated only after attack
+                    if (monster.getHealth() <= 0) {
+                        monster.setDefeated(true);
+                        view.displayMonsterDefeated(monster);
+                        combatActive = false;
+                        return true;
+                    }
                     break;
                 case "2":
                 case "use":
                     handleUseItem();
+                    skipMonsterTurn = true; // Skip monster's turn when using an item
                     break;
                 case "3":
                 case "flee":
@@ -110,29 +136,36 @@ public class MonsterController {
                         return false;
                     }
                     break;
+                case "4":
+                case "equip":
+                    handleEquipWeapon();
+                    skipMonsterTurn = true; // Skip monster's turn when equipping
+                    break;
                 case "help":
                     displayCombatHelp();
+                    skipMonsterTurn = true; // Skip monster's turn for help command
                     break;
                 default:
                     System.out.println("Invalid combat command. Type 'help' for available combat commands.");
-                    continue; // Skip the monster's attack for invalid commands
-            }
-
-            // Check if monster is defeated
-            if (monster.isDefeated()) {
-                view.displayMonsterDefeated(monster);
-                combatActive = false;
-                return true;
+                    skipMonsterTurn = true; // Skip monster's turn for invalid commands
+                    continue;
             }
 
             // Monster attacks if combat is still active
-            if (combatActive && !monster.isDefeated()) {
+            if (combatActive && !monster.isDefeated() && !skipMonsterTurn) {
+                // Remove any special conditions that might prevent certain monsters from attacking
                 int damage = monster.attack();
 
                 // Display monster attack with separate messages for base damage and special rule
                 if (monster.getName().equals("Facehugger")) {
                     System.out.println("The " + monster.getName() + " attacks you for " + (damage - 2) + " damage!");
                     System.out.println("Special Rule Activates: The Facehugger deals 2 extra damage with its attack!");
+                } else if (monster.getName().equals("Spitter")) {
+                    System.out.println("The " + monster.getName() + " attacks you for " + (damage - 5) + " damage!");
+                    System.out.println("Special Rule Activates: The Spitter deals 5 extra damage from infection!");
+                } else if (monster.getName().equals("Zombie Dog") || monster.getName().equals("Abandoned Baby")) {
+                    // Ensure Zombie Dog and Abandoned Baby attacks are displayed properly
+                    System.out.println("The " + monster.getName() + " attacks you for " + damage + " damage!");
                 } else {
                     view.displayMonsterAttack(monster, damage);
                 }
@@ -158,6 +191,56 @@ public class MonsterController {
 
     /**
      * Jose Montejo
+     * handleEquipWeapon
+     * Allows the player to equip a different weapon during combat
+     */
+    private void handleEquipWeapon() {
+        // Get weapons from inventory
+        ArrayList<Items> inventory = player.getInventory();
+        ArrayList<Weapons> availableWeapons = new ArrayList<>();
+
+        // Find all weapons in inventory
+        for (Items item : inventory) {
+            Weapons weapon = weaponsMap.get(item.getName().toLowerCase());
+            if (weapon != null) {
+                availableWeapons.add(weapon);
+            }
+        }
+
+        if (availableWeapons.isEmpty()) {
+            System.out.println("You don't have any weapons to equip.");
+            return;
+        }
+
+        // Display available weapons
+        System.out.println("\n=== AVAILABLE WEAPONS ===");
+        for (int i = 0; i < availableWeapons.size(); i++) {
+            Weapons weapon = availableWeapons.get(i);
+            System.out.println((i + 1) + ". " + weapon.getName() + " (Damage: " + weapon.getAttackDmg() + ")");
+        }
+        System.out.println("0. Unequip (use fists)");
+        System.out.print("\nEnter the number of the weapon you want to equip: ");
+
+        String input = scanner.nextLine().trim();
+
+        try {
+            int weaponIndex = Integer.parseInt(input);
+            if (weaponIndex == 0) {
+                equippedWeapon = null;
+                System.out.println("You unequipped your weapon and will fight with your fists.");
+            } else if (weaponIndex > 0 && weaponIndex <= availableWeapons.size()) {
+                equippedWeapon = availableWeapons.get(weaponIndex - 1);
+                System.out.println("You equipped the " + equippedWeapon.getName() + ".");
+            } else {
+                System.out.println("Invalid weapon number.");
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Please enter a valid number.");
+        }
+    }
+
+    /**
+     * Jose Montejo
      * handlePlayerAttack
      * Processes the player's attack action, calculating damage and applying it to the monster.
      *
@@ -168,31 +251,52 @@ public class MonsterController {
         String weapon = "fists";
         int damage = player.getBasePlayerDamage();
 
-        // Get the best weapon from player's inventory using WeaponsLoader
-        Weapons bestWeapon = getBestWeaponFromInventory();
-
-        if (bestWeapon != null) {
-            weapon = bestWeapon.getName();
-            damage = bestWeapon.getAttackDmg();
+        // Use equipped weapon if available
+        if (equippedWeapon != null) {
+            weapon = equippedWeapon.getName();
+            damage = equippedWeapon.getAttackDmg();
         }
 
-        // Display player attack message first
-        System.out.println("You attack the " + monster.getName() + " with your " + weapon + " for " + damage + " damage!");
+        // Calculate actual damage with weapon weakness multiplier
+        int actualDamage = damage;
+        for (int i = 0; i < monster.getWeaponWeaknesses().length; i++) {
+            if (monster.getWeaponWeaknesses()[i].equalsIgnoreCase(weapon)) {
+                actualDamage = (int) Math.round(damage * (1.0 + (monster.getWeaponDamages()[i] / 100.0)));
+                break;
+            }
+        }
+
+        // Display player attack message with actual damage
+        System.out.println("You attack the " + monster.getName() + " with your " + weapon + " for " + actualDamage + " damage!");
 
         // Apply damage to monster and check if it dodges (for Zombie Dog)
         boolean hit = monster.takeDamage(weapon, damage);
 
         if (!hit && monster.getName().equals("Zombie Dog")) {
             view.displayDodge(monster);
+            // Display both monster and player health even after dodge
+            System.out.println("Your health: " + player.getHealth() + " | " +
+                    monster.getName() + "'s health: " + monster.getHealth());
         } else {
             // Display special rule activation for Facehugger
             if (monster.getName().equals("Facehugger")) {
                 System.out.println("Special Rule Activates: The Facehugger attacks you for 2 extra damage as you attack!");
                 player.setHealth(player.getHealth() - 2);
+                // Display player's health after taking damage (remove duplicate)
+                System.out.println("Your health: " + player.getHealth());
+            }
+
+            // Jose Montejo: Added special rule activation for Spitter on player attack
+            if (monster.getName().equals("Spitter")) {
+                System.out.println("Special Rule Activates: The Spitter deals 5 extra damage from infection as you attack!");
+                player.setHealth(player.getHealth() - 5);
+                System.out.println("Your health: " + player.getHealth());
             }
 
             // Display updated monster health
             System.out.println("The " + monster.getName() + " has " + monster.getHealth() + " health remaining.");
+            // Add player health display
+            System.out.println("Your health: " + player.getHealth());
         }
     }
 
@@ -220,6 +324,7 @@ public class MonsterController {
         System.out.println("1 or attack - Attack the monster");
         System.out.println("2 or use - Use an item from your inventory");
         System.out.println("3 or flee/run - Attempt to escape (40% chance)");
+        System.out.println("4 or equip - Equip or change weapons");
         System.out.println("help - Display this help message");
         System.out.println("=====================\n");
     }
@@ -262,10 +367,35 @@ public class MonsterController {
             return;
         }
 
+        // Jose Montejo: Modified to group identical items with counts
         System.out.println("\n=== YOUR INVENTORY ===");
-        for (int i = 0; i < inventory.size(); i++) {
-            System.out.println((i + 1) + ". " + inventory.get(i).getName());
+        Map<String, Integer> itemCount = new HashMap<>();
+        Map<String, ArrayList<Items>> itemGroups = new HashMap<>();
+
+        // Group items by name
+        for (Items item : inventory) {
+            String name = item.getName();
+            itemCount.put(name, itemCount.getOrDefault(name, 0) + 1);
+            if (!itemGroups.containsKey(name)) {
+                itemGroups.put(name, new ArrayList<>());
+            }
+            itemGroups.get(name).add(item);
         }
+
+        // Display grouped items
+        int index = 1;
+        Map<Integer, Items> indexToItem = new HashMap<>();
+        for (String name : itemGroups.keySet()) {
+            int count = itemCount.get(name);
+            if (count > 1) {
+                System.out.println(index + ". " + name + " (" + count + "x)");
+            } else {
+                System.out.println(index + ". " + name);
+            }
+            indexToItem.put(index, itemGroups.get(name).get(0));
+            index++;
+        }
+
         System.out.println("0. Cancel");
         System.out.print("\nEnter the number of the item you want to use: ");
 
@@ -278,9 +408,9 @@ public class MonsterController {
         }
 
         try {
-            int itemIndex = Integer.parseInt(input) - 1;
-            if (itemIndex >= 0 && itemIndex < inventory.size()) {
-                Items selectedItem = inventory.get(itemIndex);
+            int itemIndex = Integer.parseInt(input);
+            if (itemIndex >= 1 && itemIndex < index) {
+                Items selectedItem = indexToItem.get(itemIndex);
                 String itemName = selectedItem.getName().toLowerCase();
 
                 // Check if it's a consumable item by name
@@ -306,20 +436,36 @@ public class MonsterController {
                     if (monster.getName().equals("Facehugger")) {
                         System.out.println("Special Rule Activates: The Facehugger attacks you for 2 extra damage as you use an item!");
                         player.setHealth(player.getHealth() - 2);
+                        System.out.println("Your health: " + player.getHealth());
+                    }
+                    //Added special rule activation for Spitter when using items
+                    else if (monster.getName().equals("Spitter")) {
+                        System.out.println("Special Rule Activates: The Spitter deals 5 extra damage from infection as you use an item!");
+                        player.setHealth(player.getHealth() - 5);
+                        System.out.println("Your health: " + player.getHealth());
+                    }
+                    else {
+                        System.out.println("Your health is now: " + player.getHealth());
                     }
 
-                    System.out.println("Your health is now: " + player.getHealth());
-
-                    // Remove the item after use
-                    inventory.remove(itemIndex);
+                    // Remove one instance of the item
+                    for (Items item : inventory) {
+                        if (item.getName().equals(selectedItem.getName())) {
+                            inventory.remove(item);
+                            break;
+                        }
+                    }
                 } else {
                     System.out.println("You can't use " + selectedItem.getName() + " in combat.");
+                    return; // This already returns from the method, but monster still attacks
                 }
             } else {
                 System.out.println("Invalid item number.");
+                return;
             }
         } catch (NumberFormatException e) {
             System.out.println("Please enter a valid number.");
+            return;
         }
     }
 

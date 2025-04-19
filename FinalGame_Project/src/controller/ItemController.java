@@ -25,7 +25,9 @@ public class ItemController {
         List<Items> items = currentRoom.getRoomInventory();
         List<Items> sameItems = new ArrayList<>();
         for (Items item : items) {
-            if (item.getName().equalsIgnoreCase(itemName)) {
+            // Jose Montejo: Modified to check if item name contains the input text (case insensitive)
+            // This allows "take glock" to work for "Glock 30" items
+            if (item.getName().toLowerCase().contains(itemName.toLowerCase())) {
                 sameItems.add(item);
             }
         }
@@ -35,6 +37,7 @@ public class ItemController {
             view.displayFailure(itemName);
             return;
         }
+        // Rest of the method remains unchanged
         Items firstMatch = sameItems.get(0);
         String type = firstMatch.getClass().getSimpleName().toLowerCase();
         String baseType = firstMatch.getClass().getSuperclass().getSimpleName().toLowerCase();

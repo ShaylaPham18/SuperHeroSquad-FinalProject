@@ -62,6 +62,12 @@ public class MonsterSpawnManager {
                 System.out.println("Special: " + activeMonster.getSpecialRule());
             }
             System.out.println("Your health: " + player.getHealth() + " | " + activeMonster.getName() + "'s health: " + activeMonster.getHealth());
+            // Display monster weaknesses
+            System.out.println("Weapon weaknesses:");
+            String[] weaknesses = activeMonsters.get(roomID).getWeaponWeaknesses();
+            int[] damages = activeMonsters.get(roomID).getWeaponDamages();
+            for (int i = 0; i < weaknesses.length; i++) {
+                System.out.println("- " + weaknesses[i] + ": " + damages[i] + "% damage boost");            }
             monsterHandled = true;
             System.out.println("Do you want to fight the " + activeMonster.getName() + "? (yes/no)");
 
@@ -141,8 +147,7 @@ public class MonsterSpawnManager {
         if (!hasMonsters || potentialMonsters == null || potentialMonsters.isEmpty()) {
             return false;
         }
-        System.out.println("DEBUG: Checking for monsters in room: " + roomID + " (" + currentRoom.getRoomName() + ")");
-        System.out.println("DEBUG: Found " + potentialMonsters.size() + " potential monsters for this room");
+
 
         // Select a monster from the list
         for (Monster monster : potentialMonsters) {
@@ -167,6 +172,14 @@ public class MonsterSpawnManager {
                     System.out.println("Special: " + monster.getSpecialRule());
                 }
                 System.out.println("Your health: " + player.getHealth() + " | " + monster.getName() + "'s health: " + monster.getHealth());
+                // Display monster weaknesses
+                System.out.println("Weapon weaknesses:");
+                String[] weaknesses = monster.getWeaponWeaknesses();
+                int[] damages = monster.getWeaponDamages();
+                for (int i = 0; i < weaknesses.length; i++) {
+                    System.out.println("- " + weaknesses[i] + ": " + damages[i] + "% damage boost");                }
+
+
                 monsterHandled = true;
                 System.out.println("Do you want to fight the " + monster.getName() + "? (yes/no)");
 
@@ -219,6 +232,12 @@ public class MonsterSpawnManager {
                     System.out.println("Special: " + monster.getSpecialRule());
                 }
                 System.out.println("Your health: " + player.getHealth() + " | " + monster.getName() + "'s health: " + monster.getHealth());
+                // Display monster weaknesses
+                System.out.println("Weapon weaknesses:");
+                String[] weaknesses = monster.getWeaponWeaknesses();
+                int[] damages = monster.getWeaponDamages();
+                for (int i = 0; i < weaknesses.length; i++) {
+                    System.out.println("- " + weaknesses[i] + ": " + damages[i] + "% damage boost");                }
                 System.out.println("Do you want to fight the " + monster.getName() + "? (yes/no)");
 
                 // Get player's choice

@@ -175,6 +175,11 @@ public class Monster {
             return damageToPlayer + 2; // Base damage plus 2 extra for monster's action
         }
 
+        // Jose Montejo: Added special rule for Spitter - deals 5 extra damage per action
+        if (name.equals("Spitter")) {
+            return damageToPlayer + 5; // Base damage plus 5 extra for infection damage
+        }
+
         // Basic attack returns the monster's damage value
         return damageToPlayer;
     }
@@ -216,8 +221,8 @@ public class Monster {
             isDefeated = true;
         }
 
-        // Return true if the monster is defeated
-        return isDefeated;
+        // Return true to indicate hit (not dodge)
+        return true;
     }
 
     /**
