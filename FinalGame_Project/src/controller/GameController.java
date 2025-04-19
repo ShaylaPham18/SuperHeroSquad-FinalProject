@@ -1,15 +1,11 @@
 //Re-push to confirm teammate sync
 package controller;
 
-import loader.FileLoader;
-import model.Items;
 import model.Player;
 import model.Puzzle;
 import model.Room;
-//import model.Monster;
 import model.Monster;
 import view.ItemView;
-import view.PuzzleView;
 import view.Frame;
 import loader.MonsterLoader;
 
@@ -259,14 +255,28 @@ public class GameController {
         Room room = player.getCurrentRoom();
         Puzzle puzzle = room.getPuzzle();
 
-        if (puzzle == null) {
-            System.out.println("🔍 You look around carefully, but there's no puzzle to inspect here.");
-        } else if (puzzle.isSolved()) {
-            System.out.println("✅ You recall solving the puzzle here already.");
-        } else {
+        if (puzzle != null && !puzzle.isSolved()) {
             System.out.println("🧩 You uncover a hidden mechanism... It's a puzzle!");
-            System.out.println("📝 " + puzzle.getDescription());
             System.out.println("Use the 'Try' command to attempt solving it.");
+            System.out.println("📝 " + puzzle.getDescription());
+
+        } else if (puzzle != null && puzzle.isSolved()) {
+            System.out.println("✅ You recall solving the puzzle here already.");
+            System.out.println("🧩 Puzzle: " + puzzle.getName());
+            System.out.println("📝 " + puzzle.getDescription());
+
+        } else {
+            // no puzzle object in the room (it was removed)
+            String roomName = room.getRoomName();
+            if (roomName.equalsIgnoreCase("Security Room") ||
+                    roomName.equalsIgnoreCase("Director’s Office") ||
+                    roomName.equalsIgnoreCase("Server Room") ||
+                    roomName.equalsIgnoreCase("Electrical Room") ||
+                    roomName.equalsIgnoreCase("3rd Floor Elevator")) {
+                System.out.println("✅ You recall solving a puzzle in this room already.");
+            } else {
+                System.out.println("🔍 You look around carefully, but there's no puzzle to inspect here.");
+            }
         }
 
         //Shayla
