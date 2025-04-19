@@ -80,7 +80,7 @@ public class ItemController {
         }
         Items item = null;
         for (Items i : player.getInventory()) {
-            if (i.getName().equalsIgnoreCase(itemName)) {
+            if (i.getName().toLowerCase().contains(itemName.toLowerCase())) {
                 item = i;
                 break;
             }
