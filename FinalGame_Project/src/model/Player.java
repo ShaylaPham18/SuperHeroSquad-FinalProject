@@ -46,10 +46,6 @@ public class Player {
         inventory.add(item);
     }
 
-    public void dropItem(Items items) {
-        inventory.remove(items);
-    }
-
     public int getBasePlayerDamage() {
         return basePlayerDamage;
     }
@@ -65,30 +61,6 @@ public class Player {
 
     public void showStats() {
         System.out.println("Player health: " + health + "\nPlayer damage: " + basePlayerDamage);
-    }
-
-    //Shayla
-    public void consumeItem(String itemName) {
-        Items item = null;
-        for (Items i : inventory) {
-            if (i.getName().equalsIgnoreCase(itemName)) {
-                item = i;
-                break;
-            }
-        }
-        if (item == null) {//weird error here
-            System.err.println("You do not have " + itemName + " in your inventory.");
-            return;
-        }
-        if (item instanceof Consumables) {
-            Consumables consume = (Consumables) item;
-            int healedAmount = consume.calculateHealthHealed(100);
-            health += healedAmount;
-            inventory.remove(item);
-            System.out.println("You used " + item.getName() + " and healed " + healedAmount + " health. Current Health: " + health);
-        } else {
-            System.out.println(item.getName() + " is not consumable.");
-        }
     }
 
     //Jose Montejo
@@ -115,7 +87,7 @@ public class Player {
         return false;
     }
 
-    // Check the inventory --> Razan
+    // Check the inventory --> Razan, Shayla
     public void showInventory() {
         if (inventory.isEmpty()) {
             System.out.println("🎒 Your inventory is empty.");

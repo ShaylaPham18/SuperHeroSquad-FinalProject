@@ -25,8 +25,8 @@ itemID|itemName|itemType|itemStat|itemDescription|roomID|quantity
 14|hand/fingerprint|key|0|A severed hand from a security officer.|1sec|1
 15|ID badge|key|0|A hospital administrator's ID.|2do|1
 16|scalpel|weapon|5|A doctor's tool.(deals 5 dmg)|3or|1
-17|fire extinguisher|miscellaneous|0|A heavy CO2 extinguisher.|3iso|1
-17|fire extinguisher|miscellaneous|0|A heavy CO2 extinguisher.|1cafe|1
+17|fire extinguisher|key|0|A heavy CO2 extinguisher.|3iso|1
+17|fire extinguisher|key|0|A heavy CO2 extinguisher.|1cafe|1
 
 
 
