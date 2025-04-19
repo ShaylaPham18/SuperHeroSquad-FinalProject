@@ -20,6 +20,7 @@ import java.util.Map;
 public class MonsterSpawnManager {
     private final Map<String, List<Monster>> monstersByLocation;
     private final Map<String, Boolean> spawnedMonsters; // Tracks which monsters have been spawned
+    private final Map<String, Boolean> defeatedMonsters; // Jose Montejo: Added to track permanently defeated monsters
     private final MonsterView monsterView;
     private final Map<String, Monster> activeMonsters; // Tracks monsters that are present in rooms but not defeated
 
@@ -33,6 +34,7 @@ public class MonsterSpawnManager {
     public MonsterSpawnManager(Map<String, List<Monster>> monstersByLocation) {
         this.monstersByLocation = monstersByLocation;
         this.spawnedMonsters = new HashMap<>();
+        this.defeatedMonsters = new HashMap<>(); // Jose Montejo: Initialize the defeated monsters map
         this.activeMonsters = new HashMap<>();
         this.monsterView = new MonsterView();
     }
@@ -156,6 +158,10 @@ public class MonsterSpawnManager {
                 return false;
             }
             String monsterKey = monster.getName() + "_" + roomID;
+            //Skip if monster is already permanently defeated
+            if (defeatedMonsters.containsKey(monsterKey) && defeatedMonsters.get(monsterKey)) {
+                continue;
+            }
 
             // Check if this monster has already been spawned but not added to active monsters
             if (spawnedMonsters.containsKey(monsterKey) && spawnedMonsters.get(monsterKey)) {
@@ -328,8 +334,12 @@ public class MonsterSpawnManager {
         // Start the encounter
         boolean monsterDefeated = controller.encounterMonster();
 
-        // If monster is defeated, remove it from active monsters
+        // If monster is defeated, mark it as permanently defeated
         if (monsterDefeated) {
+            String monsterKey = monster.getName() + "_" + monster.getSpawnLocation();
+
+            defeatedMonsters.put(monsterKey, true); // Jose Montejo: Mark as permanently defeated
+
             for (Map.Entry<String, Monster> entry : activeMonsters.entrySet()) {
                 if (entry.getValue() == monster) {
                     activeMonsters.remove(entry.getKey());
@@ -352,6 +362,7 @@ public class MonsterSpawnManager {
     public void resetMonsterSpawns() {
         spawnedMonsters.clear();
         activeMonsters.clear();
+        defeatedMonsters.clear(); // Jose Montejo: Also clear defeated monsters
     }
     /**
      * Jose Montejo

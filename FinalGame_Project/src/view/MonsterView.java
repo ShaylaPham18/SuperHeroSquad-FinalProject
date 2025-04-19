@@ -45,15 +45,27 @@ public class MonsterView {
      * Includes special messages for critical hits or special abilities.
      */
     public void displayMonsterAttack(Monster monster, int damage) {
-        System.out.println("The " + monster.getName() + " attacks you for " + damage + " damage!");
-
-        // Display special rule messages
+        // For Amalgamation, handle critical hit differently
         if (monster.getName().equals("Amalgamation") && damage == monster.getDamageToPlayer() * 2) {
-            System.out.println("CRITICAL HIT! The Amalgamation deals double damage!");
-        } else if (monster.getName().equals("Facehugger")) {
-            System.out.println("The Facehugger deals 2 extra damage with its attack!");
-        } else if (monster.getName().equals("Spitter")) {
-            System.out.println("The Spitter's attack causes additional damage from infection!");
+            System.out.println("CRITICAL HIT! The Amalgamation deals double damage for a total of " + damage + " damage!");
+        }
+        // For normal Amalgamation attack
+        else if (monster.getName().equals("Amalgamation")) {
+            System.out.println("The " + monster.getName() + " attacks you for " + damage + " damage!");
+        }
+        // For Facehugger
+        else if (monster.getName().equals("Facehugger")) {
+            System.out.println("The " + monster.getName() + " attacks you for " + (damage - 2) + " damage!");
+            System.out.println("Special Rule Activates: The Facehugger deals 2 extra damage with its attack!");
+        }
+        // For Spitter
+        else if (monster.getName().equals("Spitter")) {
+            System.out.println("The " + monster.getName() + " attacks you for " + (damage - 5) + " damage!");
+            System.out.println("Special Rule Activates: The Spitter deals 5 extra damage from infection!");
+        }
+        // For all other monsters
+        else {
+            System.out.println("The " + monster.getName() + " attacks you for " + damage + " damage!");
         }
     }
 
