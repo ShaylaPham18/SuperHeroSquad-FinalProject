@@ -47,7 +47,7 @@ public class FileLoader {
 
 
     Map<String, Room> roomMap = new HashMap<>();
-    //private static Scanner scanner=new Scanner(System.in);
+    //justin
     public Map<String, Room> readRooms(){
         Map<String, String> roomExits = new HashMap<>();
         try {
@@ -118,8 +118,6 @@ public class FileLoader {
                 String itemDescription = parts[4].trim();
                 String roomId = parts[5].trim();
                 int quantity = Integer.parseInt(parts[6].trim());
-                //test below see note in items class-Justin
-                String itemShortcut = (parts.length > 7) ? parts[7].trim().toLowerCase() : null;
 
                 Room room = rooms.get(roomId);
                 if (room == null) {

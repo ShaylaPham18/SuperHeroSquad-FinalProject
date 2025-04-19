@@ -9,10 +9,6 @@ public class Items {
     protected String description;
     protected String roomID;
     protected int quantity;
-    //test below
-    //has not gone as well as expected maybe will just put it in help menu-Justin
-    //I tried putting in constructor but caused many errors and would require lots of change
-    //unsure
     public String itemNameShortCut;
 
     //Shayla

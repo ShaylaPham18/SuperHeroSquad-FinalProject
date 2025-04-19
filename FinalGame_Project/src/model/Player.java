@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Player {
+    //justin razan shayla jose
     private String name;
     private int health;
     private int basePlayerDamage = 5;
@@ -54,11 +55,7 @@ public class Player {
         this.basePlayerDamage = basePlayerDamage;
     }
 
-    public int totalDamage() {
-        //Logic will be if weapon equipped:   basePlayerDamage+weaponDamage
-        return basePlayerDamage;
-    }
-
+    //justin
     public void showStats() {
         System.out.println("Player health: " + health + "\nPlayer damage: " + basePlayerDamage);
     }

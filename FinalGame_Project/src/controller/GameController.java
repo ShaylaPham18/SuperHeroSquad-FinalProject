@@ -70,7 +70,7 @@ public class GameController {
             System.out.print("\n> ");
             String input = scanner.nextLine().trim().toLowerCase();
 
-            //quit original if statement
+            //quit original if statement justin
             if (input.equals("quit")) {
                 System.out.println("👋 Thanks for playing!");
                 running = false;
@@ -83,24 +83,24 @@ public class GameController {
                 System.out.println("You now have "+x+" health");
             }
 
-            //help
+            //help justin
             else if (input.equalsIgnoreCase("help")) {
                 Frame frame = new Frame();
                 frame.helpMenu();
             }
 
-            //map
+            //map justin
             else if (input.equalsIgnoreCase("map")) {
                 Frame frame = new Frame();
                 frame.map();
             }
 
-            //stats
+            //stats justin
             else if (input.equalsIgnoreCase("stats") || input.equalsIgnoreCase("stat") || input.equalsIgnoreCase("st")) {
                 player.showStats();
             }
 
-            //explore
+            //explore justin
             else if (input.equalsIgnoreCase("explore") || input.equalsIgnoreCase("ex")) {
                 Room room = player.getCurrentRoom();
                 System.out.println("📍 " + room.getRoomName());
@@ -117,7 +117,7 @@ public class GameController {
                 System.out.println("🚪 Exits: " + room.getExitDirections());
 
             }
-            //navigation
+            //navigation justin
             else if (input.startsWith("go")) {
                 String previousRoomID = current.getRoomID();
                 current.setRoomHasBeenVisited(true);
@@ -228,7 +228,7 @@ public class GameController {
                 itemController.consumeItem(itemName);
             }
 
-            //else for invalid commands/input
+            //else for invalid commands/input justin
             else {
                 System.err.println("❓ Unknown command. Type go<Direction> to navigate || or help to view all commands || or quit to end the game");
             }
