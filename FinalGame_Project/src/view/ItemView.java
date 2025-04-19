@@ -25,7 +25,7 @@ public class ItemView {
     public void displayRoomItems(Map<String, Integer> itemCount, Map<String, String> itemDescriptions) {
         System.out.println("📦 Items in this room:");
         for (String name : itemCount.keySet()) {
-            System.out.println("--> " + name + " (" + itemCount.get(name) + "x): " + itemDescriptions.get(name));
+            System.out.println("--> " + name + " [" + itemCount.get(name) + "x]: " + itemDescriptions.get(name));
         }
     }
 

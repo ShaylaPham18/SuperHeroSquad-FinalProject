@@ -104,7 +104,7 @@ public class Player {
                 int count = itemCount.get(name);
                 String description = itemDescriptions.get(name);
                 if (count > 1) {
-                    System.out.println("- " + name + " (" + count + "x): " + description);
+                    System.out.println("- " + name + " [" + count + "x]: " + description);
                 } else {
                     System.out.println("- " + name + ": " + description);
                 }

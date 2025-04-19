@@ -7,6 +7,7 @@ public class KeyBoardShortCuts {
     private final Map<String, String> shortCuts;
     private final Map<String,String> itemShortcuts;
 
+    //Justin, Shayla (added some more)
     public KeyBoardShortCuts() {
         shortCuts = new HashMap<>();
         shortCuts.put("N", "NORTH");
@@ -24,6 +25,7 @@ public class KeyBoardShortCuts {
         itemShortcuts.put("glock","glock 30");
         itemShortcuts.put("sgun","shotgun");
         itemShortcuts.put("hkey","helicopter key");
+        itemShortcuts.put("eye", "eyeball");
         itemShortcuts.put("hand","hand/fingerprint");
         itemShortcuts.put("id","ID badge");
         itemShortcuts.put("fire","fire extinguisher");
