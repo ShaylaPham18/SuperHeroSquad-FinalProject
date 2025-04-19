@@ -74,7 +74,13 @@ public class GameController {
             if (input.equals("quit")) {
                 System.out.println("👋 Thanks for playing!");
                 running = false;
+            }
 
+            //testing
+            else if (input.equalsIgnoreCase("justin")){
+                int x=10000;
+                player.setHealth(x);
+                System.out.println("You now have "+x+" health");
             }
 
             //help
@@ -191,6 +197,7 @@ public class GameController {
                 } catch (NumberFormatException e) {
                     itemName = String.join(" ", parts);
                 }
+                itemName= keyBoardShortCuts.resolveItems(itemName.trim());//gotta find a way to display this to player
                 itemController.takeItem(itemName.trim(), player.getCurrentRoom(), quantity);
             }
 
@@ -210,12 +217,14 @@ public class GameController {
                 } catch (NumberFormatException e) {
                     itemName = String.join(" ", words);
                 }
+                itemName= keyBoardShortCuts.resolveItems(itemName.trim());//gotta find a way to display this to player
                 itemController.dropItem(itemName.trim(), player.getCurrentRoom(), quantity);
             }
 
             //Shay, for consume item
             else if (input.startsWith("use")) {
                 String itemName = input.substring(3).trim();
+                itemName= keyBoardShortCuts.resolveItems(itemName.trim());//gotta find a way to display this to player
                 itemController.consumeItem(itemName);
             }
 

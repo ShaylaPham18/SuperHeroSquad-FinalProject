@@ -9,6 +9,11 @@ public class Items {
     protected String description;
     protected String roomID;
     protected int quantity;
+    //test below
+    //has not gone as well as expected maybe will just put it in help menu-Justin
+    //I tried putting in constructor but caused many errors and would require lots of change
+    //unsure
+    public String itemNameShortCut;
 
     //Shayla
     public Items(int id, String name, String type, int stat, String description, String roomID, int quantity) {
@@ -19,6 +24,7 @@ public class Items {
         this.description = description;
         this.roomID = roomID;
         this.quantity = quantity;
+
     }
 
     public Items(int number, String name) {
@@ -41,5 +47,13 @@ public class Items {
     //Shayla
     public String getDescription() {
         return description;
+    }
+
+    public String getItemNameShortCut() {
+        return itemNameShortCut;
+    }
+
+    public void setItemNameShortCut(String itemNameShortCut) {
+        this.itemNameShortCut = itemNameShortCut;
     }
 }

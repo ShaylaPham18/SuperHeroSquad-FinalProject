@@ -10,21 +10,19 @@ import java.awt.*;
 public class Frame {
         public void helpMenu() {
                 JFrame jFrame = new JFrame("Help Menu");
-                JTextArea jTextArea = new JTextArea("\n\t\t\tDirections\n\n\tCan either type N S E W or north south east west(not case sensitive)\n" +
-                        "\n\t\t\tCommands\n\n\tex or explore to explore current room\n" +
-                        "\thelp to view this help menu\n" +
-                        "\tMust type exit to exit the game completely\n" +
-                        "\tpickup + itemName or pick up + itemName or pu + itemName to pick up an item\n" +
-                        "\tinv or inventory to view inventory\n" +
-                        "\tdrop + item name to drop item\n" +
-                        "\tins + itemName or inspect + itemName to inspect an item(Must be in inventory)\n" +
-                        "\tequip or eq + itemName to equip an item(Must be a weapon)\n" +
-                        "\tunequip or un to unequip an item\n" +
-                        "\theal + itemName to restore health(Must be a consumable)\n" +
-                        "\tstats or st to view player stats(player health and player damage deal)\n" +
-                        "\n\n\t\twhen encountering the monster room:\n" +
-                        "\t\battack or att to initiate combat\t\bignore or ig to ignore combat\n" +
-                        "\tNOTE: THERE'S A SEPARATE HELP MENU DURING COMBAT");
+                JTextArea jTextArea = new JTextArea("\t\t\tHelp Menu\n\n\ttype help to view this help menu\n" +
+                        "\ttype map to view the map\n" +
+                        "\ttype quit to end the game\n" +
+                        "\ttype stat stats or st to view player stats\n" +
+                        "\ttype inventory or inv to view player inventory\n" +
+                        "\tNAVIGATION-type go + direction you want to go (north south east west n s e w) not case sensitive\n" +
+                        "\tIN ROOM-type explore or ex to gather information about the room\n" +
+                        "\tIN ROOM-type inspect or ins to view items and puzzles in the room\n" +
+                        "\tITEMS-type take + itemName or itemNameShortcut to pick up an item\n" +
+                        "\tTo take multiple ITEMS type take + itemName or itemNameShortcut + number you want to pick up\n" +
+                        "\tITEMS-type drop + itemName or itemNameShortcut to drop a item\n" +
+                        "\tTo drop multiple ITEMS type take + itemName or itemNameShortcut + number you want to drop\n" +
+                        "\tTo use an ITEM type use + itemName or itemNameShortCut to use a CONSUMABLE ITEM\n");
 
                 jTextArea.setEditable(false);
                 jTextArea.setPreferredSize(new Dimension(150, 150));
@@ -33,7 +31,7 @@ public class Frame {
 
 
                 jFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                jFrame.setSize(800, 700);
+                jFrame.setSize(810, 700);
                 jFrame.add(jTextArea);
                 jFrame.setLocationRelativeTo(null);
                 //jFrame.setResizable(false);
