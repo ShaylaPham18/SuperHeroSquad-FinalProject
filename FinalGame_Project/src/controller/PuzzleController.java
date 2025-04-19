@@ -83,7 +83,7 @@ public class PuzzleController {
                         System.out.println("⚠Please specify an item, like: use ID badge");
                     }
                 }
-                return;
+                break;
                 default:
                     System.out.println(" XXX-->Invalid command. Please type 'solve', 'hint', 'leave', or 'use <item>'.");
             }
