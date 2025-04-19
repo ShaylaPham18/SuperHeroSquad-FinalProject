@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Player {
     private String name;
     private int health;
-    private int basePlayerDamage = 5;
+    private int basePlayerDamage=5;
     private ArrayList<Items> inventory;
     private Room currentRoom;
 
@@ -13,7 +13,7 @@ public class Player {
         this.name = name;
         this.health = 100;
         this.inventory = new ArrayList<>();
-        this.currentRoom = null;
+        this.currentRoom = null; // starting room set later
     }
 
     public String getName() {
@@ -43,8 +43,7 @@ public class Player {
     public void takeItem(Items item) {
         inventory.add(item);
     }
-
-    public void dropItem(Items items) {
+    public void dropItem(Items items){
         inventory.remove(items);
     }
 
@@ -55,15 +54,16 @@ public class Player {
     public void setBasePlayerDamage(int basePlayerDamage) {
         this.basePlayerDamage = basePlayerDamage;
     }
-
-    public int totalDamage() {
+    public int totalDamage(){
+        //Logic will be if weapon equipped:   basePlayerDamage+weaponDamage
         return basePlayerDamage;
     }
 
-    public void showStats() {
-        System.out.println("Player health: " + health + "\nPlayer damage: " + basePlayerDamage);
+    public void showStats(){
+        System.out.println("Player health: "+health+"\nPlayer damage: "+basePlayerDamage);
     }
 
+    //Shayla
     public void consumeItem(String itemName) {
         Items item = null;
         for (Items i : inventory) {
@@ -72,8 +72,8 @@ public class Player {
                 break;
             }
         }
-        if (item == null) {
-            System.err.println("You do not have " + itemName + " in your inventory.");
+        if (item == null) {//weird error here
+            System.err.println("You do not have "+itemName+" in your inventory.");
             return;
         }
         if (item instanceof Consumables) {
@@ -87,9 +87,19 @@ public class Player {
         }
     }
 
+    //Jose Montejo
+    /**
+     * getInventory
+     * Returns the player's current inventory as an ArrayList of Items.
+     * Used by MonsterController to check for weapons during combat.
+     *
+     * @return ArrayList<Items> containing all items in the player's inventory
+     */
     public ArrayList<Items> getInventory() {
         return inventory;
     }
+
+    // ✅ New method for checking if player has a specific item
 
     public boolean hasItem(String itemName) {
         for (Items item : inventory) {
@@ -99,7 +109,7 @@ public class Player {
         }
         return false;
     }
-
+// Check the inventory --> Razan
     public void showInventory() {
         if (inventory.isEmpty()) {
             System.out.println("🎒 Your inventory is empty.");
@@ -109,10 +119,5 @@ public class Player {
                 System.out.println("- " + item.getName() + ": " + item.getDescription());
             }
         }
-    }
-
-    // ✅ Add this to fix save/load game
-    public void pickupItem(Items item) {
-        takeItem(item);
     }
 }

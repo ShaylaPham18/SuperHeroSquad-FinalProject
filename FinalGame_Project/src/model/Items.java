@@ -10,7 +10,7 @@ public class Items {
     protected String roomID;
     protected int quantity;
 
-    // Constructor with all fields
+    //Shayla
     public Items(int id, String name, String type, int stat, String description, String roomID, int quantity) {
         this.id = id;
         this.name = name;
@@ -21,38 +21,25 @@ public class Items {
         this.quantity = quantity;
     }
 
-    // Unused alternate constructor
     public Items(int number, String name) {
-        this.id = number;
-        this.name = name;
     }
 
-    // Getters
+    //Shayla
+    /**
+     * Getter Methods:
+     * getName - Used to retrieve the item's name
+     * getDescription - Used to retrieve the item's description
+     *
+     * @return item name & description
+     */
+
+    //Shayla
     public String getName() {
         return name;
     }
 
+    //Shayla
     public String getDescription() {
         return description;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public String getRoomID() {
-        return roomID;
-    }
-
-    public int getStat() {
-        return stat;
-    }
-
-    public int getId() {
-        return id;
     }
 }
