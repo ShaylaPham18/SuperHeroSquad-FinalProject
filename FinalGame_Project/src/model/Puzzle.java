@@ -110,7 +110,7 @@ public class Puzzle {
         } else {
             this.correctAnswerParts = new String[]{correctAnswerRaw};
         }
-        System.out.println("DEBUG: Loaded answer parts → " + Arrays.toString(correctAnswerParts));
+        //System.out.println("DEBUG: Loaded answer parts → " + Arrays.toString(correctAnswerParts));
     }
     /**
      * Checks whether the player has failed enough attempts to receive a hint.
