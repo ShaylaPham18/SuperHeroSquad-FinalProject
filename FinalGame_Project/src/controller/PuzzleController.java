@@ -22,6 +22,7 @@ public class PuzzleController {
     private final Player player;
     private boolean puzzleSolved;
     private Map<String, Room> rooms;
+    String[] parts;
 
     public PuzzleController(Puzzle puzzle, PuzzleView view, Room room, Player player, Map<String,Room> rooms) {
         this.puzzle = puzzle;
@@ -32,6 +33,7 @@ public class PuzzleController {
         this.scanner = new Scanner(System.in);
         this.puzzleSolved = puzzle.isSolved();
     }
+
     /**
      * Starts the puzzle interaction loop with the player, allowing solve, hint, use, or leave.
      */
@@ -104,17 +106,22 @@ public class PuzzleController {
         }
 
         while (!puzzle.isSolved()) {
-            System.out.println("Enter your answer use 'exit' to exit solving mode or 'hint' for Hint");
+            System.out.println("Enter your answer use 'exit' to exit solving mode, 'hint' for Hint or use[itemNme]");
             System.out.print("-> " );
             String input = scanner.nextLine().trim().toLowerCase();
 
-            if (input.equals("exit")) {
+            if (input.equalsIgnoreCase("exit") || (input.equalsIgnoreCase("e"))) {
                 System.out.println(" XXX--> Exiting solve mode.");
                 return;
             }
 
-            if (input.equals("hint")) {
+            if (input.equalsIgnoreCase("hint") || input.equalsIgnoreCase("h")) {
                 handleHint();
+                continue;
+            }
+            if (input.startsWith("use")) {
+                String itemName = input.substring(4).trim();
+                handleUseItem(itemName);
                 continue;
             }
             boolean correct = puzzle.attempt(input);
@@ -214,7 +221,7 @@ public class PuzzleController {
         if (result == null || result.isEmpty()) return;
 
         Room currentRoom = player.getCurrentRoom();
-        // If the result is "Gain [ItemName]" this for Medicine Cabinet Puzzle, create and add item to inventory
+        // If the result is Gain -- this for Medicine Cabinet Puzzle, create and add item to inventory
         if (result.startsWith("Gain [")) {
             String itemName = result.substring(result.indexOf("[") + 1, result.indexOf("]"));
             Items newItem = new Items(
