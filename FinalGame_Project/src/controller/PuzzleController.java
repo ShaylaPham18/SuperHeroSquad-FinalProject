@@ -9,6 +9,9 @@ import java.util.Map;
 import java.util.Scanner;
 import model.Items;
 /**
+ * PuzzleController handles the interaction between the player and puzzles within the game.
+ *  It supports solving, hinting, item-usage,
+ *  and applying puzzle results such as unlocking rooms or gaining items.
  * Razan Abdalla
  */
 public class PuzzleController {
@@ -29,6 +32,9 @@ public class PuzzleController {
         this.scanner = new Scanner(System.in);
         this.puzzleSolved = puzzle.isSolved();
     }
+    /**
+     * Starts the puzzle interaction loop with the player, allowing solve, hint, use, or leave.
+     */
     public void startPuzzle() {
         if (puzzle.isSolved()) {
             view.displayAlreadySolved();
@@ -59,7 +65,7 @@ public class PuzzleController {
                 case "hint":
                 case "h":
                     handleHint();
-                    return;
+                    break;
                 case "leave":
                 case  "l":
                     view.displayExitMessage();
@@ -67,7 +73,7 @@ public class PuzzleController {
                 case "inventory":
                 case  "inv":
                     player.showInventory();
-                    return;
+                    break;
                 case "use":
                 case "u":
                 {
@@ -84,7 +90,10 @@ public class PuzzleController {
         }
         puzzleSolved = true;
     }
-
+    /**
+     * Handles solving the puzzle through player input and checking correctness.
+     * If correct and not the Medicine Cabinet Puzzle, it removes the puzzle from the room.
+     */
     private void handleSolve() {
         if (puzzle.getCorrectAnswerParts().length == 2 && !puzzle.isSolved()) {
             if (!puzzle.isFirstPartEntered()) {
@@ -100,7 +109,7 @@ public class PuzzleController {
             String input = scanner.nextLine().trim().toLowerCase();
 
             if (input.equals("exit")) {
-                System.out.println("🛑 Exiting solve mode.");
+                System.out.println(" XXX--> Exiting solve mode.");
                 return;
             }
 
@@ -108,21 +117,29 @@ public class PuzzleController {
                 handleHint();
                 continue;
             }
-
             boolean correct = puzzle.attempt(input);
             view.displayAttemptResult(correct, puzzle);
-
             if (correct) {
                 System.out.println("You solved the puzzle: " + puzzle.getName());
                 System.out.println("🏁 Result: " + puzzle.getResultWhenSolved());
                 applyPuzzleResult(puzzle, player, rooms);
+
+                if (!puzzle.getName().trim().equalsIgnoreCase("Medicine Cabinet Puzzle")) {
+                    room.setPuzzle(null);
+                    System.out.println("🧩 The puzzle has been removed from the room.");
+                }
+
+
             } else {
                 System.out.println("(0) --> Attempts so far: " + puzzle.getCurrentAttempts());
             }
+
         }
 
     }
-
+    /**
+     * Displays a hint if the player has failed enough attempts.
+     */
     private void handleHint() {
         if (puzzle.canGetHint()) {
             view.displayHint(puzzle);
@@ -131,7 +148,9 @@ public class PuzzleController {
             System.out.println("🧩 Try " + attemptsLeft + " more time(s) before a hint becomes available.");
         }
     }
-
+    /**
+     * Handles using an item to solve the puzzle if the correct item is required.
+     */
     private void handleUseItem(String itemName) {
         if (!player.hasItem(itemName)) {
             System.out.println("You don’t have '" + itemName + "' in your inventory.");
@@ -149,65 +168,62 @@ public class PuzzleController {
             System.out.println("That item doesn’t help solve this puzzle.");
         }
     }
-
-
-
-
+    /**
+     * Entry point from the main game to trigger puzzle handling for the player's current room.
+     */
     public static void handlePuzzle(Player player, Map<String, Room> rooms) {
         Puzzle puzzle = player.getCurrentRoom().getPuzzle();
-
         if (puzzle == null) {
-            System.out.println("🚫 There is no puzzle in this room.");
+            System.out.println(" --> There is no puzzle in this room.");
         } else if (puzzle.isSolved()) {
-            System.out.println("✅ You've already solved this puzzle.");
+            System.out.println(" --> You've already solved this puzzle.");
         } else {
             PuzzleController controller = new PuzzleController(puzzle, new PuzzleView(), player.getCurrentRoom(), player, rooms);
             controller.startPuzzle();
 
-            if (controller.isPuzzleSolved()) {
-                System.out.println("🔓 The puzzle seems to have unlocked something...");
-            }
+//            if (controller.isPuzzleSolved()) {
+//                System.out.println("🔓 The puzzle seems to have unlocked something...");
+//            }
         }
     }
-
-
+    /**
+     * Assigns puzzles to rooms based on the puzzle data loaded from file.
+     */
     public static void assignPuzzlesToRooms(List<Puzzle> puzzles, Map<String, Room> rooms) {
         for (Puzzle puzzle : puzzles) {
             Room room = rooms.get(puzzle.getRoomLocation());
             if (room != null) {
                 room.setPuzzle(puzzle);
             } else {
-                System.err.println("⚠️ Room not found for puzzle: " + puzzle.getName());
+                System.err.println("⚠ Room not found for puzzle: " + puzzle.getName());
             }
         }
     }
-
+    /**
+     * Returns true if the current puzzle has been solved.
+     */
     public boolean isPuzzleSolved() {
         return puzzleSolved;
     }
+    /**
+     * Applies the effect or reward of a puzzle after it is solved.
+     * This can include adding an item, unlocking a room, enabling access, or changing the game state.
+     */
     public static void applyPuzzleResult(Puzzle puzzle, Player player, Map<String, Room> rooms) {
         String result = puzzle.getResultWhenSolved();
         if (result == null || result.isEmpty()) return;
 
-        Room currentRoom = player.getCurrentRoom(); // Used for item location, if needed
-
-        // 🎁 If the result is "Gain [ItemName]", create and add item to inventory
+        Room currentRoom = player.getCurrentRoom();
+        // If the result is "Gain [ItemName]" this for Medicine Cabinet Puzzle, create and add item to inventory
         if (result.startsWith("Gain [")) {
             String itemName = result.substring(result.indexOf("[") + 1, result.indexOf("]"));
             Items newItem = new Items(
-                    999,                             // Arbitrary ID
-                    itemName,
-                    "special",                      // Custom item type
-                    0,                              // No stat value
-                    "Gained by solving a puzzle.",
-                    currentRoom.getRoomID(),
-                    1
-            );
-            player.takeItem(newItem); // Use your own method
-            System.out.println("🎁 You received: " + itemName);
+                    999, itemName, "special", 0, "Gained by solving a puzzle.", currentRoom.getRoomID(), 1);
+            player.takeItem(newItem);
+            System.out.println("YaY....You received a Prize: " + itemName);
         }
 
-        // 🔓 If the result is "Unlocks [Room Name]", unlock that room
+        // If the result is "Unlocks [Room Name]" this is for Office Card Puzzle,Security Room Puzzle , unlock that room
         else if (result.startsWith("Unlocks")) {
             String targetRoomName = result.replace("Unlocks", "").trim();
             for (Room room : rooms.values()) {
@@ -220,7 +236,7 @@ public class PuzzleController {
             }
         }
 
-        // 🧭 If the result gives access to basement
+        // If the result gives access to basement for Elevator Input Puzzle
         else if (result.contains("access to basement")) {
             Room elevator = rooms.get("ELE1"); // Your 1st floor elevator ID
             if (elevator != null) {
@@ -230,14 +246,59 @@ public class PuzzleController {
             }
         }
 
-        // 🧠 Story/environment changes
+        // Story changes for Electric Panel Puzzle and Circuit Breaker
         else if (result.contains("Turns computers back on")) {
-            System.out.println("🖥️ Computers in the Staff Lounge and Surveillance Room are now powered.");
+            System.out.println("Computers in the Staff Lounge and Surveillance Room are now powered.");
         }
-
         else if (result.contains("Turns power back on")) {
             System.out.println("⚡ Power restored to Elevator and Electric Panel Puzzle.");
         }
     }
+    /**
+     * Handles special item interactions outside standard puzzle-solving logic.
+     * Supports items like scalpel, ID badge, Helicopter Key.
+     */
+    public static boolean handleSpecialKeyItemUse(String itemName, Player player) {
+        Room currentRoom = player.getCurrentRoom();
+        Puzzle puzzle = currentRoom.getPuzzle();
+        String roomName = currentRoom.getRoomName();
+
+        // Use scalpel directly to solve the Security Room Puzzle
+        if (itemName.equalsIgnoreCase("scalpel") && roomName.equalsIgnoreCase("Security Room")) {
+            if (puzzle != null && puzzle.getName().equalsIgnoreCase("Security Room Puzzle") && !puzzle.isSolved()) {
+                System.out.println("🔪 You used the scalpel to perform the retinal scan... Access granted!");
+                puzzle.setSolved(true);
+                return true;
+            } else {
+                System.out.println("🔒 There's nothing to use the scalpel on here.");
+                return true;
+            }
+        }
+
+        // Use ID badge in Director’s Office or 3rd Floor Elevator
+        if (itemName.equalsIgnoreCase("ID badge")) {
+            if (puzzle != null && !puzzle.isSolved()) {
+                if (roomName.equalsIgnoreCase("Director’s Office") && puzzle.getName().equalsIgnoreCase("Office Card Puzzle")) {
+                    System.out.println("🪪 You swiped the ID badge. The office unlocks.");
+                    puzzle.setSolved(true);
+                    return true;
+                } else if (roomName.equalsIgnoreCase("3rd Floor Elevator") && puzzle.getName().equalsIgnoreCase("Elevator Input Puzzle")) {
+                    System.out.println("🪪 You swiped the ID badge. The elevator panel unlocks.");
+                    puzzle.setSolved(true);
+                    return true;
+                }
+            }
+        }
+
+        // Use Helicopter Key on Roof to win
+        if (itemName.equalsIgnoreCase("Helicopter Key") && roomName.equalsIgnoreCase("Roof")) {
+            System.out.println("🚁 You start the helicopter and escape!");
+            System.out.println("🏆 CONGRATULATIONS! YOU'VE BEATEN THE GAME!");
+            System.exit(0);
+        }
+
+        return false;
+    }
+
 
 }

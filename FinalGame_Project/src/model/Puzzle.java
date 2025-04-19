@@ -1,4 +1,7 @@
 package model;
+
+import java.util.Arrays;
+
 /**
  * Razan Abdalla
  * Name|Description|RoomLocation|CorrectAnswer|ResultWhenSolved|MaxAttempts|Hint|RequiredItem
@@ -51,7 +54,14 @@ public class Puzzle {
     public int getMaxAttempts() { return maxAttempts; }
     public String[] getCorrectAnswerParts() { return correctAnswerParts; }
     public boolean isFirstPartEntered() { return firstPartEntered; }
-
+    /**
+     * Processes a player's input to solve the puzzle.
+     * Supports single-answer and two-part puzzles.
+     * Tracks attempts and updates puzzle state.
+     *
+     * @param input The player's input answer
+     * @return true if the input solves the puzzle, false otherwise
+     */
     public boolean attempt(String input) {
         String normalizedInput = input.replaceAll("\\s+", "");
 
@@ -66,12 +76,11 @@ public class Puzzle {
             }
         }
 
-        // Two-part answer puzzle
         if (correctAnswerParts.length == 2) {
             if (!firstPartEntered) {
                 if (normalizedInput.equalsIgnoreCase(correctAnswerParts[0])) {
                     firstPartEntered = true;
-                    System.out.println("✔ First part correct. Now pull the panel lever (use panel lever) or enter the next code.");
+                    System.out.println("✔ First part correct...");
                     return false;
                 } else {
                     currentAttempts++;
@@ -87,20 +96,27 @@ public class Puzzle {
                 }
             }
         }
-
         return false;
     }
-
-
-
+    /**
+     * Parses the raw answer string into one or two parts.
+     * If the answer contains ';', it splits into a two-part puzzle.
+     *
+     * @param correctAnswerRaw The raw answer from the puzzle file
+     */
     public void setCorrectAnswer(String correctAnswerRaw) {
         if (correctAnswerRaw.contains(";")) {
             this.correctAnswerParts = correctAnswerRaw.split(";");
         } else {
             this.correctAnswerParts = new String[]{correctAnswerRaw};
         }
+        //System.out.println("DEBUG: Loaded answer parts → " + Arrays.toString(correctAnswerParts));
     }
-
+    /**
+     * Checks whether the player has failed enough attempts to receive a hint.
+     *
+     * @return true if 3 or more failed attempts occurred and the puzzle is not yet solved
+     */
     public boolean canGetHint() {
         return currentAttempts >= 3 && !solved;
     }

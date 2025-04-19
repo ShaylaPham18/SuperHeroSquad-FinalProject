@@ -2,11 +2,15 @@ package view;
 
 import model.Puzzle;
 
-// Iam adding this class for puzzle view we may add it to game view after we finish the work
-public class PuzzleView {
-    public void displayPuzzleIntro(Puzzle puzzle) {
+/**
+ * PuzzleView is responsible for displaying messages related to puzzle interactions.
+ * It provides feedback for solving puzzles, hints, and puzzle status messages.
+ * Razan Abdalla
+ */
+    public class PuzzleView {
+        public void displayPuzzleIntro(Puzzle puzzle) {
             System.out.println("🧩 You found a strange puzzle: " + puzzle.getName());
-            System.out.println("🧠 " + puzzle.getDescription());
+            System.out.println("🧠" + puzzle.getDescription());
             System.out.println("🔑 Type 'solve' to begin solving, or 'hint' to get a clue.");
         }
 
@@ -20,12 +24,9 @@ public class PuzzleView {
     public void displayHint(Puzzle puzzle) {
         System.out.println("🔍 Hint: " + puzzle.getHint());
     }
-
     public void displayAlreadySolved() {
         System.out.println("You already solved this puzzle!");
     }
-
-
     public void displayExitMessage() {
         System.out.println("You’ve left the puzzle.");
     }
