@@ -212,8 +212,7 @@ public class Monster {
         }
 
         // Apply damage - use Math.round to properly round the damage
-        int actualDamage = (int) Math.round(baseDamage * damageMultiplier);
-        health -= actualDamage;
+        health -= baseDamage;
 
         // Ensure health doesn't go below 0
         if (health <= 0) {
