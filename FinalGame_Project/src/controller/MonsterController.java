@@ -55,9 +55,18 @@ public class MonsterController {
 
         // Load weapons from items.txt
         try {
-            this.weaponsMap = WeaponsLoader.loadWeapons("items.txt");
-
-            //this.weaponsMap = WeaponsLoader.loadWeapons("FinalGame_Project/items.txt");
+            // Try multiple possible file paths
+            try {
+                this.weaponsMap = WeaponsLoader.loadWeapons("items.txt");
+            } catch (Exception e1) {
+                try {
+                    this.weaponsMap = WeaponsLoader.loadWeapons("FinalGame_Project/items.txt");
+                } catch (Exception e2) {
+                    // If both fail, create a hardcoded knife weapon
+                    Weapons knife = new Weapons(1, "knife", "weapon", 5, "Surgical knives and scalpels.", "multiple", 1);
+                    this.weaponsMap.put("knife", knife);
+                }
+            }
         } catch (Exception e) {
             System.err.println("Error loading weapons: " + e.getMessage());
         }
@@ -201,9 +210,47 @@ public class MonsterController {
         ArrayList<Items> inventory = player.getInventory();
         ArrayList<Weapons> availableWeapons = new ArrayList<>();
 
+        // Track which weapon types we've already added to avoid duplicates
+        boolean knifeAdded = false;
+        boolean axeAdded = false;
+        boolean glockAdded = false;
+        boolean shotgunAdded = false;
+
         // Find all weapons in inventory
         for (Items item : inventory) {
-            Weapons weapon = weaponsMap.get(item.getName().toLowerCase());
+            String itemName = item.getName().toLowerCase().trim();
+
+            // Special case for known weapons when weaponsMap is empty
+            if (weaponsMap.isEmpty()) {
+                // Check for knife with more flexible matching
+                if ((itemName.contains("knife") || itemName.equals("knife")) && !knifeAdded) {
+                    Weapons knife = new Weapons(1, "knife", "weapon", 5, "Surgical knives and scalpels.", "multiple", 1);
+                    availableWeapons.add(knife);
+                    knifeAdded = true;
+                }
+                // Check for axe with more flexible matching
+                else if ((itemName.contains("axe") || itemName.equals("axe")) && !axeAdded) {
+                    Weapons axe = new Weapons(2, "axe", "weapon", 10, "A firefighter's axe with a bloodstained blade.", "multiple", 1);
+                    availableWeapons.add(axe);
+                    axeAdded = true;
+                }
+                // Check for glock with more flexible matching
+                else if ((itemName.contains("glock") || itemName.equals("glock 30") || itemName.equals("glock")) && !glockAdded) {
+                    Weapons glock = new Weapons(3, "Glock 30", "weapon", 8, "A semi-automatic handgun.", "multiple", 1);
+                    availableWeapons.add(glock);
+                    glockAdded = true;
+                }
+                // Check for shotgun with more flexible matching
+                else if ((itemName.contains("shotgun") || itemName.equals("shotgun")) && !shotgunAdded) {
+                    Weapons shotgun = new Weapons(4, "shotgun", "weapon", 15, "A pump-action shotgun with high stopping power.", "multiple", 1);
+                    availableWeapons.add(shotgun);
+                    shotgunAdded = true;
+                }
+                continue;
+            }
+
+            // Normal weapon lookup if weaponsMap is not empty
+            Weapons weapon = weaponsMap.get(itemName);
             if (weapon != null) {
                 availableWeapons.add(weapon);
             }
@@ -240,6 +287,8 @@ public class MonsterController {
             System.out.println("Please enter a valid number.");
         }
     }
+
+
 
     /**
      * Jose Montejo

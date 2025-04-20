@@ -32,8 +32,8 @@ public class GameController {
         // Jose Montejo
         // Initialize monster spawning system
         try {
-           List<Monster> monsters = MonsterLoader.loadMonsters("monsters.txt");
-            //List<Monster> monsters = MonsterLoader.loadMonsters("FinalGame_Project/monsters.txt");
+           //List<Monster> monsters = MonsterLoader.loadMonsters("monsters.txt");
+            List<Monster> monsters = MonsterLoader.loadMonsters("FinalGame_Project/monsters.txt");
             Map<String, List<Monster>> monstersByLocation = MonsterLoader.getMonstersByLocation(monsters);
             this.monsterSpawnManager = new MonsterSpawnManager(monstersByLocation);
 
