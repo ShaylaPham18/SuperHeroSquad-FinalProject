@@ -8,7 +8,7 @@ ELE0,BasementElevator,A spacious medical-grade elevator designed for patient tra
 1cafe,Cafeteria,Abandoned and filled with rotting food.,SOUTH->1wait|WEST->1pharm
 1pharm,Pharmacy,Shelves of medication some useful some expired.,NORTH->2ped|SOUTH->1sec|EAST->1cafe|WEST->1ew,lock,gas mask (gas)
 1ew,Emergency Ward,A chaotic room filled with overturned beds and medical supplies. The doors exiting to the outside is buried in debris.,EAST->1pharm
-ELE1,1st floor Elevator,A spacious medical-grade elevator designed for patient transport on the 1st floor,NORTH->ELE2|SOUTH->ELE0|WEST->1wait,lock,ID badge
+ELE1,1st floor Elevator,A spacious medical-grade elevator designed for patient transport on the 1st floor,NORTH->ELE2|SOUTH->ELE0|WEST->1wait,lock,ID badge (id)
 2ped,Pediatrics,A children's ward with abandoned toys and cribs.,NORTH->2sl|SOUTH->1pharm|EAST->2er
 2er,Electrical Room,Overcrowded with medical supplies and hidden dangers,NORTH->2rad|WEST->2ped
 2rad,Radiology Room,X-ray machines flicker with ghostly images of a mysterious gas filling the air.,EAST->ELE2|SOUTH->2er|WEST->2sl
