@@ -1,6 +1,7 @@
 package model;
 
 import java.util.*;
+
 //justin
 public class Room {
     private String roomID;
@@ -8,7 +9,7 @@ public class Room {
     private String roomDescription;
     private boolean roomHasBeenVisited;
     Map<String,Room> exits;
-    List<Items> roomInventory;
+    List<Items> roomInventory; //Shayla - list of the items in the current room
     private Puzzle puzzle; //Razan
     private boolean roomIsLocked;
     private String unlockItem;
@@ -66,12 +67,9 @@ public class Room {
         return exits.keySet();
     }
 
+    //Manging of inventory -Shayla
     public List<Items> getRoomInventory() {
         return roomInventory;
-    }
-
-    public void setRoomInventory(List<Items> roomInventory) {
-        this.roomInventory = roomInventory;
     }
 
     public boolean isRoomHasBeenVisited() {
