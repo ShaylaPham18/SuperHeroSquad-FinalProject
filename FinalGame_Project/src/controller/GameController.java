@@ -52,8 +52,8 @@ public class GameController {
             return;
         }
         player.setCurrentRoom(current);
-        System.out.println("🏥🩺💉🧬🧪🧫🚑🧻🩹🏥🩺💉🧬🧪🧫🚑🧻🩹🏥🩺💉🧬🧪🧫🚑🧻🩹🏥🩺💉🧬🧪🧫🚑🧻");
-        System.out.println("🏥🩺💉🧬🧪🧫🚑🧻🩹🏥 Welcome to The Infected Hospital! 🩺💉🧬🧪🧫🚑🧻🩹🏥");
+        System.out.println("🏥🩺💉🧬🧪🧫🚑🩹🏥🩺💉🧬🧪🧫🚑🩹🏥🩺💉🧬🧪🧫🚑🩹🏥🩺💉🧬🧪🧫🚑");
+        System.out.println("🏥🩺💉🧬🧪🧫🚑🩹🏥 Welcome to The Infected Hospital! 🩺💉🧬🧪🧫🩹🏥");
         System.out.println("🏥Type go<Direction> to navigate || or help to view all commands || or quit to end the game || explore || inspect");
         System.out.println("\n🏥Staring room: " + current.getRoomName() + " || available exits:" + current.getExitDirections());
 
