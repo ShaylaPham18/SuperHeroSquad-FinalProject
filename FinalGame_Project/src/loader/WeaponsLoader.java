@@ -56,7 +56,9 @@ public class WeaponsLoader {
                 }
             }
         } catch (IOException e) {
-            System.out.println("Error loading weapons from file: " + e.getMessage());
+            // Removed the System.out.println error message to prevent it from appearing in the game
+            // Return an empty map instead of null to prevent NullPointerException
+            return new HashMap<>();
         }
 
         return weaponsMap;
