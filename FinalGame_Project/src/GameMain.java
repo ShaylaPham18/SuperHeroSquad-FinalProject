@@ -7,8 +7,15 @@ import model.Room;
 import java.util.Map;
 import java.util.List;
 
+//justin razan shayla jose
+
+/**
+ *
+ *
+ */
+
 public class GameMain {
-    public static void main(String[] args) {//justin razan shayla jose
+    public static void main(String[] args) {
         try {
             // 1. Load rooms
             FileLoader fileLoader = new FileLoader();
@@ -19,7 +26,7 @@ public class GameMain {
             //List<Puzzle> puzzles = FileLoader.loadPuzzles("FinalGame_Project/puzzles.txt");
             //  links each puzzles to the rooms --> Razan
             PuzzleController.assignPuzzlesToRooms(puzzles, rooms);
-            //Shayla
+            //Shayla, this is to load the item.txt into the rooms
            FileLoader.loadItems("items.txt", rooms);
            // FileLoader.loadItems("FinalGame_Project/items.txt",rooms);
             // 3. Create player

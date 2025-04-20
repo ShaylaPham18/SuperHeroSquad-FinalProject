@@ -23,7 +23,7 @@ itemID|itemName|itemType|itemStat|itemDescription|roomID|quantity
 13|eyeball (eye)|key|0|A severed human eyeball.|3icu|1
 14|hand/fingerprint (hand)|key|0|A severed hand from a security officer.|2sl|1
 14|hand/fingerprint (hand)|key|0|A severed hand from a security officer.|1sec|1
-15|ID badge (id)|key|0|A hospital administrator's ID.|2do|1
+15|ID badge (id)|key|0|A hospital administrator's ID.|3lab|1
 16|scalpel|weapon|5|A doctor's tool.(deals 5 dmg)|3or|1
 17|fire extinguisher (fire)|key|0|A heavy CO2 extinguisher.|3iso|1
 17|fire extinguisher (fire)|key|0|A heavy CO2 extinguisher.|1cafe|1
