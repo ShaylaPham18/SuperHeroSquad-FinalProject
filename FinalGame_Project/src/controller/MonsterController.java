@@ -403,7 +403,7 @@ public class MonsterController {
         System.out.println("\n=== COMBAT COMMANDS ===");
         System.out.println("1 or attack - Attack the monster");
         System.out.println("2 or use - Use an item from your inventory");
-        System.out.println("3 or flee/run - Attempt to escape (40% chance)");
+        System.out.println("3 or flee/run - Flee from monster");
         System.out.println("4 or equip - Equip or change weapons");
         System.out.println("help - Display this help message");
         System.out.println("=====================\n");
