@@ -7,6 +7,9 @@ import java.util.Map;
 /**
  * Shayla
  *
+ * This is the ItemView class
+ *
+ *
  */
 public class ItemView {
 

@@ -256,15 +256,14 @@ public class GameController {
 
     // ✅ WIN CONDITION METHOD -->Nelly
     public boolean checkWinCondition(Player player) {
-        // Final room ID is assumed to be "3roof" – update if different
         boolean inFinalRoom = player.getCurrentRoom().getRoomID().equalsIgnoreCase("roof");
-
-        boolean hasAllKeys = player.hasItem("Keycard") &&
-                player.hasItem("ElevatorPass") &&
-                player.hasItem("MasterKey");
-
-        return inFinalRoom && hasAllKeys;
-    }
+        boolean hasAllKeys = player.hasItem ("ID badge") && player.hasItem("helicopter key");
+        if (inFinalRoom && hasAllKeys) {
+            System.out.println("** YOU WIN! You made it to the roof and used the helicopter key to escape the infected hospital!");
+            return true;
+        }
+            return false;
+        }
 
     //Razan, Shayla
     public void handleInspect() {

@@ -109,7 +109,7 @@ public class PuzzleController {
             System.out.print("-> ");
             String input = scanner.nextLine().trim().toLowerCase();
 
-            if (input.equalsIgnoreCase("exit") || (input.equalsIgnoreCase("e"))) {
+            if (input.equalsIgnoreCase("exit") || input.equalsIgnoreCase("e")) {
                 System.out.println(" XXX--> Exiting solve mode.");
                 return;
             }
@@ -118,30 +118,36 @@ public class PuzzleController {
                 handleHint();
                 continue;
             }
+
             if (input.startsWith("use")) {
                 String itemName = input.substring(4).trim();
                 handleUseItem(itemName);
                 continue;
             }
+
             boolean correct = puzzle.attempt(input);
-            view.displayAttemptResult(correct, puzzle);
+
             if (correct) {
+                view.displayAttemptResult(true, puzzle);
                 System.out.println("You solved the puzzle: " + puzzle.getName());
                 System.out.println(" <<>> Result: " + puzzle.getResultWhenSolved());
                 applyPuzzleResult(puzzle, player, rooms);
+
                 if (!puzzle.getName().trim().equalsIgnoreCase("Medicine Cabinet Puzzle")) {
                     room.setPuzzle(null);
                     System.out.println("🧩 The puzzle has been removed from the room.");
                 }
-               else {
-                    view.displayAttemptResult(false, puzzle);
-                    System.out.println("(0) --> Attempts so far: " + puzzle.getCurrentAttempts());
-                }
-
+                break;
+            } else if (puzzle.isFirstPartEntered() && puzzle.getCorrectAnswerParts().length == 2) {
+                // First part entered correctly, now prompt for second for the two part puzzle
+                System.out.println("✔ First part correct! Now pull the panel lever down and enter the second part of the code.");
+            } else {
+                view.displayAttemptResult(false, puzzle);
+                System.out.println("(0) --> Attempts so far: " + puzzle.getCurrentAttempts());
             }
         }
-
     }
+
 
     /**
      * Displays a hint if the player has failed enough attempts.

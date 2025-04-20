@@ -79,7 +79,6 @@ public class Puzzle {
             if (!firstPartEntered) {
                 if (normalizedInput.equalsIgnoreCase(correctAnswerParts[0])) {
                     firstPartEntered = true;
-                    System.out.println("✔ First part correct! Now pull the panel lever down and enter the second part of the code.");
                     return false;
                 } else {
                     currentAttempts++;

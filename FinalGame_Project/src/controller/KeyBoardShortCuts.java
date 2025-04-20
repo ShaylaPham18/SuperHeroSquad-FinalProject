@@ -7,7 +7,7 @@ public class KeyBoardShortCuts {
     private final Map<String, String> shortCuts;
     private final Map<String,String> itemShortcuts;
 
-    //Justin, Shayla (added some more)
+    //Justin, Shayla
     public KeyBoardShortCuts() {
         shortCuts = new HashMap<>();
         shortCuts.put("N", "NORTH");
