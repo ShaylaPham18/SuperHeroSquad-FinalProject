@@ -32,8 +32,8 @@ public class GameController {
         // Jose Montejo
         // Initialize monster spawning system
         try {
-           // List<Monster> monsters = MonsterLoader.loadMonsters("monsters.txt");
-            List<Monster> monsters = MonsterLoader.loadMonsters("FinalGame_Project/monsters.txt");
+           List<Monster> monsters = MonsterLoader.loadMonsters("monsters.txt");
+            //List<Monster> monsters = MonsterLoader.loadMonsters("FinalGame_Project/monsters.txt");
             Map<String, List<Monster>> monstersByLocation = MonsterLoader.getMonstersByLocation(monsters);
             this.monsterSpawnManager = new MonsterSpawnManager(monstersByLocation);
 
@@ -52,9 +52,10 @@ public class GameController {
             return;
         }
         player.setCurrentRoom(current);
-        System.out.println("🎮🎮🎮🎮🎮🎮🎮🎮 Welcome to The Infected Hospital! 🎮🎮🎮🎮🎮🎮🎮🎮");
-        System.out.println("Type go<Direction> to navigate || or help to view all commands || or quit to end the game || explore || inspect");
-        System.out.println("\nStaring room: " + current.getRoomName() + " || available exits:" + current.getExitDirections());
+        System.out.println("🏥🩺💉🧬🧪🧫🚑🧻🩹🏥🩺💉🧬🧪🧫🚑🧻🩹🏥🩺💉🧬🧪🧫🚑🧻🩹🏥🩺💉🧬🧪🧫🚑🧻");
+        System.out.println("🏥🩺💉🧬🧪🧫🚑🧻🩹🏥 Welcome to The Infected Hospital! 🩺💉🧬🧪🧫🚑🧻🩹🏥");
+        System.out.println("🏥Type go<Direction> to navigate || or help to view all commands || or quit to end the game || explore || inspect");
+        System.out.println("\n🏥Staring room: " + current.getRoomName() + " || available exits:" + current.getExitDirections());
 
         boolean running = true;
         while (running) {
@@ -66,7 +67,7 @@ public class GameController {
             }
 
             //justin
-            System.out.println("Type go<Direction> to navigate || or help to view all commands || or quit to end the game || explore || inspect");
+            System.out.println("🏥Type go<Direction> to navigate || or help to view all commands || or quit to end the game || explore || inspect");
             System.out.print("\n> ");
             String input = scanner.nextLine().trim().toLowerCase();
 

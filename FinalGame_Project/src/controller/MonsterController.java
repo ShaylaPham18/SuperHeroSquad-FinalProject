@@ -55,7 +55,9 @@ public class MonsterController {
 
         // Load weapons from items.txt
         try {
-            this.weaponsMap = WeaponsLoader.loadWeapons("FinalGame_Project/items.txt");
+            this.weaponsMap = WeaponsLoader.loadWeapons("items.txt");
+
+            //this.weaponsMap = WeaponsLoader.loadWeapons("FinalGame_Project/items.txt");
         } catch (Exception e) {
             System.err.println("Error loading weapons: " + e.getMessage());
         }
