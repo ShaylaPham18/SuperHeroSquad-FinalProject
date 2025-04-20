@@ -4,8 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+//justin razan shayla jose
+
+/**
+ * Player class: handles player, health, location, base damage, and inventory
+ */
 public class Player {
-    //justin razan shayla jose
     private String name;
     private int health;
     private int basePlayerDamage = 5;
@@ -85,11 +89,20 @@ public class Player {
     }
 
     // Check the inventory --> Razan, Shayla
+
+    /**
+     * Shows all items in the player inventory
+     * Grouping identical consumables and ammo into one description with quantity shown
+     */
     public void showInventory() {
         if (inventory.isEmpty()) {
             System.out.println("🎒 Your inventory is empty.");
         } else {
             System.out.println("🎒 Your inventory contains:");
+
+            //Needed to track the quantity and descriptions
+            //Count them
+            //Display of grouped items and also unique items
             Map<String, Integer> itemCount = new HashMap<>();
             Map<String, String> itemDescriptions = new HashMap<>();
             for (Items item : inventory) {

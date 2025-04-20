@@ -11,6 +11,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+//Razan, Justin, Shayla
+
+/**
+ * This is where the external files are being loaded: puzzles.txt, rooms.txt, items.txt
+ */
+
 public class FileLoader {
 
     public static List<Puzzle> loadPuzzles(String filePath) throws IOException {
@@ -101,11 +107,20 @@ public class FileLoader {
     }
 
     //Shayla
+
+    /**
+     * This loads items from items.txt and puts them in the rooms they are supposed to be in
+     *
+     * @param filePath items.txt in  GameMain
+     * @param rooms map of the room IDs to Room objects
+     */
     public static void loadItems(String filePath, Map<String, Room> rooms) {
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
-            reader.readLine();
+            reader.readLine(); //Header in the text file
             while ((line = reader.readLine()) != null) {
+
+                //Parsed through | and there are 7 different parts
                 String[] parts = line.split("\\|");
                 if (parts.length < 7) continue;
                 int itemId = Integer.parseInt(parts[0].trim());
@@ -121,9 +136,11 @@ public class FileLoader {
                     System.err.println("Room not found for ID: " + roomId);
                     continue;
                 }
+
+                //Creating multiple instances of an item so that every item is its own instance
+                //easier to handle when you want to use one out of the 5 in your inventory
                 for (int i = 0; i < quantity; i++) {
                     Items item;
-
                     switch (itemType) {
                         case "consumable" -> item = new Consumables(
                                 itemId, itemName, itemType, itemStat, itemDescription, roomId, 1, itemStat);
@@ -139,5 +156,4 @@ public class FileLoader {
             System.err.println("Error loading items: " + e.getMessage());
         }
     }
-
 }

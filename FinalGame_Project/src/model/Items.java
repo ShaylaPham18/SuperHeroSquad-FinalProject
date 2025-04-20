@@ -19,13 +19,13 @@ public class Items {
     /**
      * Constructor
      *
-     * @param id
-     * @param name
-     * @param type
-     * @param stat
-     * @param description
-     * @param roomID
-     * @param quantity
+     * @param id item id
+     * @param name what the item is called
+     * @param type what the item is
+     * @param stat depends on the item (ex: consumable = healthPercentage to be healed, weapon = damage)
+     * @param description of the item
+     * @param roomID what room it is located in
+     * @param quantity how much of it there is
      */
     public Items(int id, String name, String type, int stat, String description, String roomID, int quantity) {
         this.id = id;

@@ -11,6 +11,8 @@ import loader.MonsterLoader;
 
 import java.util.*;
 
+//Justin, Jose, Razan, Shayla, Nelly
+
 public class GameController {
     private final Player player;
     private final Map<String, Room> rooms;
@@ -36,8 +38,6 @@ public class GameController {
             List<Monster> monsters = MonsterLoader.loadMonsters("FinalGame_Project/monsters.txt");
             Map<String, List<Monster>> monstersByLocation = MonsterLoader.getMonstersByLocation(monsters);
             this.monsterSpawnManager = new MonsterSpawnManager(monstersByLocation);
-
-
         } catch (Exception e) {
             System.err.println("Error loading monsters: " + e.getMessage());
         }
@@ -190,7 +190,14 @@ public class GameController {
             }
 
             //Shayla
-            //Take command
+            /**
+             * Handles the take command
+             * Take + itemName
+             * If no item is specified it will ask what did you want?
+             * The default is 1
+             * Works with shortcuts
+             * Will take from current room
+             */
             else if (input.startsWith("take")) {
                 String[] parts = input.substring(4).trim().split(" ");
                 if (parts.length == 0) {
@@ -209,6 +216,9 @@ public class GameController {
             }
 
             //Shay, drop command (one and multiple items)
+            /**
+             * Works similar to take command
+             */
             else if (input.startsWith("drop")) {
                 String[] words = input.substring(4).trim().split(" ");
 
@@ -229,12 +239,14 @@ public class GameController {
             }
 
             //Shay, for consume item
+            /**
+             * Using the consumable to heal
+             */
             else if (input.startsWith("use")) {
                 String itemName = input.substring(3).trim();
-                itemName= keyBoardShortCuts.resolveItems(itemName.trim());//gotta find a way to display this to player
+                itemName= keyBoardShortCuts.resolveItems(itemName.trim());
                 itemController.consumeItem(itemName);
             }
-
             //else for invalid commands/input justin
             else {
                 System.err.println("❓ Unknown command. Type go<Direction> to navigate || or help to view all commands || or quit to end the game");
@@ -266,6 +278,12 @@ public class GameController {
         }
 
     //Razan, Shayla
+
+    /**
+     * Handling the inspect command within the game
+     * Inspect the current room for puzzles and items if there are any
+     *
+     */
     public void handleInspect() {
         Room room = player.getCurrentRoom();
         Puzzle puzzle = room.getPuzzle();
@@ -293,9 +311,8 @@ public class GameController {
                 System.out.println("🔍 You look around carefully, but there's no puzzle to inspect here.");
             }
         }
-
         //Shayla
-        //Inspect items in a room
+        //Inspect should show all items available in the room
         itemController.inspectRoomItems(room);
 }
     /**

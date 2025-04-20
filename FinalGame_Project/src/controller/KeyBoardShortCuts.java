@@ -8,6 +8,10 @@ public class KeyBoardShortCuts {
     private final Map<String,String> itemShortcuts;
 
     //Justin, Shayla
+
+    /**
+     * Used for user input shortcuts when playing the game
+     */
     public KeyBoardShortCuts() {
         shortCuts = new HashMap<>();
         shortCuts.put("N", "NORTH");
