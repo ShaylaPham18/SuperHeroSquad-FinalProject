@@ -9,7 +9,7 @@ public class Player {
     private String name;
     private int health;
     private int basePlayerDamage = 5;
-    private ArrayList<Items> inventory;
+    private final ArrayList<Items> inventory;
     private Room currentRoom;
 
     public Player(String name) {
@@ -51,9 +51,9 @@ public class Player {
         return basePlayerDamage;
     }
 
-    public void setBasePlayerDamage(int basePlayerDamage) {
-        this.basePlayerDamage = basePlayerDamage;
-    }
+//    public void setBasePlayerDamage(int basePlayerDamage) {
+//        this.basePlayerDamage = basePlayerDamage;
+//    }
 
     //justin
     public void showStats() {

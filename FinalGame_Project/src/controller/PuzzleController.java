@@ -21,8 +21,7 @@ public class PuzzleController {
     private final Room room;
     private final Player player;
     private boolean puzzleSolved;
-    private Map<String, Room> rooms;
-    String[] parts;
+    private final Map<String, Room> rooms;
 
     public PuzzleController(Puzzle puzzle, PuzzleView view, Room room, Player player, Map<String, Room> rooms) {
         this.puzzle = puzzle;
@@ -35,7 +34,7 @@ public class PuzzleController {
     }
 
     /**
-     * Starts the puzzle interaction loop with the player, allowing solve, hint, use, or leave.
+     * Starts the puzzle interaction loop with the player, allowing the player solve the puzzle, hint, use, or leave.
      */
     public void startPuzzle() {
         if (puzzle.isSolved()) {
@@ -130,17 +129,16 @@ public class PuzzleController {
                 System.out.println("You solved the puzzle: " + puzzle.getName());
                 System.out.println(" <<>> Result: " + puzzle.getResultWhenSolved());
                 applyPuzzleResult(puzzle, player, rooms);
-
                 if (!puzzle.getName().trim().equalsIgnoreCase("Medicine Cabinet Puzzle")) {
                     room.setPuzzle(null);
                     System.out.println("🧩 The puzzle has been removed from the room.");
                 }
+               else {
+                    view.displayAttemptResult(false, puzzle);
+                    System.out.println("(0) --> Attempts so far: " + puzzle.getCurrentAttempts());
+                }
 
-
-            } else {
-                System.out.println("(0) --> Attempts so far: " + puzzle.getCurrentAttempts());
             }
-
         }
 
     }
@@ -171,7 +169,7 @@ public class PuzzleController {
             puzzle.setSolved(true);
             view.displayAttemptResult(true, puzzle);
             room.setPuzzle(null);
-            applyPuzzleResult(puzzle, player, rooms); // ✅ this applies the result
+            applyPuzzleResult(puzzle, player, rooms);
             puzzleSolved = true;
         } else {
             System.out.println("That item doesn’t help solve this puzzle.");
@@ -191,9 +189,6 @@ public class PuzzleController {
             PuzzleController controller = new PuzzleController(puzzle, new PuzzleView(), player.getCurrentRoom(), player, rooms);
             controller.startPuzzle();
 
-//            if (controller.isPuzzleSolved()) {
-//                System.out.println("🔓 The puzzle seems to have unlocked something...");
-//            }
         }
     }
 
@@ -212,15 +207,8 @@ public class PuzzleController {
     }
 
     /**
-     * Returns true if the current puzzle has been solved.
-     */
-    public boolean isPuzzleSolved() {
-        return puzzleSolved;
-    }
-
-    /**
-     * Applies the effect or reward of a puzzle after it is solved.
-     * This can include adding an item, unlocking a room, enabling access, or changing the game state.
+     * Applies the effect or result of a puzzle after it is solved.
+     * This can include adding an item to the inventory, unlocking a room, enabling access, or changing the game state.
      */
     public static void applyPuzzleResult(Puzzle puzzle, Player player, Map<String, Room> rooms) {
         String result = puzzle.getResultWhenSolved();
@@ -241,8 +229,8 @@ public class PuzzleController {
             String targetRoomName = result.replace("Unlocks", "").trim();
             for (Room room : rooms.values()) {
                 if (room.getRoomName().equalsIgnoreCase(targetRoomName)) {
-                    room.setLocked(false); // Unlock the room
-                    room.setRequiredItem(null); // Remove item lock
+                    room.setLocked(false);
+                    room.setRequiredItem(null);
                     System.out.println("🔓 " + targetRoomName + " is now unlocked.");
                     break;
                 }
@@ -258,17 +246,18 @@ public class PuzzleController {
                 System.out.println("⬇️ Basement access enabled.");
             }
         }
-
         // Story changes for Electric Panel Puzzle and Circuit Breaker
         else if (result.contains("Turns computers back on")) {
             System.out.println("Computers in the Staff Lounge and Surveillance Room are now powered.");
         } else if (result.contains("Turns power back on")) {
             System.out.println("⚡ Power restored to Elevator and Electric Panel Puzzle.");
         }
+        // this will change the changing the game state after solving the Helicopter Puzzle.
         if (result.equalsIgnoreCase("WIN_GAME")) {
             System.out.println("🚁 You use the key to start the helicopter...");
             System.out.println("🏆 CONGRATULATIONS! YOU ESCAPED THE INFECTED HOSPITAL!");
-            System.exit(0); // ends the game
+            System.exit(0);
         }
+
     }
 }

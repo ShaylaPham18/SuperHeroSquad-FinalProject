@@ -1,9 +1,8 @@
 package loader;
-
 import model.*;
-/**
+ /**
  *In this file we should add all the loader methods of the files to read the files
- **/
+ */
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -13,8 +12,6 @@ import java.util.List;
 import java.util.Map;
 
 public class FileLoader {
-    private static String correctAnswer;
-    private Player player;
 
     public static List<Puzzle> loadPuzzles(String filePath) throws IOException {
         List<Puzzle> puzzles = new ArrayList<>();
@@ -31,10 +28,10 @@ public class FileLoader {
                 String resultWhenSolved = parts[4].trim();
                 int maxAttempts = Integer.parseInt(parts[5].trim());
                 String hint = parts[6].trim();
-                String requiredItem = parts[7].trim(); // new field
+                String requiredItem = parts[7].trim();
 
                 Puzzle puzzle = new Puzzle(name, description, roomLocation, correctAnswer, resultWhenSolved, maxAttempts, hint);
-                puzzle.setRequiredItem(requiredItem);// use setter to assign new field
+                puzzle.setRequiredItem(requiredItem);
                 puzzles.add(puzzle);
             } else {
                 System.err.println("⚠️ Invalid puzzle format: " + line);
@@ -52,8 +49,8 @@ public class FileLoader {
         Map<String, String> roomExits = new HashMap<>();
         try {
             //you guys use this 1 PLEASE JUST COMMENT AND UNCOMMENT
-            //BufferedReader bufferedReader = new BufferedReader(new FileReader("room.txt"));
-            BufferedReader bufferedReader = new BufferedReader(new FileReader("FinalGame_Project/room.txt"));
+            BufferedReader bufferedReader = new BufferedReader(new FileReader("room.txt"));
+            //BufferedReader bufferedReader = new BufferedReader(new FileReader("FinalGame_Project/room.txt"));
             
             String line;
             while ((line = bufferedReader.readLine()) != null) {

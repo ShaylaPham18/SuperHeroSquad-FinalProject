@@ -32,8 +32,8 @@ public class GameController {
         // Jose Montejo
         // Initialize monster spawning system
         try {
-           //List<Monster> monsters = MonsterLoader.loadMonsters("monsters.txt");
-            List<Monster> monsters = MonsterLoader.loadMonsters("FinalGame_Project/monsters.txt");
+           List<Monster> monsters = MonsterLoader.loadMonsters("monsters.txt");
+            //List<Monster> monsters = MonsterLoader.loadMonsters("FinalGame_Project/monsters.txt");
             Map<String, List<Monster>> monstersByLocation = MonsterLoader.getMonstersByLocation(monsters);
             this.monsterSpawnManager = new MonsterSpawnManager(monstersByLocation);
 
@@ -52,7 +52,7 @@ public class GameController {
             return;
         }
         player.setCurrentRoom(current);
-        System.out.println("🏥🩺💉🧬🧪🧫🚑🩹🏥🩺💉🧬🧪🧫🚑🩹🏥🩺💉🧬🧪🧫🚑🩹🏥🩺💉🧬🧪🧫🚑");
+        //System.out.println("🏥🩺💉🧬🧪🧫🚑🩹🏥🩺💉🧬🧪🧫🚑🩹🏥🩺💉🧬🧪🧫🚑🩹🏥🩺💉🧬🧪🧫🚑");
         System.out.println("🏥🩺💉🧬🧪🧫🚑🩹🏥 Welcome to The Infected Hospital! 🩺💉🧬🧪🧫🩹🏥");
         System.out.println("🏥Type go<Direction> to navigate || or help to view all commands || or quit to end the game || explore || inspect");
         System.out.println("\n🏥Staring room: " + current.getRoomName() + " || available exits:" + current.getExitDirections());
@@ -138,6 +138,12 @@ public class GameController {
                         if (hasKey) {
                             next.setRoomIsLocked(false);
                             System.out.println("🔓 You used " + requiredItem + " to unlock the " + next.getRoomName() + "!");
+                            // WIN if Exit Tunnel is unlocked with axe --> Razan
+                            if (next.getRoomName().equalsIgnoreCase("Exit Tunnel") && requiredItem.equalsIgnoreCase("axe")) {
+                                System.out.println("🪓 You unlocked the Door with the axe and escaped through the tunnel!");
+                                System.out.println("🏆 CONGRATULATIONS! YOU ESCAPED THE INFECTED HOSPITAL!");
+                                System.exit(0);
+                            }
                         } else {
                             System.err.println("🚪 The " + next.getRoomName() + " is locked. You need: " + requiredItem);
                             continue;
@@ -248,10 +254,10 @@ public class GameController {
         return movePlayerToRoom(previousRoomID);
     }
 
-    // ✅ WIN CONDITION METHOD
+    // ✅ WIN CONDITION METHOD -->Nelly
     public boolean checkWinCondition(Player player) {
         // Final room ID is assumed to be "3roof" – update if different
-        boolean inFinalRoom = player.getCurrentRoom().getRoomID().equalsIgnoreCase("3roof");
+        boolean inFinalRoom = player.getCurrentRoom().getRoomID().equalsIgnoreCase("roof");
 
         boolean hasAllKeys = player.hasItem("Keycard") &&
                 player.hasItem("ElevatorPass") &&
@@ -276,7 +282,7 @@ public class GameController {
             System.out.println("📝 " + puzzle.getDescription());
 
         } else {
-            // no puzzle object in the room (it was removed)
+            // this to remove the puzzle and display a message there were one, but it solved.
             String roomName = room.getRoomName();
             if (roomName.equalsIgnoreCase("Security Room") ||
                     roomName.equalsIgnoreCase("Director’s Office") ||
