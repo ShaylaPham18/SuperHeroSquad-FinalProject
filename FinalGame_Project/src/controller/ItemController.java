@@ -23,6 +23,10 @@ public class ItemController {
 
     //take
     public void takeItem(String itemName, Room currentRoom, int quantity) {
+        if (itemName.isBlank()){
+            System.out.println("What item do you want to take?");
+            return;
+        }
         //Inventory limiting
         int currentTotal = player.getInventory().size();
         if (currentTotal >= maxInventory) {

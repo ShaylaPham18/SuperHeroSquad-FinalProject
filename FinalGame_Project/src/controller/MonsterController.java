@@ -57,6 +57,7 @@ public class MonsterController {
         try {
             // Look for the file in the project root directory
             try {
+                this.weaponsMap = WeaponsLoader.loadWeapons("FinalGame_Project/monsters.txt");
                 this.weaponsMap = WeaponsLoader.loadWeapons("./items.txt");
             } catch (Exception e1) {
                 try {
