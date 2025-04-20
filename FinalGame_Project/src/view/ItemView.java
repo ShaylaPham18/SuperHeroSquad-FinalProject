@@ -61,4 +61,7 @@ public class ItemView {
         System.out.println("You picked up " + quantity + " of " + name + ".");
     }
 
+    public void displayInventoryFull(int limit) {
+        System.out.println("You can't carry more than " + limit + " items total. (hint: drop something)");
+    }
 }

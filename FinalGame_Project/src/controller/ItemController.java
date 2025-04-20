@@ -13,6 +13,7 @@ public class ItemController {
     private final ItemView view;
     private final Scanner scanner;
     private final Player player;
+    private static final int maxInventory = 15;
 
     public ItemController(Scanner scanner, ItemView view, Player player) {
         this.scanner = scanner;
@@ -22,6 +23,14 @@ public class ItemController {
 
     //take
     public void takeItem(String itemName, Room currentRoom, int quantity) {
+        //Inventory limiting
+        int currentTotal = player.getInventory().size();
+        if (currentTotal >= maxInventory) {
+            view.displayInventoryFull(maxInventory);
+            return;
+        }
+        quantity = Math.min(quantity, maxInventory - currentTotal);
+
         List<Items> items = currentRoom.getRoomInventory();
         List<Items> sameItems = new ArrayList<>();
         for (Items item : items) {
@@ -37,7 +46,7 @@ public class ItemController {
             view.displayFailure(itemName);
             return;
         }
-        // Rest of the method remains unchanged
+
         Items firstMatch = sameItems.get(0);
         String type = firstMatch.getClass().getSimpleName().toLowerCase();
         String baseType = firstMatch.getClass().getSuperclass().getSimpleName().toLowerCase();

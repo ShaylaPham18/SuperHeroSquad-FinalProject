@@ -9,7 +9,6 @@ public class Items {
     protected String description;
     protected String roomID;
     protected int quantity;
-    public String itemNameShortCut;
 
     //Shayla
     public Items(int id, String name, String type, int stat, String description, String roomID, int quantity) {
@@ -43,13 +42,5 @@ public class Items {
     //Shayla
     public String getDescription() {
         return description;
-    }
-
-    public String getItemNameShortCut() {
-        return itemNameShortCut;
-    }
-
-    public void setItemNameShortCut(String itemNameShortCut) {
-        this.itemNameShortCut = itemNameShortCut;
     }
 }
