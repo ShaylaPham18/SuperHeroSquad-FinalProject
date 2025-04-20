@@ -57,7 +57,7 @@ public class MonsterController {
         try {
             // Try multiple possible file paths
             try {
-                this.weaponsMap = WeaponsLoader.loadWeapons("items.txt");
+                this.weaponsMap = WeaponsLoader.loadWeapons("FinalGame_Project/monsters.txt");
             } catch (Exception e1) {
                 try {
                     this.weaponsMap = WeaponsLoader.loadWeapons("FinalGame_Project/items.txt");
