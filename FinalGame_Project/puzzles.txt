@@ -1,6 +1,6 @@
 Medicine Cabinet Puzzle|Enter a number combination to unlock the Puzzle.|2ped|312|Gain [Unverified Medication]|312|Check birthday hint in the Staff Lounge.Mix up 123|none
 Office Card Puzzle|The player needs a key to enter a room. Use the <Use> command.|2do|Director’s Badge|Unlocks Director’s Office|3|Inspect the item in the lab.The key has to be in the inventory|ID badge (id)
 Electric Panel Puzzle|Enter a 3-digit code, pull the panel lever down, then insert another 3-digit code.|3sr|425;525|Turns computers back on for Staff Lounge and Surveillance Room|3|Check the Date.|none
-Circuit Breaker|Flip the circuits in the correct order to turn on the power.|2er|987654321|Turns power back on for Electric Panel Puzzle and Elevator|3|Children can count to 10.can you?|none
+Circuit Breaker|Flip the circuits in the correct order to turn on the power.|2er|987654321|Turns power back on for Electric Panel Puzzle and Elevator|3|Kids can count to 10.can you?|none
 Elevator Input Puzzle|Yon need a key to enter.Use the <Use> command.|ELE3|Director’s Badge|Unlocks basement access via “south” command|3|Find the file in the Director’s Office.|ID badge (id)
 Security Room Puzzle|Player must possess a few items to enter.|1sec|scalpel|Unlocks Security Room|3|Must use an item.Check where surgery tools are kept.|scalpel
