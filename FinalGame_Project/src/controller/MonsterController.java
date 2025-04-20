@@ -423,20 +423,37 @@ public class MonsterController {
             return;
         }
 
-        // Jose Montejo: Modified to group identical items with counts
-        System.out.println("\n=== YOUR INVENTORY ===");
+        // Filter for only consumable items
         Map<String, Integer> itemCount = new HashMap<>();
         Map<String, ArrayList<Items>> itemGroups = new HashMap<>();
 
-        // Group items by name
+        // Group consumable items by name
         for (Items item : inventory) {
             String name = item.getName();
-            itemCount.put(name, itemCount.getOrDefault(name, 0) + 1);
-            if (!itemGroups.containsKey(name)) {
-                itemGroups.put(name, new ArrayList<>());
+            String itemNameLower = name.toLowerCase();
+
+            // Only add items that are consumable healing items
+            if (itemNameLower.contains("painkiller") ||
+                    itemNameLower.contains("first aid") ||
+                    itemNameLower.contains("vaccine") ||
+                    itemNameLower.contains("gas mask")) {
+
+                itemCount.put(name, itemCount.getOrDefault(name, 0) + 1);
+                if (!itemGroups.containsKey(name)) {
+                    itemGroups.put(name, new ArrayList<>());
+                }
+                itemGroups.get(name).add(item);
             }
-            itemGroups.get(name).add(item);
         }
+
+        // Check if there are any consumable items
+        if (itemGroups.isEmpty()) {
+            System.out.println("You don't have any usable items.");
+            return;
+        }
+
+        // Display header with CONSUMABLES instead of YOUR INVENTORY
+        System.out.println("\n=== CONSUMABLES ===");
 
         // Display grouped items
         int index = 1;
@@ -469,51 +486,43 @@ public class MonsterController {
                 Items selectedItem = indexToItem.get(itemIndex);
                 String itemName = selectedItem.getName().toLowerCase();
 
-                // Check if it's a consumable item by name
-                if (itemName.contains("painkiller") || itemName.contains("first aid") ||
-                        itemName.contains("vaccine") || itemName.contains("gas mask")) {
+                // Determine heal amount based on item name from items.txt
+                int healAmount = 0;
+                if (itemName.contains("painkiller a")) {
+                    healAmount = 25;
+                } else if (itemName.contains("painkiller b")) {
+                    healAmount = 50; // Fixed from 5 to 50 as per SRS
+                } else if (itemName.contains("first aid")) {
+                    healAmount = 10; // Fixed from 25 to 10 as per SRS
+                } else if (itemName.contains("vaccine") || itemName.contains("gas mask")) {
+                    healAmount = 100;
+                }
 
-                    // Determine heal amount based on item name from items.txt
-                    int healAmount = 0;
-                    if (itemName.contains("painkiller a")) {
-                        healAmount = 25;
-                    } else if (itemName.contains("painkiller b")) {
-                        healAmount = 50; // Fixed from 5 to 50 as per SRS
-                    } else if (itemName.contains("first aid")) {
-                        healAmount = 10; // Fixed from 25 to 10 as per SRS
-                    } else if (itemName.contains("vaccine") || itemName.contains("gas mask")) {
-                        healAmount = 100;
-                    }
+                player.setHealth(Math.min(player.getHealth() + healAmount, 100));
+                System.out.println("You used " + selectedItem.getName() + " and restored " + healAmount + " health.");
 
-                    player.setHealth(Math.min(player.getHealth() + healAmount, 100));
-                    System.out.println("You used " + selectedItem.getName() + " and restored " + healAmount + " health.");
+                // Display special rule activation for Facehugger when using items
+                if (monster.getName().equals("Facehugger")) {
+                    System.out.println("Special Rule Activates: The Facehugger attacks you for 2 extra damage as you use an item!");
+                    player.setHealth(player.getHealth() - 2);
+                    System.out.println("Your health: " + player.getHealth());
+                }
+                //Added special rule activation for Spitter when using items
+                else if (monster.getName().equals("Spitter")) {
+                    System.out.println("Special Rule Activates: The Spitter deals 5 extra damage from infection as you use an item!");
+                    player.setHealth(player.getHealth() - 5);
+                    System.out.println("Your health: " + player.getHealth());
+                }
+                else {
+                    System.out.println("Your health is now: " + player.getHealth());
+                }
 
-                    // Display special rule activation for Facehugger when using items
-                    if (monster.getName().equals("Facehugger")) {
-                        System.out.println("Special Rule Activates: The Facehugger attacks you for 2 extra damage as you use an item!");
-                        player.setHealth(player.getHealth() - 2);
-                        System.out.println("Your health: " + player.getHealth());
+                // Remove one instance of the item
+                for (Items item : inventory) {
+                    if (item.getName().equals(selectedItem.getName())) {
+                        inventory.remove(item);
+                        break;
                     }
-                    //Added special rule activation for Spitter when using items
-                    else if (monster.getName().equals("Spitter")) {
-                        System.out.println("Special Rule Activates: The Spitter deals 5 extra damage from infection as you use an item!");
-                        player.setHealth(player.getHealth() - 5);
-                        System.out.println("Your health: " + player.getHealth());
-                    }
-                    else {
-                        System.out.println("Your health is now: " + player.getHealth());
-                    }
-
-                    // Remove one instance of the item
-                    for (Items item : inventory) {
-                        if (item.getName().equals(selectedItem.getName())) {
-                            inventory.remove(item);
-                            break;
-                        }
-                    }
-                } else {
-                    System.out.println("You can't use " + selectedItem.getName() + " in combat.");
-                    return; // This already returns from the method, but monster still attacks
                 }
             } else {
                 System.out.println("Invalid item number.");
