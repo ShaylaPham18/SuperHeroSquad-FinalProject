@@ -260,7 +260,13 @@ public class MonsterController {
         // Calculate actual damage with weapon weakness multiplier
         int actualDamage = damage;
         for (int i = 0; i < monster.getWeaponWeaknesses().length; i++) {
-            if (monster.getWeaponWeaknesses()[i].equalsIgnoreCase(weapon)) {
+            // Extract the base weapon name without any parenthetical suffix
+            String weaponName = weapon;
+            if (weaponName.contains("(")) {
+                weaponName = weaponName.substring(0, weaponName.indexOf("(")).trim();
+            }
+
+            if (monster.getWeaponWeaknesses()[i].equalsIgnoreCase(weaponName)) {
                 actualDamage = (int) Math.round(damage * (1.0 + (monster.getWeaponDamages()[i] / 100.0)));
                 break;
             }
@@ -270,8 +276,7 @@ public class MonsterController {
         System.out.println("You attack the " + monster.getName() + " with your " + weapon + " for " + actualDamage + " damage!");
 
         // Apply damage to monster and check if it dodges (for Zombie Dog)
-        boolean hit = monster.takeDamage(weapon, damage);
-
+        boolean hit = monster.takeDamage(weapon, actualDamage);
         if (!hit && monster.getName().equals("Zombie Dog")) {
             view.displayDodge(monster);
             // Display both monster and player health even after dodge
