@@ -1,6 +1,10 @@
 package model;
 
 //Shayla
+
+/**
+ * Items Class
+ */
 public class Items {
     protected int id;
     protected String name;
@@ -11,6 +15,18 @@ public class Items {
     protected int quantity;
 
     //Shayla
+
+    /**
+     * Constructor
+     *
+     * @param id
+     * @param name
+     * @param type
+     * @param stat
+     * @param description
+     * @param roomID
+     * @param quantity
+     */
     public Items(int id, String name, String type, int stat, String description, String roomID, int quantity) {
         this.id = id;
         this.name = name;
@@ -22,6 +38,12 @@ public class Items {
 
     }
 
+    /**
+     * Temporary placeholder
+     *
+     * @param number placeholder parameter
+     * @param name parameter for item name
+     */
     public Items(int number, String name) {
     }
 

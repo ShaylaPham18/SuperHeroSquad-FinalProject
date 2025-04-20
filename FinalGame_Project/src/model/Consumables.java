@@ -1,6 +1,11 @@
 package model;
 
 //Shayla
+
+/**
+ * Child class: consumables - Parent class - items
+ * Contain attribute: healPercentage (how much the item heals)
+ */
 public class Consumables extends Items{
     public int healPercentage;
 
@@ -24,11 +29,13 @@ public class Consumables extends Items{
     }
 
     //Shayla
-    public int getHealPercentage() {
-        return healPercentage;
-    }
 
-    //Shayla
+    /**
+     * Calculate how much HP this consumable would restore, based on the player’s current health.
+     *
+     * @param playerHealthHealed player health before consumption
+     * @return HP restored
+     */
     public int calculateHealthHealed(int playerHealthHealed){
         return (playerHealthHealed * healPercentage) / 100;
     }

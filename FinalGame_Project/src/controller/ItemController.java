@@ -4,10 +4,14 @@ import model.Items;
 import model.Player;
 import model.Room;
 import view.ItemView;
-
 import java.util.*;
 
 //Shayla
+
+/**
+ * Handling of item-related player actions
+ * Communicates with ItemView, Player, and Room
+ */
 public class ItemController {
 
     private final ItemView view;
@@ -15,19 +19,32 @@ public class ItemController {
     private final Player player;
     private static final int maxInventory = 15;
 
+    /**
+     * Constructor
+     *
+     * @param scanner not used, but kept for consistency
+     * @param view ItemView
+     * @param player for the user
+     */
     public ItemController(Scanner scanner, ItemView view, Player player) {
         this.scanner = scanner;
         this.view = view;
         this.player = player;
     }
 
-    //take
+    /**
+     * Take (picking up an item)
+     *
+     * @param itemName what item
+     * @param currentRoom current room item is in
+     * @param quantity how much they are picking up
+     */
     public void takeItem(String itemName, Room currentRoom, int quantity) {
         if (itemName.isBlank()){
             System.out.println("What item do you want to take?");
             return;
         }
-        //Inventory limiting
+        //Inventory limiting to 15
         int currentTotal = player.getInventory().size();
         if (currentTotal >= maxInventory) {
             view.displayInventoryFull(maxInventory);
@@ -51,6 +68,7 @@ public class ItemController {
             return;
         }
 
+        //consumables and ammo can be specified a number to pick up
         Items firstMatch = sameItems.get(0);
         String type = firstMatch.getClass().getSimpleName().toLowerCase();
         String baseType = firstMatch.getClass().getSuperclass().getSimpleName().toLowerCase();
@@ -70,14 +88,21 @@ public class ItemController {
         }
     }
 
+    /**
+     * Inspecting a room
+     * If same consumable/ammo in room should not show separately
+     *
+     * @param room what is in room
+     */
     public void inspectRoomItems(Room room) {
         if (room.getRoomInventory().isEmpty()) {
             view.displayNoItemsInRoom();
             return;
         }
+
+        //Show the number of items and keeps one description
         Map<String, Integer> itemCount = new HashMap<>();
         Map<String, String> itemDescriptions = new HashMap<>();
-
         for (Items item : room.getRoomInventory()) {
             itemCount.put(item.getName(), itemCount.getOrDefault(item.getName(), 0) + 1);
             itemDescriptions.putIfAbsent(item.getName(), item.getDescription());
@@ -85,7 +110,10 @@ public class ItemController {
         view.displayRoomItems(itemCount, itemDescriptions);
     }
 
-    //Consuming a consumable
+    /**
+     * Consuming a consumable using "use"
+     * Will not work if not in inventory
+     */
     public void consumeItem(String itemName) {
         if (itemName == null || itemName.isBlank()) {
             view.displayMissingConsumable();
@@ -114,6 +142,13 @@ public class ItemController {
         }
     }
 
+    /**
+     * Dropping an item
+     *
+     * @param itemName what item
+     * @param currentRoom drop in the room player is in
+     * @param quantity how much you want to drop
+     */
     public void dropItem(String itemName, Room currentRoom, int quantity) {
         if (itemName == null || itemName.isBlank()) {
             view.displayMissingItemToBeDropped();
@@ -132,6 +167,7 @@ public class ItemController {
         }
         Items sample = sameItems.get(0);
         String type = sample.getClass().getSimpleName().toLowerCase();
+        //Stackable ones
         if (type.contains("consumable") || type.contains("ammunition")) {
             int actualQuantity = Math.min(quantity, sameItems.size());
             for (int i = 0; i < actualQuantity; i++) {
@@ -140,6 +176,7 @@ public class ItemController {
                 currentRoom.getRoomInventory().add(toDrop);
             }
             view.displayMultiDrop(itemName, quantity);
+            //Single items
         } else {
             Items toDrop = sameItems.get(0);
             inventory.remove(toDrop);

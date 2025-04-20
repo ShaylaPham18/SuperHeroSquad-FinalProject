@@ -7,6 +7,12 @@ import model.Room;
 import java.util.Map;
 import java.util.List;
 
+/**
+ * Justin, Razan, Jose, Shayla
+ *
+ * Main class: The entry of this game and how you run the game
+ * Loads the game data and will start the game loop
+ */
 public class GameMain {
     public static void main(String[] args) {//justin razan shayla jose
         try {
@@ -19,7 +25,7 @@ public class GameMain {
             List<Puzzle> puzzles = FileLoader.loadPuzzles("FinalGame_Project/puzzles.txt");
             //  links each puzzles to the rooms --> Razan
             PuzzleController.assignPuzzlesToRooms(puzzles, rooms);
-            //Shayla
+            //Shayla (loading items)
            //FileLoader.loadItems("items.txt", rooms);
             FileLoader.loadItems("FinalGame_Project/items.txt",rooms);
             // 3. Create player
