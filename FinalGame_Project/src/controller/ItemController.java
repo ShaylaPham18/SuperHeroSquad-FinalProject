@@ -75,7 +75,6 @@ public class ItemController {
         //consumables and ammo can be specified a number to pick up
         Items firstMatch = sameItems.get(0);
         String type = firstMatch.getClass().getSimpleName().toLowerCase();
-        String baseType = firstMatch.getClass().getSuperclass().getSimpleName().toLowerCase();
         if (type.contains("consumable") || type.contains("ammunition")) {
             int actualQuantity = Math.min(quantity, sameItems.size());
             for (int i = 0; i < actualQuantity; i++) {

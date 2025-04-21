@@ -14,7 +14,7 @@ public class Frame {
                         "\ttype map to view the map\n" +
                         "\ttype quit to end the game\n" +
                         "\ttype stat stats or st to view player stats\n" +
-                        "\ttype inventory or inv to view player inventory (MAX 15)\n" +
+                        "\ttype inventory or inv to view player inventory (MAX 15 items)\n" +
                         "\n\tNAVIGATION-type go + direction you want to go (north south east west n s e w) not case sensitive\n" +
                         "\tIN ROOM-type explore or ex to gather information about the room (tells you if there's items or puzzles in room)\n" +
                         "\tIN ROOM-type inspect or ins to view items and puzzles in the room(shows you the items and puzzles in room)\n" +
