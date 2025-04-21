@@ -44,6 +44,10 @@ public class ItemController {
             System.out.println("What item do you want to take?");
             return;
         }
+        if (itemName.length()<2){
+            System.err.println("Not valid input");
+            return;
+        }
         //Inventory limiting to 15
         int currentTotal = player.getInventory().size();
         if (currentTotal >= maxInventory) {
@@ -119,6 +123,10 @@ public class ItemController {
             view.displayMissingConsumable();
             return;
         }
+        if (itemName.length()<3){
+            System.err.println("Not valid input");
+            return;
+        }
         Items item = null;
         for (Items i : player.getInventory()) {
             if (i.getName().toLowerCase().contains(itemName.toLowerCase())) {
@@ -152,6 +160,10 @@ public class ItemController {
     public void dropItem(String itemName, Room currentRoom, int quantity) {
         if (itemName == null || itemName.isBlank()) {
             view.displayMissingItemToBeDropped();
+            return;
+        }
+        if (itemName.length()<2){
+            System.err.println("Not valid input");
             return;
         }
         List<Items> inventory = player.getInventory();
