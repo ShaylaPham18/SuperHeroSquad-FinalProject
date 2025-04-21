@@ -5,8 +5,8 @@ import java.awt.*;
 /**Justin
  * view.Frame
  * GUI pop ups for if user types in help (NOTHING ELSE)
- * WORK IN PROGRESS
  * */
+//justin
 public class Frame {
         public void helpMenu() {
                 JFrame jFrame = new JFrame("Help Menu");
@@ -56,7 +56,7 @@ public class Frame {
                 jFrame.setVisible(true);
         }
 
-        public void map(){
+        public void map(){//justin
                 JFrame frame = new JFrame("Map");
                 ImageIcon imageIcon = new ImageIcon("FinalGame_Project/HospitalMap.png");
                 //ImageIcon imageIcon = new ImageIcon("HospitalMap.png");

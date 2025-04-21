@@ -40,7 +40,7 @@ public class ItemController {
      * @param quantity how much they are picking up
      */
     public void takeItem(String itemName, Room currentRoom, int quantity) {
-        if (itemName.isBlank()){
+        if (itemName.isBlank()){//justin
             System.out.println("What item do you want to take?");
             return;
         }

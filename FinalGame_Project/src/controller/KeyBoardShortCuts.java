@@ -35,6 +35,7 @@ public class KeyBoardShortCuts {
         itemShortcuts.put("fire","fire extinguisher (fire)");
     }
 
+    //justin
     public String resolveShortcut(String input) {
         return shortCuts.getOrDefault(input.toUpperCase(), input.toUpperCase());
     }

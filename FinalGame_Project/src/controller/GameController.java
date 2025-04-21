@@ -43,7 +43,7 @@ public class GameController {
         }
     }
 
-    //Justin, Razan, Shayla, Nelly
+    //Justin, Razan, Shayla
     //Navigation win condition block
     public void start() {
         Room current = rooms.get("1ew");
@@ -189,7 +189,7 @@ public class GameController {
                 handleInspect();
             }
 
-            //Shayla
+            //Shayla justin
             /**
              * Handles the take command
              * Take + itemName
@@ -215,7 +215,7 @@ public class GameController {
                 itemController.takeItem(itemName.trim(), player.getCurrentRoom(), quantity);
             }
 
-            //Shay, drop command (one and multiple items)
+            //Shay, drop command (one and multiple items) justin
             /**
              * Works similar to take command
              */
